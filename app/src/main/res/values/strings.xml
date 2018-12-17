@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Pixxo</string>
+    <string name="trending">Trends</string>
+    <string name="explore">Explore</string>
+    <string name="saved">Saved</string>
+    <string name="preference">Settings</string>
+    <string name="single_photo">single_photo</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edited">Edited</string>
+</resources>
