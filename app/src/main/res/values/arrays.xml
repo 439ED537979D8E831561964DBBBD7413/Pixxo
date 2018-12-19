@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="pref_sources_option_labels">
+        <item>@string/animals</item>
+
+    </array>
+
+
+
+
+
+
+</resources>

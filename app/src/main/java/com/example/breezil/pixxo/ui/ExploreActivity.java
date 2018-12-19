@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.ActivityExploreBinding;
@@ -41,9 +43,33 @@ public class ExploreActivity extends DaggerAppCompatActivity implements HasSuppo
 
         SearchDefaultFragment searchDefaultFragment = new SearchDefaultFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.searchContainer,searchDefaultFragment)
+                .add(R.id.searchContainer,searchDefaultFragment)
                 .commit();
 
+        search();
+
+    }
+
+    private void search() {
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(query != null) {
+                    SearchListFragment searchListFragment = SearchListFragment.getSearchString(query);
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.searchContainer, searchListFragment)
+                            .commit();
+
+                    Toast.makeText(ExploreActivity.this, query,Toast.LENGTH_LONG).show();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
 

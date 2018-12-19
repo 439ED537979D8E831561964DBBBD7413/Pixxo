@@ -30,6 +30,7 @@ import com.example.breezil.pixxo.utils.BottomNavigationHelper;
 import com.example.breezil.pixxo.view_model.MainViewModel;
 import com.example.breezil.pixxo.view_model.SavedViewModel;
 import com.example.breezil.pixxo.view_model.ViewModelFactory;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 
 import java.io.File;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     ActionBottomSheetFragment actionBottomSheetFragment = new ActionBottomSheetFragment();
     HashMap<String , Object> map = new HashMap<>();
 
+    private ShimmerFrameLayout mShimmerViewContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -68,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
         binding.imageList.setHasFixedSize(true);
         setupBottomNavigation();
+
+        binding.shimmerViewContainer.startShimmerAnimation();
+
 
         setUpAdapter();
         setUpViewModel();
@@ -112,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
                     imagesRecyclcerViewAdapter.submitList(imagesModels);
         });
 
+        binding.shimmerViewContainer.stopShimmerAnimation();
+        binding.shimmerViewContainer.setVisibility(View.GONE);
+
     }
 
     private void setupBottomNavigation(){
@@ -145,6 +154,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.shimmerViewContainer.startShimmerAnimation();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        binding.shimmerViewContainer.stopShimmerAnimation();
+    }
 }
 
 

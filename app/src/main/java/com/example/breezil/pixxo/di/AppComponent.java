@@ -6,7 +6,6 @@ import android.app.Application;
 import com.example.breezil.pixxo.PixxoApp;
 import com.example.breezil.pixxo.di.module.AppModule;
 import com.example.breezil.pixxo.di.module.DetailActivityModule;
-import com.example.breezil.pixxo.di.module.EditImageActivityModule;
 import com.example.breezil.pixxo.di.module.MainActivityModule;
 import com.example.breezil.pixxo.di.module.SavedActivityModule;
 import com.example.breezil.pixxo.di.module.SearchActivityModule;
@@ -23,7 +22,6 @@ import dagger.android.AndroidInjectionModule;
         AppModule.class,
         MainActivityModule.class,
         DetailActivityModule.class,
-        EditImageActivityModule.class,
         SavedActivityModule.class,
         SearchActivityModule.class
 })

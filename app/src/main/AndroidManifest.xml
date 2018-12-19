@@ -41,7 +41,6 @@
             android:name=".ui.DetailActivity"
             android:parentActivityName=".ui.MainActivity"
             />
-        <activity android:name=".ui.EditImageActivity"/>
     </application>
 
 </manifest>

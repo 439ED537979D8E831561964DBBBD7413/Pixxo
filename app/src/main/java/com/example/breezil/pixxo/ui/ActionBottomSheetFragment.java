@@ -26,6 +26,8 @@ import com.example.breezil.pixxo.databinding.FragmentActionBottomSheetBinding;
 import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.model.SavedImageModel;
 import com.example.breezil.pixxo.view_model.SavedViewModel;
+import com.example.photoeditor.EditImageActivity;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -70,9 +72,9 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
             startActivity(detailIntent);
         });
         binding.selectEdit.setOnClickListener(v -> {
-            Intent editItent = new Intent(getContext(), EditImageActivity.class);
-            editItent.putExtra(SINGLE_PHOTO, imagesModel);
-            startActivity(editItent);
+            Intent editIntent = new Intent(getContext(), EditImageActivity.class);
+            startActivity(editIntent);
+
         });
 
         binding.selectSaved.setOnClickListener(v -> {
