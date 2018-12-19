@@ -13,11 +13,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.SavedImageClickListener;
 import com.example.breezil.pixxo.callbacks.SavedImageLongClickListener;
+import com.example.breezil.pixxo.databinding.GridImageItemBinding;
 import com.example.breezil.pixxo.databinding.ImageItemBinding;
 import com.example.breezil.pixxo.model.SavedImageModel;
 
 public class SavedImageRecyclerAdapter extends ListAdapter<SavedImageModel, SavedImageRecyclerAdapter.SavedImageHolder> {
-    ImageItemBinding binding;
+    GridImageItemBinding binding;
     private SavedImageLongClickListener imageLongClickListener;
     private SavedImageClickListener imageClickListener;
     Context context;
@@ -47,7 +48,7 @@ public class SavedImageRecyclerAdapter extends ListAdapter<SavedImageModel, Save
     @Override
     public SavedImageHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-        binding = ImageItemBinding.inflate(layoutInflater,viewGroup,false);
+        binding = GridImageItemBinding.inflate(layoutInflater,viewGroup,false);
 
         return new SavedImageHolder(binding);
     }
@@ -66,8 +67,8 @@ public class SavedImageRecyclerAdapter extends ListAdapter<SavedImageModel, Save
 
 
     class SavedImageHolder extends RecyclerView.ViewHolder{
-        ImageItemBinding binding;
-        public SavedImageHolder( ImageItemBinding binding) {
+        GridImageItemBinding binding;
+        public SavedImageHolder( GridImageItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

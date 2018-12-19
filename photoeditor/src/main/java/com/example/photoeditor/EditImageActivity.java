@@ -37,6 +37,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.example.photoeditor.base.BaseActivity;
 import com.example.photoeditor.filters.FilterListener;
 import com.example.photoeditor.filters.FilterViewAdapter;
@@ -76,6 +80,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private ConstraintLayout mRootView;
     private ConstraintSet mConstraintSet = new ConstraintSet();
     private boolean mIsFilterVisible;
+    public static String SINGLE_PHOTO = "single_photo";
+    public String photoString ;
 
 
     @Override
@@ -83,6 +89,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         super.onCreate(savedInstanceState);
         makeFullScreen();
         setContentView(R.layout.activity_edit_image);
+        photoString = getIntent().getStringExtra(SINGLE_PHOTO);
 
         initViews();
 
@@ -102,6 +109,10 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         LinearLayoutManager llmFilters = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRvFilters.setLayoutManager(llmFilters);
         mRvFilters.setAdapter(mFilterViewAdapter);
+
+        getSupportActionBar().setTitle("Edit Image");
+
+
 
 
         //Typeface mTextRobotoTf = ResourcesCompat.getFont(this, R.font.roboto_medium);
@@ -152,6 +163,22 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         imgClose = findViewById(R.id.imgClose);
         imgClose.setOnClickListener(this);
 
+        if(photoString != null ){
+            Glide.with(this)
+                    .asBitmap().load(photoString)
+                    .listener(new RequestListener<Bitmap>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            mPhotoEditorView.getSource().setImageBitmap(bitmap);
+                            return true;
+                        }
+                    }).submit();
+        }
     }
 
     @Override
