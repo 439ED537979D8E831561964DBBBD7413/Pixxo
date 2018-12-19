@@ -36,6 +36,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -65,8 +66,9 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 
     private static final String TAG = EditImageActivity.class.getSimpleName();
     public static final String EXTRA_IMAGE_PATHS = "extra_image_paths";
-    private static final int CAMERA_REQUEST = 52;
-    private static final int PICK_REQUEST = 53;
+    public static String EDIT_IMAGE_URI_STRING = "edit_uri_string";
+    private static final int CAMERA_REQUEST = 1;
+    private static final int PICK_REQUEST = 2;
     private PhotoEditor mPhotoEditor;
     private PhotoEditorView mPhotoEditorView;
     private PropertiesBSFragment mPropertiesBSFragment;
@@ -82,6 +84,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private boolean mIsFilterVisible;
     public static String SINGLE_PHOTO = "single_photo";
     public String photoString ;
+    public String galleryCameraString ;
+    Uri uri;
 
 
     @Override
@@ -89,9 +93,19 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         super.onCreate(savedInstanceState);
         makeFullScreen();
         setContentView(R.layout.activity_edit_image);
-        photoString = getIntent().getStringExtra(SINGLE_PHOTO);
 
+        if(getIntent().hasExtra(SINGLE_PHOTO)){
+            photoString = getIntent().getStringExtra(SINGLE_PHOTO);
+        }else if(getIntent().hasExtra(EDIT_IMAGE_URI_STRING)){
+            galleryCameraString = getIntent().getStringExtra(EDIT_IMAGE_URI_STRING);
+            uri = Uri.parse(getIntent().getStringExtra(EDIT_IMAGE_URI_STRING));
+        }else{
+            finish();
+            return;
+        }
         initViews();
+
+
 
         mWonderFont = Typeface.createFromAsset(getAssets(), "beyond_wonderland.ttf");
 
@@ -178,6 +192,10 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                             return true;
                         }
                     }).submit();
+        }
+
+        if(EDIT_IMAGE_URI_STRING != null){
+            mPhotoEditorView.getSource().setImageURI(uri);
         }
     }
 

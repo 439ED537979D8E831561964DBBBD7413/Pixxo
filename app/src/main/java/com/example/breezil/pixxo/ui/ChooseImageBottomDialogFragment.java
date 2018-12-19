@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.FragmentChooseImageBottomDialogBinding;
+import com.example.photoeditor.EditImageActivity;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +28,7 @@ import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 import static com.example.breezil.pixxo.utils.Constant.CAMERA_REQUEST_CODE;
+import static com.example.breezil.pixxo.utils.Constant.EDIT_IMAGE_URI_STRING;
 import static com.example.breezil.pixxo.utils.Constant.GALLERY_REQUEST_CODE;
 
 /**
@@ -35,6 +38,7 @@ public class ChooseImageBottomDialogFragment extends BottomSheetDialogFragment {
 
     Uri mCameraURI;
     String mCurrentPhotoPath;
+    Uri imageUri;
 
     FragmentChooseImageBottomDialogBinding binding;
 
@@ -105,18 +109,34 @@ public class ChooseImageBottomDialogFragment extends BottomSheetDialogFragment {
 
             try {
                 Uri photoUri = data.getData();
-                Toast.makeText(getActivity(), String.valueOf(photoUri),Toast.LENGTH_LONG).show();
+                CropImage.activity(photoUri)
+                        .setAspectRatio(1,1)
+                        .start(getContext(), this);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             if (mCameraURI != null) {
                 Uri cameraUri = mCameraURI;
-                Toast.makeText(getActivity(), String.valueOf(cameraUri),Toast.LENGTH_LONG).show();
+                CropImage.activity(cameraUri)
+                        .setAspectRatio(1,1)
+                        .start(getContext(), this);
             }
         }
-    }
+        //copied from Aurthur Edmondo github for crop action
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
 
+                imageUri = result.getUri();
+                Intent editImageIntent = new Intent(getContext(),EditImageActivity.class);
+                editImageIntent.putExtra(EDIT_IMAGE_URI_STRING,String.valueOf(imageUri) );
+                startActivity(editImageIntent);
+            }
+        }
+
+    }
 
 
     private File createImageFile() throws IOException {
