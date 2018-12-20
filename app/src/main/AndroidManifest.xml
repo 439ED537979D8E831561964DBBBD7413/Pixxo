@@ -39,7 +39,7 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.SavedActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.PreferenceActivity" />
+        <activity android:name=".ui.SettingsActivity" />
         <activity
             android:name=".ui.DetailActivity"
             android:parentActivityName=".ui.MainActivity"

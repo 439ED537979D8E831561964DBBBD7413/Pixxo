@@ -69,7 +69,7 @@ public class SavedActivity extends DaggerAppCompatActivity implements HasSupport
 
                     break;
                 case R.id.preference:
-                    startActivity(new Intent(SavedActivity.this,PreferenceActivity.class));
+                    startActivity(new Intent(SavedActivity.this,SettingsActivity.class));
                     break;
             }
 

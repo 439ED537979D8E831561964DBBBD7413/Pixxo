@@ -2,42 +2,32 @@ package com.example.breezil.pixxo.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.content.FileProvider;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.breezil.pixxo.R;
-import com.example.breezil.pixxo.api.ImagesApi;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.example.breezil.pixxo.databinding.ActivityMainBinding;
-import com.example.breezil.pixxo.model.ImagesModel;
-import com.example.breezil.pixxo.model.ImagesResult;
-import com.example.breezil.pixxo.model.SavedImageModel;
 import com.example.breezil.pixxo.ui.adapter.ImagesRecyclcerViewAdapter;
 import com.example.breezil.pixxo.utils.BottomNavigationHelper;
 import com.example.breezil.pixxo.view_model.MainViewModel;
-import com.example.breezil.pixxo.view_model.SavedViewModel;
 import com.example.breezil.pixxo.view_model.ViewModelFactory;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -46,8 +36,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
 import static com.example.breezil.pixxo.BuildConfig.API_KEY;
-import static com.example.breezil.pixxo.utils.Constant.CAMERA_REQUEST_CODE;
-import static com.example.breezil.pixxo.utils.Constant.GALLERY_REQUEST_CODE;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
     ActionBottomSheetFragment actionBottomSheetFragment = new ActionBottomSheetFragment();
     HashMap<String , Object> map = new HashMap<>();
+    SharedPreferences sharedPreferences;
+
+    String category;
 
     private ShimmerFrameLayout mShimmerViewContainer;
 
@@ -73,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         setupBottomNavigation();
 
         binding.shimmerViewContainer.startShimmerAnimation();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
 
 
         setUpAdapter();
@@ -107,10 +100,10 @@ public class MainActivity extends AppCompatActivity {
     private void setUpViewModel() {
         map.put("key",API_KEY);
         map.put("q","");
-        map.put("lang","");
-        map.put("image_type","en");
-        map.put("category","");
-        map.put("order","");
+        map.put("lang","en");
+        map.put("image_type","");
+        map.put("category",getCategoryList());
+        map.put("order","latest");
         map.put("page",1);
 
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel.class);
@@ -120,7 +113,10 @@ public class MainActivity extends AppCompatActivity {
 
         binding.shimmerViewContainer.stopShimmerAnimation();
         binding.shimmerViewContainer.setVisibility(View.GONE);
-
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("category",category);
+        editor.apply();
     }
 
     private void setupBottomNavigation(){
@@ -144,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this,SavedActivity.class));
                     break;
                 case R.id.preference:
-                    startActivity(new Intent(MainActivity.this,PreferenceActivity.class));
+                    startActivity(new Intent(MainActivity.this,SettingsActivity.class));
                     break;
             }
 
@@ -152,6 +148,25 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+    }
+
+    public String getCategoryList(){
+        Set<String> categorySet = new HashSet<>();
+        categorySet.add("");
+
+        List<String> entries = new ArrayList<>(Objects.requireNonNull(
+                sharedPreferences.getStringSet(getString(R.string.pref_category_key), categorySet)));
+        StringBuilder selectedCategory = new StringBuilder();
+
+        for (int i = 0; i < entries.size(); i++) {
+            selectedCategory.append(entries.get(i)).append(",");
+        }
+
+        if (selectedCategory.length() > 0) {
+            selectedCategory.deleteCharAt(selectedCategory.length() - 1);
+        }
+
+        return category = selectedCategory.toString();
     }
 
     @Override

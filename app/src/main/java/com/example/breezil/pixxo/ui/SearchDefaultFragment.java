@@ -126,10 +126,10 @@ public class SearchDefaultFragment extends Fragment {
     private void setUpViewModel(){
         map.put("key",API_KEY);
         map.put("q","");
-        map.put("lang","");
-        map.put("image_type","en");
+        map.put("lang","en");
+        map.put("image_type","");
         map.put("category","");
-        map.put("order","");
+        map.put("order","popular");
         map.put("page",1);
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel.class);
         viewModel.getImagesList(map).observe(this,imagesModels -> {

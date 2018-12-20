@@ -70,7 +70,6 @@ dependencies {
     //Paging Library
     implementation "android.arch.paging:runtime:$paging_version"
 
-
     //About
     implementation 'com.github.medyo:android-about-page:1.2.4'
 

@@ -9,6 +9,7 @@ import com.example.breezil.pixxo.di.module.DetailActivityModule;
 import com.example.breezil.pixxo.di.module.MainActivityModule;
 import com.example.breezil.pixxo.di.module.SavedActivityModule;
 import com.example.breezil.pixxo.di.module.SearchActivityModule;
+import com.example.breezil.pixxo.di.module.SettingsActivityModule;
 
 import javax.inject.Singleton;
 
@@ -23,7 +24,8 @@ import dagger.android.AndroidInjectionModule;
         MainActivityModule.class,
         DetailActivityModule.class,
         SavedActivityModule.class,
-        SearchActivityModule.class
+        SearchActivityModule.class,
+        SettingsActivityModule.class
 })
 public interface AppComponent {
     @Component.Builder

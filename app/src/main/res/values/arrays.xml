@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <array name="search_list">
+    <array name="search_list_value">
         <item>@string/animals</item>
         <item>@string/science</item>
         <item>@string/education</item>
@@ -23,6 +23,39 @@
         <item>@string/business</item>
         <item>@string/music</item>
 
+    </array>
+
+    <array name="search_list">
+        <item>@string/animals</item>
+        <item>@string/science</item>
+        <item>@string/education</item>
+        <item>@string/fashion</item>
+        <item>@string/nature</item>
+        <item>@string/people</item>
+        <item>@string/feelings</item>
+        <item>@string/religion</item>
+        <item>@string/health</item>
+        <item>@string/places</item>
+        <item>@string/animals</item>
+        <item>@string/industry</item>
+        <item>@string/food</item>
+        <item>@string/computer</item>
+        <item>@string/sports</item>
+        <item>@string/transportation</item>
+        <item>@string/travel</item>
+        <item>@string/buildings</item>
+        <item>@string/business</item>
+        <item>@string/music</item>
+    </array>
+
+
+    <array name="order_by_list">
+        <item>@string/popular</item>
+        <item>@string/latest</item>
+    </array>
+    <array name="order_by_list_value">
+        <item>@string/popular</item>
+        <item>@string/latest</item>
     </array>
 
 

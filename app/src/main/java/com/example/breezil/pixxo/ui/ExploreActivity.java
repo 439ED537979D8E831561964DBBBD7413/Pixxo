@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.ActivityExploreBinding;
@@ -103,7 +102,7 @@ public class ExploreActivity extends DaggerAppCompatActivity implements HasSuppo
                     startActivity(new Intent(ExploreActivity.this,SavedActivity.class));
                     break;
                 case R.id.preference:
-                    startActivity(new Intent(ExploreActivity.this,PreferenceActivity.class));
+                    startActivity(new Intent(ExploreActivity.this,SettingsActivity.class));
                     break;
             }
 

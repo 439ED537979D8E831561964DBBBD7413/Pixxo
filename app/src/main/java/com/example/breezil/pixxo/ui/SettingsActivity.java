@@ -2,6 +2,7 @@ package com.example.breezil.pixxo.ui;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,14 +12,27 @@ import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.ActivityPreferenceBinding;
 import com.example.breezil.pixxo.utils.BottomNavigationHelper;
 
-public class PreferenceActivity extends AppCompatActivity {
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.DaggerAppCompatActivity;
+import dagger.android.support.HasSupportFragmentInjector;
+
+public class SettingsActivity extends DaggerAppCompatActivity implements HasSupportFragmentInjector {
 
 
     ActivityPreferenceBinding binding;
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
 
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_preference);
         setupBottomNavigation();
@@ -44,13 +58,13 @@ public class PreferenceActivity extends AppCompatActivity {
             switch (item.getItemId()){
 
                 case R.id.trending:
-                    startActivity(new Intent(PreferenceActivity.this,MainActivity.class));
+                    startActivity(new Intent(SettingsActivity.this,MainActivity.class));
                     break;
                 case R.id.explore:
-                    startActivity(new Intent(PreferenceActivity.this,ExploreActivity.class));
+                    startActivity(new Intent(SettingsActivity.this,ExploreActivity.class));
                     break;
                 case R.id.saved:
-                    startActivity(new Intent(PreferenceActivity.this,SavedActivity.class));
+                    startActivity(new Intent(SettingsActivity.this,SavedActivity.class));
                     break;
                 case R.id.preference:
 
@@ -61,6 +75,11 @@ public class PreferenceActivity extends AppCompatActivity {
             return false;
         });
 
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 
 }
