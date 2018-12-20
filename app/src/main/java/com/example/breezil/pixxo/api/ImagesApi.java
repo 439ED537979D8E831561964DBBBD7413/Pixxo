@@ -1,8 +1,10 @@
 package com.example.breezil.pixxo.api;
 
+import android.arch.lifecycle.LiveData;
 import android.support.annotation.Nullable;
 
 import com.example.breezil.pixxo.model.ImagesResult;
+import com.example.breezil.pixxo.utils.helper.ApiResponse;
 
 import java.util.Map;
 
@@ -25,7 +27,7 @@ public interface ImagesApi {
 
 
     @GET("api/")
-    Call<ImagesResult>getImages(@QueryMap Map<String, Object> parameter
+    LiveData<ApiResponse<ImagesResult>> getImages(@QueryMap Map<String, Object> parameter
     );
 }
 

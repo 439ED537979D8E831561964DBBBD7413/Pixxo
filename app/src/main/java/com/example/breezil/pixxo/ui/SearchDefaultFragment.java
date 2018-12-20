@@ -133,7 +133,7 @@ public class SearchDefaultFragment extends Fragment {
         map.put("page",1);
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel.class);
         viewModel.getImagesList(map).observe(this,imagesModels -> {
-            adapter.submitList(imagesModels);
+            adapter.submitList(imagesModels.data);
         });
     }
 

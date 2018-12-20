@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.repository.MainRepository;
+import com.example.breezil.pixxo.utils.helper.Resource;
 
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,8 @@ import javax.inject.Inject;
 
 public class DetailViewModel extends AndroidViewModel {
 
-    MainRepository mainRepository;
-    private MutableLiveData<List<ImagesModel>> imagesList = new MutableLiveData<>();
+    private MainRepository mainRepository;
+    private LiveData<Resource<List<ImagesModel>>>imagesList;
     private MutableLiveData<ImagesModel> imageModel = new MutableLiveData<>();
 
     @Inject
@@ -26,13 +27,9 @@ public class DetailViewModel extends AndroidViewModel {
         this.mainRepository = mainRepository;
     }
 
-    public void setImagesListValue(List<ImagesModel> imagesModelList){
-        this.imagesList.setValue(imagesModelList);
-    }
-
-    public LiveData<List<ImagesModel>> getImagesList(Map<String, Object> parameter){
+    public LiveData<Resource<List<ImagesModel>>>getImagesList(Map<String, Object> parameter){
         if(imagesList == null ){
-            imagesList = (MutableLiveData<List<ImagesModel>>) mainRepository.getImages(parameter);
+            imagesList = mainRepository.getImages(parameter);
         }
         return imagesList;
     }

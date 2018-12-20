@@ -1,12 +1,20 @@
 package com.example.breezil.pixxo.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class ImagesModel implements Parcelable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int roomId;
+
+    private int imageId;
 
     @SerializedName("largeImageURL")
     @Expose
@@ -108,6 +116,21 @@ public class ImagesModel implements Parcelable {
         }
     };
 
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
 
     public String getLargeImageURL() {
         return largeImageURL;

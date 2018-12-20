@@ -108,8 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel.class);
         viewModel.getImagesList(map).observe(this,imagesModels -> {
-                    imagesRecyclcerViewAdapter.submitList(imagesModels);
+                    imagesRecyclcerViewAdapter.submitList(imagesModels.data);
         });
+
 
         binding.shimmerViewContainer.stopShimmerAnimation();
         binding.shimmerViewContainer.setVisibility(View.GONE);
