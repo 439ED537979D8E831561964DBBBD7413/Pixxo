@@ -14,6 +14,7 @@
     <!--animals, industry, food, computer, sports, transportation, travel, buildings, business, music-->
 
     <!-- quick search -->
+    <string name="music">music</string>
     <string name="fashion">fashion</string>
     <string name="nature">nature</string>
     <string name="backgrounds">backgrounds</string>
@@ -33,12 +34,36 @@
     <string name="travel">travel</string>
     <string name="buildings">buildings</string>
     <string name="business">business</string>
-    <string name="music">music</string>
 
     <!-- order -->
     <string name="popular">popular</string>
     <string name="latest">latest</string>
 
+
+    <!--&lt;!&ndash;search list&ndash;&gt;-->
+    <!--<string-array  name="search_list">-->
+    <!--<item>@string/animals</item>-->
+    <!--<item>@string/science</item>-->
+    <!--<item>@string/education</item>-->
+    <!--<item>@string/fashion</item>-->
+    <!--<item>@string/nature</item>-->
+    <!--<item>@string/people</item>-->
+    <!--<item>@string/feelings</item>-->
+    <!--<item>@string/religion</item>-->
+    <!--<item>@string/health</item>-->
+    <!--<item>@string/places</item>-->
+    <!--<item>@string/animals</item>-->
+    <!--<item>@string/industry</item>-->
+    <!--<item>@string/food</item>-->
+    <!--<item>@string/computer</item>-->
+    <!--<item>@string/sports</item>-->
+    <!--<item>@string/transportation</item>-->
+    <!--<item>@string/travel</item>-->
+    <!--<item>@string/buildings</item>-->
+    <!--<item>@string/business</item>-->
+    <!--<item>@string/music</item>-->
+
+    <!--</string-array >-->
 
 
 </resources>

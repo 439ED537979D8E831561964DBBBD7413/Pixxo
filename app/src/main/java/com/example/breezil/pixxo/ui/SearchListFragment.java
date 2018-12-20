@@ -40,7 +40,6 @@ public class SearchListFragment extends Fragment {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-
     FragmentSearchListBinding binding;
     MainViewModel viewModel;
     StaggerdGridRecyclerAdapter adapter;

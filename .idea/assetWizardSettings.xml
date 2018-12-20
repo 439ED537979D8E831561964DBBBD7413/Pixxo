@@ -20,8 +20,8 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\breezil\Downloads\focus.png" />
-                                      <entry key="outputName" value="ic_focus_image" />
+                                      <entry key="imageAsset" value="C:\Users\breezil\Downloads\delete.png" />
+                                      <entry key="outputName" value="ic_delete" />
                                     </map>
                                   </option>
                                 </PersistentState>

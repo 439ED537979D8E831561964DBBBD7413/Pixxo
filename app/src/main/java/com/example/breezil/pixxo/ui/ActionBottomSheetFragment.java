@@ -39,7 +39,6 @@ import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
  */
 public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
 
-    private Bitmap theBitmap = null;
     FragmentActionBottomSheetBinding binding;
 
     public static ActionBottomSheetFragment getImageModel(ImagesModel imagesModel){
@@ -121,7 +120,6 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                         @Override
                         public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                             getLocalBitmapUri(bitmap,getActivity());
-//                            Drawable d = new BitmapDrawable(getResources(), bitmap);
                             startSharing(getLocalBitmapUri(bitmap,getActivity()));
                             return true;
                         }
@@ -145,8 +143,6 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
         int n = 10000;
         n = generator.nextInt(n);
         String fname = "Image-"+ n +".jpg";
-
-        Toast.makeText(getActivity(),fname,Toast.LENGTH_LONG).show();
 
         File myDir = wrapper.getDir("Images",Context.MODE_PRIVATE);
 

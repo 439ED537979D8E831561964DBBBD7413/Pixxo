@@ -25,6 +25,7 @@ public class ExploreActivity extends DaggerAppCompatActivity implements HasSuppo
 
     ActivityExploreBinding binding;
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
+    SearchDefaultFragment searchDefaultFragment;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -41,7 +42,7 @@ public class ExploreActivity extends DaggerAppCompatActivity implements HasSuppo
         });
 
 
-        SearchDefaultFragment searchDefaultFragment = new SearchDefaultFragment();
+        searchDefaultFragment = new SearchDefaultFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.searchContainer,searchDefaultFragment)
                 .commit();
@@ -55,12 +56,16 @@ public class ExploreActivity extends DaggerAppCompatActivity implements HasSuppo
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query != null) {
+                    searchDefaultFragment = new SearchDefaultFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .remove(searchDefaultFragment)
+                            .commit();
+
                     SearchListFragment searchListFragment = SearchListFragment.getSearchString(query);
                     getSupportFragmentManager().beginTransaction()
                             .add(R.id.searchContainer, searchListFragment)
                             .commit();
 
-                    Toast.makeText(ExploreActivity.this, query,Toast.LENGTH_LONG).show();
                 }
                 return true;
             }

@@ -39,6 +39,7 @@ public class SavedImageFragment extends Fragment {
     FragmentSavedImageBinding binding;
     SavedImageRecyclerAdapter adapter;
     private SavedViewModel savedViewModel;
+    ActionBottomSheetFragment actionBottomSheetFragment = new ActionBottomSheetFragment();
     
     public SavedImageFragment() {
         // Required empty public constructor
@@ -82,15 +83,15 @@ public class SavedImageFragment extends Fragment {
         };
 
         SavedImageLongClickListener imageLongClickListener = imagesModel -> {
-            showActionOnImageSheet(imagesModel);
+            SavedActionBottomSheetFragment savedActionBottomSheetFragment = SavedActionBottomSheetFragment.getSavedModel(imagesModel);
+            savedActionBottomSheetFragment.show(getFragmentManager(),"Do something");
         };
         
         adapter = new SavedImageRecyclerAdapter(getContext(), imageLongClickListener, savedImageClickListener);
         binding.savedList.setAdapter(adapter);
     }
 
-    private void showActionOnImageSheet(SavedImageModel imagesModel) {
-    }
+
 
     private void setUpViewModel() {
 

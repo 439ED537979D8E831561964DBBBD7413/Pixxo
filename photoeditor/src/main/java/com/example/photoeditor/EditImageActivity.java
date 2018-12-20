@@ -42,6 +42,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.photoeditor.base.BaseActivity;
 import com.example.photoeditor.filters.FilterListener;
 import com.example.photoeditor.filters.FilterViewAdapter;
@@ -86,6 +87,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     public String photoString ;
     public String galleryCameraString ;
     Uri uri;
+    ShareSaveBottomFragment shareSaveBottomFragment = new ShareSaveBottomFragment();
 
 
     @Override
@@ -140,8 +142,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 
         mPhotoEditor.setOnPhotoEditorListener(this);
 
-        //Set Image Dynamically
-        // mPhotoEditorView.getSource().setImageResource(R.drawable.color_palette);
+
 
     }
 
@@ -182,12 +183,12 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                     .asBitmap().load(photoString)
                     .listener(new RequestListener<Bitmap>() {
                         @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, boolean isFirstResource) {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                             return false;
                         }
 
                         @Override
-                        public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                             mPhotoEditorView.getSource().setImageBitmap(bitmap);
                             return true;
                         }
@@ -247,7 +248,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
             mPhotoEditor.redo();
 
         } else if (i == R.id.imgSave) {
-            saveImage();
+            shareSaveBottomFragment.show(getSupportFragmentManager(),"Action");
+//            saveImage();
 
         } else if (i == R.id.imgClose) {
             onBackPressed();

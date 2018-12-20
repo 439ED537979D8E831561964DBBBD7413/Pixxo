@@ -36,6 +36,7 @@ dependencies {
     def retrofit_version = '2.4.0'
     def arch_version = '1.1.1'
     def room_version = '1.1.1'
+    def paging_version = '1.0.1'
     def dagger_version = '2.16'
     def photoeditor_version = '0.3.3'
     def espresso_version = '3.0.2'
@@ -66,6 +67,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation 'com.google.code.gson:gson:2.8.5'
 
+    //Paging Library
+    implementation "android.arch.paging:runtime:$paging_version"
+
+
     //About
     implementation 'com.github.medyo:android-about-page:1.2.4'
 
@@ -95,7 +100,6 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
-
 
     //photo editor library
     implementation project(':photoeditor')
