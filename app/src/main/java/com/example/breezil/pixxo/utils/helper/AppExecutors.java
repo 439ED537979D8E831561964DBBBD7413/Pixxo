@@ -12,7 +12,7 @@ import javax.inject.Singleton;
 
 /**
  * More from here Architecture Guide "https://developer.android.com/arch"
- * Helper code from googlesamples/android-architecture-components:
+ * Helper code from googlesamples/android-architecture-components:.
  * "https://github.com/breel93/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/AppExecutors.kt"
  *
  */
