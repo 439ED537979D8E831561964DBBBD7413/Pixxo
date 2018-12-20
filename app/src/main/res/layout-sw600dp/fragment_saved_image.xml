@@ -17,7 +17,7 @@
             android:layout_marginStart="2dp"
             android:layout_marginTop="2dp"
             app:layoutManager="android.support.v7.widget.GridLayoutManager"
-            app:spanCount="2"
+            app:spanCount="3"
             tools:listitem="@layout/image_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

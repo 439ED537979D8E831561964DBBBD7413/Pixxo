@@ -1,6 +1,8 @@
 package com.example.breezil.pixxo.ui;
 
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -15,6 +17,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.breezil.pixxo.databinding.FragmentPhotoDetailBinding;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.model.ImagesModel;
+import com.example.breezil.pixxo.view_model.DetailViewModel;
+
+import javax.inject.Inject;
+
 import dagger.android.support.AndroidSupportInjection;
 
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
@@ -26,6 +32,11 @@ public class PhotoDetailFragment extends Fragment {
 
 
     FragmentPhotoDetailBinding binding;
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
+    DetailViewModel viewModel;
 
 
     public PhotoDetailFragment() {
@@ -52,14 +63,17 @@ public class PhotoDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_photo_detail, container, false);
+
         return binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(DetailViewModel.class);
+        viewModel.setImage(imagesModel());
+        viewModel.getImage().observe(getActivity(), this::updateUI);
 
-        updateUI(imagesModel());
     }
 
 

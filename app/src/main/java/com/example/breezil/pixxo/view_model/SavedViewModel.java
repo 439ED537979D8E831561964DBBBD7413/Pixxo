@@ -40,6 +40,7 @@ public class SavedViewModel extends AndroidViewModel {
     public LiveData<List<SavedImageModel>> getSavedList(){
         return savedList;
     }
+
     public LiveData<SavedImageModel> getSavedById(int savedId){
         savedImageModel = appDatabase.savedDao().getSaveById(savedId);
         return savedImageModel;
