@@ -25,9 +25,48 @@ public interface ImagesApi {
 //                              @Query("page")int page
 //    );
 
+    enum Category {
+        NATURE("nature");
+
+        private String category;
+
+        Category(String category) {
+            this.category = category;
+        }
+
+        public String getValue() {
+            return category;
+        }
+    }
+
+    enum Search {
+        NATURE("nature");
+
+        private String search;
+
+        Search(String search) {
+            this.search = search;
+        }
+
+        public String getValue() {
+            return search;
+        }
+    }
+
+
+//    @GET("api/")
+//    LiveData<ApiResponse<ImagesResult>> getImages(@QueryMap Map<String, Object> parameter
+//    );
+
 
     @GET("api/")
-    LiveData<ApiResponse<ImagesResult>> getImages(@QueryMap Map<String, Object> parameter
+    Call<ImagesResult> getImagess(@QueryMap Map<String, Object> parameter
+    );
+
+    @GET("api/")
+    Call<ImagesResult> getImages(@Query("key")@Nullable String key,
+                                   @Query("page")int page,
+                                   @Query("per_page")int per_page
     );
 }
 

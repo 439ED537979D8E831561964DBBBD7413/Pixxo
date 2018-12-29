@@ -1,5 +1,6 @@
 package com.example.breezil.pixxo.ui.adapter;
 
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.ListAdapter;
@@ -14,10 +15,9 @@ import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.example.breezil.pixxo.databinding.GridImageItemBinding;
-import com.example.breezil.pixxo.databinding.ImageItemBinding;
 import com.example.breezil.pixxo.model.ImagesModel;
 
-public class StaggerdGridRecyclerAdapter extends ListAdapter<ImagesModel, StaggerdGridRecyclerAdapter.ImageHolder> {
+public class StaggerdGridRecyclerAdapter extends PagedListAdapter<ImagesModel, StaggerdGridRecyclerAdapter.ImageHolder> {
 
     GridImageItemBinding binding;
     private ImageLongClickListener imageLongClickListener;
@@ -61,6 +61,9 @@ public class StaggerdGridRecyclerAdapter extends ListAdapter<ImagesModel, Stagge
         ImagesModel imagesModel = getItem(position);
         imageHolder.bind(imagesModel, imageClickListener,imageLongClickListener);
     }
+
+
+
 
 
     public ImagesModel getImageAt(int position){

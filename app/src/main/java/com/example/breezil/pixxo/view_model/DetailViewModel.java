@@ -27,12 +27,12 @@ public class DetailViewModel extends AndroidViewModel {
         this.mainRepository = mainRepository;
     }
 
-    public LiveData<Resource<List<ImagesModel>>>getImagesList(Map<String, Object> parameter){
-        if(imagesList == null ){
-            imagesList = mainRepository.getImages(parameter);
-        }
-        return imagesList;
-    }
+//    public LiveData<Resource<List<ImagesModel>>>getImagesList(Map<String, Object> parameter){
+//        if(imagesList == null ){
+//            imagesList = mainRepository.getImages(parameter);
+//        }
+//        return imagesList;
+//    }
 
 
 

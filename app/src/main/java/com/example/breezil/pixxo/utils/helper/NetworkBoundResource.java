@@ -54,7 +54,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
             if (response.isSuccessful()) {
                 appExecutors.diskIO().execute(() -> {
                     saveCallResult(processResponse(response));
-                    appExecutors.mainThread().execute(() ->
+                    appExecutors.mainIO().execute(() ->
                             // we specially request a new live data,
                             // otherwise we will get immediately last cached value,
                             // which may not be updated with latest results received from network.
@@ -67,6 +67,9 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                         newData -> setValue(Resource.error(response.errorMessage, newData)));
             }
         });
+    }
+
+    protected void onFetchFailed() {
     }
 
     public LiveData<Resource<ResultType>> asLiveData() {

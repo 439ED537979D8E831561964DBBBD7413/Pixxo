@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +18,6 @@ import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.SavedImageClickListener;
 import com.example.breezil.pixxo.callbacks.SavedImageLongClickListener;
 import com.example.breezil.pixxo.databinding.FragmentSavedImageBinding;
-import com.example.breezil.pixxo.model.SavedImageModel;
 import com.example.breezil.pixxo.ui.adapter.SavedImageRecyclerAdapter;
 import com.example.breezil.pixxo.view_model.SavedViewModel;
 
@@ -27,7 +25,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
+import static com.example.breezil.pixxo.utils.Constant.SAVED_TYPE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,9 +75,9 @@ public class SavedImageFragment extends Fragment {
     private void setUpAdapter() {
         
         SavedImageClickListener savedImageClickListener = imagesModel -> {
-            Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
-            detailIntent.putExtra(SINGLE_PHOTO, imagesModel);
-            startActivity(detailIntent);
+            SavedImageDialogFragment savedImageAlertFragment =
+                    SavedImageDialogFragment.getImageString(imagesModel.getWebformatURL(),SAVED_TYPE);
+            savedImageAlertFragment.show(getFragmentManager(),"some");
         };
 
         SavedImageLongClickListener imageLongClickListener = imagesModel -> {

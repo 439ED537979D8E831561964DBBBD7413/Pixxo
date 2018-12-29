@@ -19,6 +19,7 @@ import com.example.breezil.pixxo.databinding.ActivityDetailBinding;
 import dagger.android.support.HasSupportFragmentInjector;
 
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
+import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
 public class DetailActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
@@ -37,8 +38,10 @@ public class DetailActivity extends AppCompatActivity implements HasSupportFragm
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
-        loadFragment();
+
         updateToolbar();
+
+        loadFragment();
     }
 
     private void updateToolbar(){

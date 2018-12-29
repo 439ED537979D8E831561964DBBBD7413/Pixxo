@@ -100,6 +100,8 @@ dependencies {
 
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
 
+    implementation 'com.an.customfontview:customfont:0.1.0'
+
     //photo editor library
     implementation project(':photoeditor')
 

@@ -31,6 +31,10 @@ import com.example.photoeditor.EditImageActivity;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 
@@ -100,7 +104,7 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
 
                         @Override
                         public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            startDownloading(bitmap);
+                            startDownloading(getContext(),bitmap);
                             return true;
                         }
                     }).submit();
@@ -136,29 +140,51 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
         startActivity(Intent.createChooser(shareIntent, "Share image using"));
     }
 
-    private void startDownloading(Bitmap bitmap){
-        ContextWrapper wrapper = new ContextWrapper(getActivity());
+    static String startDownloading(Context context, Bitmap image) {
 
-        Random generator = new Random();
-        int n = 10000;
-        n = generator.nextInt(n);
-        String fname = "Image-"+ n +".jpg";
+        String savedImagePath = null;
 
-        File myDir = wrapper.getDir("Images",Context.MODE_PRIVATE);
-
-        File file = new File (myDir, fname);
-        if (file.exists ()) file.delete ();
-        try {
-            FileOutputStream  out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Create the new file in the external storage
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(new Date());
+        String imageFileName = "Pixxo" + timeStamp + ".jpg";
+        File storageDir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                        + "/Pixxo");
+        boolean success = true;
+        if (!storageDir.exists()) {
+            success = storageDir.mkdirs();
         }
 
+        // Save the new Bitmap
+        if (success) {
+            File imageFile = new File(storageDir, imageFileName);
+            savedImagePath = imageFile.getAbsolutePath();
+            try {
+                OutputStream fOut = new FileOutputStream(imageFile);
+                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+                fOut.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Add the image to the system gallery
+            galleryAddPic(context, savedImagePath);
+
+        }
+
+        return savedImagePath;
     }
+
+    private static void galleryAddPic(Context context, String imagePath) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(imagePath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        context.sendBroadcast(mediaScanIntent);
+    }
+
+
 
 
     static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {

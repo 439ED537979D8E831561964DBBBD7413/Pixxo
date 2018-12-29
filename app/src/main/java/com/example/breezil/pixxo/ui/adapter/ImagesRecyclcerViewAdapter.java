@@ -1,11 +1,12 @@
 package com.example.breezil.pixxo.ui.adapter;
 
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
@@ -14,14 +15,21 @@ import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.example.breezil.pixxo.databinding.ImageItemBinding;
+import com.example.breezil.pixxo.databinding.ItemNetworkStateBinding;
 import com.example.breezil.pixxo.model.ImagesModel;
+import com.example.breezil.pixxo.api.NetworkState;
 
-public class ImagesRecyclcerViewAdapter extends ListAdapter<ImagesModel, ImagesRecyclcerViewAdapter.ImageHolder> {
+public class ImagesRecyclcerViewAdapter extends PagedListAdapter<ImagesModel, RecyclerView.ViewHolder> {
 
     ImageItemBinding binding;
+    ItemNetworkStateBinding networkStateBinding;
     private ImageLongClickListener imageLongClickListener;
     private ImageClickListener imageClickListener;
     Context context;
+
+    private static final int TYPE_PROGRESS = 0;
+    private static final int TYPE_ITEM = 1;
+    private NetworkState networkState;
 
 
 
@@ -48,17 +56,62 @@ public class ImagesRecyclcerViewAdapter extends ListAdapter<ImagesModel, ImagesR
 
     @NonNull
     @Override
-    public ImageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        binding = ImageItemBinding.inflate(layoutInflater,parent,false);
+        if(viewType == TYPE_PROGRESS) {
+            networkStateBinding = ItemNetworkStateBinding.inflate(layoutInflater,parent,false);
+            return new NetworkStateItemViewHolder(networkStateBinding);
+        }else {
+            binding = ImageItemBinding.inflate(layoutInflater,parent,false);
+            return new ImageHolder(binding);
+        }
 
-        return new ImageHolder(binding);
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageHolder imageHolder, int position) {
-        ImagesModel imagesModel = getItem(position);
-        imageHolder.bind(imagesModel, imageClickListener,imageLongClickListener);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        if(viewHolder instanceof ImageHolder){
+            ImagesModel imagesModel = getItem(position);
+            ((ImageHolder)viewHolder).bind(imagesModel, imageClickListener,imageLongClickListener);
+        }else{
+            ((NetworkStateItemViewHolder) viewHolder).bindView(networkState);
+        }
+    }
+
+
+
+    private boolean hasExtraRow() {
+        if (networkState != null && networkState != NetworkState.LOADED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (hasExtraRow() && position == getItemCount() - 1) {
+            return TYPE_PROGRESS;
+        } else {
+            return TYPE_ITEM;
+        }
+    }
+
+    public void setNetworkState(NetworkState newNetworkState) {
+        NetworkState previousState = this.networkState;
+        boolean previousExtraRow = hasExtraRow();
+        this.networkState = newNetworkState;
+        boolean newExtraRow = hasExtraRow();
+        if (previousExtraRow != newExtraRow) {
+            if (previousExtraRow) {
+                notifyItemRemoved(getItemCount());
+            } else {
+                notifyItemInserted(getItemCount());
+            }
+        } else if (newExtraRow && previousState != newNetworkState) {
+            notifyItemChanged(getItemCount() - 1);
+        }
     }
 
     public ImagesModel getImageAt(int position){
@@ -91,6 +144,30 @@ public class ImagesRecyclcerViewAdapter extends ListAdapter<ImagesModel, ImagesR
                             .placeholder(R.drawable.placeholder)
                             .error(R.drawable.placeholder))
                     .into(binding.image);
+        }
+    }
+
+
+    public class NetworkStateItemViewHolder extends RecyclerView.ViewHolder {
+
+        private ItemNetworkStateBinding binding;
+        public NetworkStateItemViewHolder(ItemNetworkStateBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        public void bindView(NetworkState networkState) {
+            if (networkState != null && networkState.getStatus() == NetworkState.Status.RUNNING) {
+                binding.progressBar.setVisibility(View.VISIBLE);
+            } else {
+                binding.progressBar.setVisibility(View.GONE);
+            }
+
+            if (networkState != null && networkState.getStatus() == NetworkState.Status.FAILED) {
+                binding.errorMsg.setVisibility(View.VISIBLE);
+            } else {
+                binding.errorMsg.setVisibility(View.GONE);
+            }
         }
     }
 }

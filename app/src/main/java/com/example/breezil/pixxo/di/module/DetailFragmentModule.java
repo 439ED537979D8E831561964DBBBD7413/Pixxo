@@ -12,4 +12,5 @@ public abstract class DetailFragmentModule {
     @ContributesAndroidInjector
     abstract PhotoDetailFragment contributePhotoDetailFragment();
 
+
 }

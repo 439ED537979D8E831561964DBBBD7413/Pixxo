@@ -17,13 +17,16 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.breezil.pixxo.databinding.FragmentPhotoDetailBinding;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.model.ImagesModel;
+import com.example.breezil.pixxo.model.SavedImageModel;
 import com.example.breezil.pixxo.view_model.DetailViewModel;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
+import static com.example.breezil.pixxo.utils.Constant.SAVED_PHOTO_TYPE;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
+import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +39,12 @@ public class PhotoDetailFragment extends Fragment {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
+    String type;
+
     DetailViewModel viewModel;
+
+    ActionBottomSheetFragment actionBottomSheetFragment;
+    SavedActionBottomSheetFragment savedActionBottomSheetFragment;
 
 
     public PhotoDetailFragment() {
@@ -70,9 +78,12 @@ public class PhotoDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        type = getArguments().getString(TYPE);
         viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(DetailViewModel.class);
         viewModel.setImage(imagesModel());
         viewModel.getImage().observe(getActivity(), this::updateUI);
+
+
 
     }
 
@@ -85,6 +96,12 @@ public class PhotoDetailFragment extends Fragment {
                     .error(R.drawable.placeholder))
                 .into(binding.detailImage);
 
+        binding.detailFloatBtn.setOnClickListener(v -> {
+
+            actionBottomSheetFragment = ActionBottomSheetFragment.getImageModel(imagesModel);
+            actionBottomSheetFragment.show(getFragmentManager(),"get");
+        });
+
     }
 
 
@@ -96,4 +113,5 @@ public class PhotoDetailFragment extends Fragment {
             return null;
         }
     }
+
 }

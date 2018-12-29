@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,8 +36,9 @@ import dagger.android.AndroidInjection;
 import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
-import static com.example.breezil.pixxo.BuildConfig.API_KEY;
+import static com.example.breezil.pixxo.utils.Constant.SAVED_PHOTO_TYPE;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
+import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,8 +52,11 @@ public class MainActivity extends AppCompatActivity {
     ActionBottomSheetFragment actionBottomSheetFragment = new ActionBottomSheetFragment();
     HashMap<String , Object> map = new HashMap<>();
     SharedPreferences sharedPreferences;
+    LinearLayoutManager linearLayoutManager;
 
     String category;
+
+    MainViewModel demoViewModel;
 
     private ShimmerFrameLayout mShimmerViewContainer;
 
@@ -64,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
         setupBottomNavigation();
 
         binding.shimmerViewContainer.startShimmerAnimation();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 
-
+        linearLayoutManager = new LinearLayoutManager(this);
 
         setUpAdapter();
         setUpViewModel();
@@ -77,6 +82,13 @@ public class MainActivity extends AppCompatActivity {
         logging.redactHeader("Cookie");
         binding.addButton.setOnClickListener(v ->
                 chooseImageBottomDialogFragment.show(getSupportFragmentManager(),"Choose Image"));
+
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            setUpAdapter();
+            setUpViewModel();
+        });
+
+
     }
 
 
@@ -84,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         ImageClickListener imageClickListener = imagesModel -> {
             Intent detailIntent = new Intent(this, DetailActivity.class);
             detailIntent.putExtra(SINGLE_PHOTO, imagesModel);
+            detailIntent.putExtra(TYPE, SAVED_PHOTO_TYPE);
             startActivity(detailIntent);
         };
         ImageLongClickListener imageLongClickListener = imagesModel -> {
@@ -92,23 +105,24 @@ public class MainActivity extends AppCompatActivity {
 
         };
 
+        binding.imageList.setLayoutManager(linearLayoutManager);
         imagesRecyclcerViewAdapter
                 = new ImagesRecyclcerViewAdapter(this,imageClickListener,imageLongClickListener);
         binding.imageList.setAdapter(imagesRecyclcerViewAdapter);
     }
 
     private void setUpViewModel() {
-        map.put("key",API_KEY);
-        map.put("q","");
-        map.put("lang","en");
-        map.put("image_type","");
-        map.put("category",getCategoryList());
-        map.put("order","latest");
-        map.put("page",1);
+        String ordeyBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
 
-        viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel.class);
-        viewModel.getImagesList(map).observe(this,imagesModels -> {
-                    imagesRecyclcerViewAdapter.submitList(imagesModels.data);
+
+        demoViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
+
+        demoViewModel.setParameter("computer","nature");
+
+
+
+        demoViewModel.getImageList().observe(this, imagesModels -> {
+            imagesRecyclcerViewAdapter.submitList(imagesModels);
         });
 
 
@@ -118,6 +132,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("category",category);
         editor.apply();
+
+        if(binding.swipeRefresh != null){
+            binding.swipeRefresh.setRefreshing(false);
+        }
+
+
+
+
     }
 
     private void setupBottomNavigation(){
@@ -150,6 +172,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     public String getCategoryList(){
         Set<String> categorySet = new HashSet<>();

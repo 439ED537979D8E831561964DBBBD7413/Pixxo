@@ -1,34 +1,90 @@
 package com.example.breezil.pixxo.view_model;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-
+import android.arch.lifecycle.Transformations;
+import android.arch.lifecycle.ViewModel;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
+import com.example.breezil.pixxo.api.NetworkState;
 import com.example.breezil.pixxo.model.ImagesModel;
-import com.example.breezil.pixxo.repository.MainRepository;
-import com.example.breezil.pixxo.utils.helper.Resource;
-
-import java.util.List;
-import java.util.Map;
+import com.example.breezil.pixxo.repository.ImageDataSourceFactory;
+import com.example.breezil.pixxo.repository.ImageModelDataSource;
+import com.example.breezil.pixxo.repository.Repository;
+import com.example.breezil.pixxo.utils.helper.AppExecutors;
 
 import javax.inject.Inject;
 
-public class MainViewModel extends AndroidViewModel {
-    private LiveData<Resource<List<ImagesModel>>>imagesList;
-    private MainRepository mainRepository;
+
+public class MainViewModel extends ViewModel {
+    Repository repository;
+    private LiveData<PagedList<ImagesModel>> imageList;
+    private LiveData<NetworkState> networkState;
+    private LiveData<NetworkState> initialLoading;
+    private AppExecutors appsExecutor;
+
+    private ImageDataSourceFactory imageDataSourceFactory;
+    String mSearch;
 
     @Inject
-    public MainViewModel( MainRepository mainRepository, Application application) {
-        super(application);
-        this.mainRepository = mainRepository;
+    MainViewModel(ImageDataSourceFactory imageDataSourceFactory, AppExecutors appsExecutor) {
+        this.imageDataSourceFactory = imageDataSourceFactory;
+        this.appsExecutor = appsExecutor;
+
+
+        networkState = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),
+                ImageModelDataSource::getNetworkState);
+        initialLoading = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),
+                ImageModelDataSource::getInitialLoading);
+
+
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(true)
+                .setInitialLoadSizeHint(5)
+                .setPrefetchDistance(5)
+                .setPageSize(5)
+                .build();
+
+        imageList = new LivePagedListBuilder<>(imageDataSourceFactory,config)
+                .setFetchExecutor(appsExecutor.networkIO())
+                .build();
+
     }
 
-    public LiveData<Resource<List<ImagesModel>>> getImagesList(Map<String, Object> parameter){
-        if(imagesList == null ){
-            imagesList = mainRepository.getImages(parameter);
-        }
-        return imagesList;
+
+
+    public LiveData<PagedList<ImagesModel>>getImageList(){
+        return imageList;
+    }
+    public void setParameter(String search, String category){
+        imageDataSourceFactory.getDataSource().setSearch(search);
+        imageDataSourceFactory.getDataSource().setCategory(category);
+    }
+
+    public void setNetworkState() {
+    }
+    public LiveData<PagedList<ImagesModel>> refreshImages(){
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(true)
+                .setPageSize(5)
+                .build();
+
+        imageList = new LivePagedListBuilder<>(imageDataSourceFactory, config)
+                .setFetchExecutor(appsExecutor.networkIO())
+                .build();
+
+        return imageList;
+    }
+
+
+
+    public LiveData<NetworkState> getInitialLoading() {
+        return initialLoading;
+    }
+
+    public LiveData<NetworkState> getNetworkState() {
+        return networkState;
     }
 
 
 }
+

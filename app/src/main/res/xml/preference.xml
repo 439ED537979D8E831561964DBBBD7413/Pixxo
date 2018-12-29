@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Preference Settings">
+    <PreferenceCategory android:title="Preference Settings"
+        >
         <MultiSelectListPreference
             android:defaultValue="@string/pref_category_all_value"
             android:entries="@array/search_list"

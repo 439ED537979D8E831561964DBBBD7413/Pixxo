@@ -27,7 +27,6 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-import static com.example.breezil.pixxo.BuildConfig.API_KEY;
 import static com.example.breezil.pixxo.utils.Constant.SEARCH_STRING;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 
@@ -102,16 +101,10 @@ public class SearchListFragment extends Fragment {
     }
 
     private void setUpViewModel(){
-        map.put("key",API_KEY);
-        map.put("q",searchString);
-        map.put("lang","en");
-        map.put("image_type","");
-        map.put("category","");
-        map.put("order","latest");
-        map.put("page",1);
+
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel.class);
-        viewModel.getImagesList(map).observe(this,imagesModels -> {
-            adapter.submitList(imagesModels.data);
+        viewModel.getImageList().observe(this,imagesModels -> {
+            adapter.submitList(imagesModels);
         });
     }
 

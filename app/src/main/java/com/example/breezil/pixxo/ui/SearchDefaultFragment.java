@@ -13,8 +13,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
@@ -26,7 +24,6 @@ import com.example.breezil.pixxo.ui.adapter.QuickSearchRecyclerListAdapter;
 import com.example.breezil.pixxo.ui.adapter.StaggerdGridRecyclerAdapter;
 import com.example.breezil.pixxo.view_model.MainViewModel;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,8 +33,6 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-import static com.example.breezil.pixxo.BuildConfig.API_KEY;
-import static com.example.breezil.pixxo.utils.Constant.QUICK_SEARCH_STRING;
 import static com.example.breezil.pixxo.utils.Constant.SEARCH_STRING;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 
@@ -124,16 +119,11 @@ public class SearchDefaultFragment extends Fragment {
     }
 
     private void setUpViewModel(){
-        map.put("key",API_KEY);
-        map.put("q","");
-        map.put("lang","en");
-        map.put("image_type","");
-        map.put("category","");
-        map.put("order","popular");
-        map.put("page",1);
+
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel.class);
-        viewModel.getImagesList(map).observe(this,imagesModels -> {
-            adapter.submitList(imagesModels.data);
+        viewModel.getImageList().observe(this,imagesModels -> {
+//            adapter.submitList(imagesModels.data);
+            adapter.submitList(imagesModels);
         });
     }
 
