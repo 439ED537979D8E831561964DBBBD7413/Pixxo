@@ -36,6 +36,7 @@ import dagger.android.AndroidInjection;
 import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
+import static com.example.breezil.pixxo.utils.Constant.MAIN_PHOTO_TYPE;
 import static com.example.breezil.pixxo.utils.Constant.SAVED_PHOTO_TYPE;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.example.breezil.pixxo.utils.Constant.TYPE;
@@ -46,17 +47,15 @@ public class MainActivity extends AppCompatActivity {
     ViewModelFactory viewModelFactory;
     ActivityMainBinding binding;
 
-    MainViewModel viewModel;
     private ImagesRecyclcerViewAdapter imagesRecyclcerViewAdapter;
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
-    ActionBottomSheetFragment actionBottomSheetFragment = new ActionBottomSheetFragment();
-    HashMap<String , Object> map = new HashMap<>();
+
     SharedPreferences sharedPreferences;
-    LinearLayoutManager linearLayoutManager;
 
     String category;
 
-    MainViewModel demoViewModel;
+    MainViewModel viewModel;
+    boolean isTablet;
 
     private ShimmerFrameLayout mShimmerViewContainer;
 
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         binding.shimmerViewContainer.startShimmerAnimation();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 
-        linearLayoutManager = new LinearLayoutManager(this);
 
         setUpAdapter();
         setUpViewModel();
@@ -82,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         logging.redactHeader("Cookie");
         binding.addButton.setOnClickListener(v ->
                 chooseImageBottomDialogFragment.show(getSupportFragmentManager(),"Choose Image"));
+
 
         binding.swipeRefresh.setOnRefreshListener(() -> {
             setUpAdapter();
@@ -94,9 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpAdapter(){
         ImageClickListener imageClickListener = imagesModel -> {
+            isTablet = getResources().getBoolean(R.bool.is_tablet);
             Intent detailIntent = new Intent(this, DetailActivity.class);
             detailIntent.putExtra(SINGLE_PHOTO, imagesModel);
-            detailIntent.putExtra(TYPE, SAVED_PHOTO_TYPE);
+            if(isTablet){
+                detailIntent.putExtra(TYPE, "1");
+            }
             startActivity(detailIntent);
         };
         ImageLongClickListener imageLongClickListener = imagesModel -> {
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
         };
 
-        binding.imageList.setLayoutManager(linearLayoutManager);
+
         imagesRecyclcerViewAdapter
                 = new ImagesRecyclcerViewAdapter(this,imageClickListener,imageLongClickListener);
         binding.imageList.setAdapter(imagesRecyclcerViewAdapter);
@@ -115,13 +117,13 @@ public class MainActivity extends AppCompatActivity {
         String ordeyBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
 
 
-        demoViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
 
-        demoViewModel.setParameter("computer","nature");
+        viewModel.setParameter("computer","nature");
 
 
 
-        demoViewModel.getImageList().observe(this, imagesModels -> {
+        viewModel.getImageList().observe(this, imagesModels -> {
             imagesRecyclcerViewAdapter.submitList(imagesModels);
         });
 
@@ -136,9 +138,6 @@ public class MainActivity extends AppCompatActivity {
         if(binding.swipeRefresh != null){
             binding.swipeRefresh.setRefreshing(false);
         }
-
-
-
 
     }
 
@@ -157,14 +156,20 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 case R.id.explore:
-                    startActivity(new Intent(MainActivity.this,ExploreActivity.class));
+                    Intent exploreIntent = new Intent(MainActivity.this,ExploreActivity.class);
+                    exploreIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(exploreIntent);
                     break;
                 case R.id.saved:
-                    startActivity(new Intent(MainActivity.this,SavedActivity.class));
+                    Intent savedIntent = new Intent(MainActivity.this,SavedActivity.class);
+                    savedIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(savedIntent);
                     break;
                 case R.id.preference:
-                    startActivity(new Intent(MainActivity.this,SettingsActivity.class));
-                    break;
+                    Intent prefIntent = new Intent(MainActivity.this,SettingsActivity.class);
+                    prefIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(prefIntent);
+
             }
 
 

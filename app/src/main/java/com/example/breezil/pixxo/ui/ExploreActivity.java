@@ -94,15 +94,21 @@ public class ExploreActivity extends DaggerAppCompatActivity implements HasSuppo
             switch (item.getItemId()){
 
                 case R.id.trending:
-                    startActivity(new Intent(ExploreActivity.this,MainActivity.class));
+                    Intent trendingIntent = new Intent(ExploreActivity.this,MainActivity.class);
+                    trendingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(trendingIntent);
                     break;
                 case R.id.explore:
                     break;
                 case R.id.saved:
-                    startActivity(new Intent(ExploreActivity.this,SavedActivity.class));
+                    Intent savedIntent = new Intent(ExploreActivity.this,SavedActivity.class);
+                    savedIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(savedIntent);
                     break;
                 case R.id.preference:
-                    startActivity(new Intent(ExploreActivity.this,SettingsActivity.class));
+                    Intent prefIntent = new Intent(ExploreActivity.this,SettingsActivity.class);
+                    prefIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(prefIntent);
                     break;
             }
 

@@ -38,6 +38,10 @@ public class SettingsActivity extends DaggerAppCompatActivity implements HasSupp
 
         binding.addButton.setOnClickListener(v ->
                 chooseImageBottomDialogFragment.show(getSupportFragmentManager(),"Choose Image"));
+
+        binding.aboutText.setOnClickListener(v -> {
+            startActivity(new Intent(this, AboutActivity.class));
+        });
     }
 
     private void setupBottomNavigation() {
@@ -57,13 +61,19 @@ public class SettingsActivity extends DaggerAppCompatActivity implements HasSupp
             switch (item.getItemId()){
 
                 case R.id.trending:
-                    startActivity(new Intent(SettingsActivity.this,MainActivity.class));
+                    Intent trendIntent = new Intent(SettingsActivity.this,MainActivity.class);
+                    trendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(trendIntent);
                     break;
                 case R.id.explore:
-                    startActivity(new Intent(SettingsActivity.this,ExploreActivity.class));
+                    Intent exploreIntent = new Intent(SettingsActivity.this,ExploreActivity.class);
+                    exploreIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(exploreIntent);
                     break;
                 case R.id.saved:
-                    startActivity(new Intent(SettingsActivity.this,SavedActivity.class));
+                    Intent saveIntent = new Intent(SettingsActivity.this,SavedActivity.class);
+                    saveIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(saveIntent);
                     break;
                 case R.id.preference:
 

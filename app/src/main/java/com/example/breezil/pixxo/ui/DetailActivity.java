@@ -29,6 +29,8 @@ public class DetailActivity extends AppCompatActivity implements HasSupportFragm
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
+    boolean isTablet;
+
 
     ActivityDetailBinding binding;
 
@@ -38,10 +40,36 @@ public class DetailActivity extends AppCompatActivity implements HasSupportFragm
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
+        isTablet = getResources().getBoolean(R.bool.is_tablet);
+        if(isTablet){
+            if(getIntent().hasExtra(TYPE)){
+                String type = getIntent().getStringExtra(TYPE);
+                if(type.equals("1")){
+                    tabletDetail();
+                }else {
+                    tabletSearchDetail();
+                }
+            }
 
+        }
         updateToolbar();
-
         loadFragment();
+    }
+
+    private void tabletDetail() {
+        TabletListFragment tabletListFragment = new TabletListFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragmentListContainer,tabletListFragment)
+                .commit();
+    }
+
+    private void tabletSearchDetail() {
+        TabletSearchListFragment tabletSearchListFragment = new TabletSearchListFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentListContainer,tabletSearchListFragment)
+                .commit();
     }
 
     private void updateToolbar(){
@@ -74,5 +102,7 @@ public class DetailActivity extends AppCompatActivity implements HasSupportFragm
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
+
+
 
 }

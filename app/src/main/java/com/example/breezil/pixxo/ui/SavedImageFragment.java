@@ -37,7 +37,6 @@ public class SavedImageFragment extends Fragment {
     FragmentSavedImageBinding binding;
     SavedImageRecyclerAdapter adapter;
     private SavedViewModel savedViewModel;
-    ActionBottomSheetFragment actionBottomSheetFragment = new ActionBottomSheetFragment();
     
     public SavedImageFragment() {
         // Required empty public constructor

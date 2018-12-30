@@ -60,16 +60,22 @@ public class SavedActivity extends DaggerAppCompatActivity implements HasSupport
             switch (item.getItemId()){
 
                 case R.id.trending:
-                    startActivity(new Intent(SavedActivity.this,MainActivity.class));
+                    Intent trendIntent = new Intent(SavedActivity.this,MainActivity.class);
+                    trendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(trendIntent);
                     break;
                 case R.id.explore:
-                    startActivity(new Intent(SavedActivity.this,ExploreActivity.class));
+                    Intent exploreIntent = new Intent(SavedActivity.this,ExploreActivity.class);
+                    exploreIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(exploreIntent);
                     break;
                 case R.id.saved:
 
                     break;
                 case R.id.preference:
-                    startActivity(new Intent(SavedActivity.this,SettingsActivity.class));
+                    Intent prefIntent = new Intent(SavedActivity.this,SettingsActivity.class);
+                    prefIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(prefIntent);
                     break;
             }
 

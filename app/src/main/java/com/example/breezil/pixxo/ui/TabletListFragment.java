@@ -1,12 +1,13 @@
 package com.example.breezil.pixxo.ui;
 
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,47 +16,37 @@ import android.view.ViewGroup;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
-import com.example.breezil.pixxo.databinding.FragmentSearchListBinding;
+import com.example.breezil.pixxo.databinding.FragmentTabletListBinding;
 import com.example.breezil.pixxo.ui.adapter.GridRecyclerAdapter;
+import com.example.breezil.pixxo.ui.adapter.ImagesRecyclcerViewAdapter;
 import com.example.breezil.pixxo.view_model.MainViewModel;
-
-import java.util.HashMap;
+import com.example.breezil.pixxo.view_model.ViewModelFactory;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-import static com.example.breezil.pixxo.utils.Constant.SEARCH_STRING;
+import static com.example.breezil.pixxo.utils.Constant.SAVED_PHOTO_TYPE;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchListFragment extends Fragment {
-
+public class TabletListFragment extends Fragment {
 
     @Inject
-    ViewModelProvider.Factory viewModelFactory;
+    ViewModelFactory viewModelFactory;
 
-    FragmentSearchListBinding binding;
-    MainViewModel viewModel;
+    FragmentTabletListBinding binding;
     GridRecyclerAdapter adapter;
-    String searchString;
-    boolean isTablet;
 
-    public SearchListFragment() {
+
+    MainViewModel viewModel;
+
+    public TabletListFragment() {
         // Required empty public constructor
     }
-
-    public static SearchListFragment getSearchString(String search){
-        SearchListFragment fragment = new SearchListFragment();
-        Bundle args = new Bundle();
-        args.putString(SEARCH_STRING,search);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 
     @Override
     public void onAttach(Context context) {
@@ -63,50 +54,49 @@ public class SearchListFragment extends Fragment {
         super.onAttach(context);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_list, container, false);
-        binding.searchList.hasFixedSize();
-
-        searchString = getArguments().getString(SEARCH_STRING);
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tablet_list, container, false);
         setUpAdapter();
         setUpViewModel();
         return binding.getRoot();
     }
-
     private void setUpAdapter(){
         ImageClickListener imageClickListener = imagesModel -> {
-            isTablet = getResources().getBoolean(R.bool.is_tablet);
-            Intent detailIntent = new Intent(getContext(), DetailActivity.class);
-            detailIntent.putExtra(SINGLE_PHOTO, imagesModel);
-            if(isTablet){
-                detailIntent.putExtra(TYPE, "1");
-            }
-            startActivity(detailIntent);
-
+            PhotoDetailFragment fragment = PhotoDetailFragment.getPhoto(imagesModel);
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.detailFragmentContainer,fragment)
+                    .commit();
         };
-
         ImageLongClickListener imageLongClickListener = imagesModel -> {
             ActionBottomSheetFragment actionBottomSheetFragment = ActionBottomSheetFragment.getImageModel(imagesModel);
             actionBottomSheetFragment.show(getFragmentManager(),"Do something Image");
 
         };
 
-        adapter = new GridRecyclerAdapter(getContext(), imageClickListener, imageLongClickListener);
-        binding.searchList.setAdapter(adapter);
 
+        adapter
+                = new GridRecyclerAdapter(getContext(),imageClickListener,imageLongClickListener);
+        binding.tabletList.setAdapter(adapter);
     }
 
-    private void setUpViewModel(){
+    private void setUpViewModel() {
 
-        viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel.class);
-        viewModel.getImageList().observe(this,imagesModels -> {
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
+
+        viewModel.setParameter("computer","nature");
+
+        viewModel.getImageList().observe(this, imagesModels -> {
             adapter.submitList(imagesModels);
         });
+
+
+
     }
+
 
 }

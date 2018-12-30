@@ -69,11 +69,7 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void updateUi(ImagesModel imagesModel){
-        binding.selectView.setOnClickListener(v -> {
-            Intent detailIntent = new Intent(getContext(), DetailActivity.class);
-            detailIntent.putExtra(SINGLE_PHOTO, imagesModel);
-            startActivity(detailIntent);
-        });
+
         binding.selectEdit.setOnClickListener(v -> {
             Intent editIntent = new Intent(getContext(), EditImageActivity.class);
             editIntent.putExtra(SINGLE_PHOTO, imagesModel.getWebformatURL());

@@ -51,7 +51,8 @@ public class ChooseImageBottomDialogFragment extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater ,R.layout.fragment_choose_image_bottom_dialog, container, false);
+        binding = DataBindingUtil.inflate(inflater ,R.layout.fragment_choose_image_bottom_dialog,
+                container, false);
 
 
 

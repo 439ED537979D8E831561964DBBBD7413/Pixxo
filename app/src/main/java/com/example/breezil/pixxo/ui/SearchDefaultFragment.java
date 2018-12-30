@@ -9,7 +9,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import com.example.breezil.pixxo.databinding.FragmentSearchDefaultBinding;
 
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.ui.adapter.QuickSearchRecyclerListAdapter;
-import com.example.breezil.pixxo.ui.adapter.StaggerdGridRecyclerAdapter;
+import com.example.breezil.pixxo.ui.adapter.GridRecyclerAdapter;
 import com.example.breezil.pixxo.view_model.MainViewModel;
 
 import java.util.Arrays;
@@ -35,6 +34,7 @@ import dagger.android.support.AndroidSupportInjection;
 
 import static com.example.breezil.pixxo.utils.Constant.SEARCH_STRING;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
+import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,12 +45,11 @@ public class SearchDefaultFragment extends Fragment {
     ViewModelProvider.Factory viewModelFactory;
 
     MainViewModel viewModel;
-    StaggerdGridRecyclerAdapter adapter;
+    GridRecyclerAdapter adapter;
     QuickSearchRecyclerListAdapter quickSearchRecyclerListAdapter;
     HashMap<String , Object> map = new HashMap<>();
-    ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
     List<String> quickSearchList;
-
+    boolean isTablet;
     FragmentSearchDefaultBinding binding;
 
     public SearchDefaultFragment() {
@@ -80,8 +79,12 @@ public class SearchDefaultFragment extends Fragment {
 
     private void setUpAdapter(){
         ImageClickListener imageClickListener = imagesModel -> {
+            isTablet = getResources().getBoolean(R.bool.is_tablet);
             Intent detailIntent = new Intent(getContext(), DetailActivity.class);
             detailIntent.putExtra(SINGLE_PHOTO, imagesModel);
+            if(isTablet){
+                detailIntent.putExtra(TYPE, "2");
+            }
             startActivity(detailIntent);
 
         };
@@ -100,12 +103,8 @@ public class SearchDefaultFragment extends Fragment {
             getFragmentManager().beginTransaction().replace(R.id.searchContainer,fragment).commit();
         };
 
-        adapter = new StaggerdGridRecyclerAdapter(getContext(), imageClickListener, imageLongClickListener);
+        adapter = new GridRecyclerAdapter(getContext(), imageClickListener, imageLongClickListener);
         binding.searchDefaultList.setAdapter(adapter);
-        StaggeredGridLayoutManager staggeredGridLayoutManager =
-                new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
-        binding.searchDefaultList.setLayoutManager(staggeredGridLayoutManager);
-
         String[] textArray = getResources().getStringArray(R.array.search_list);
 
         quickSearchList = Arrays.asList(textArray);

@@ -44,8 +44,6 @@ public class PhotoDetailFragment extends Fragment {
     DetailViewModel viewModel;
 
     ActionBottomSheetFragment actionBottomSheetFragment;
-    SavedActionBottomSheetFragment savedActionBottomSheetFragment;
-
 
     public PhotoDetailFragment() {
         // Required empty public constructor

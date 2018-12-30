@@ -24,26 +24,34 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
 
-        <activity android:name=".ui.MainActivity">
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".ui.MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.ExploreActivity"
+        <activity
+            android:name=".ui.ExploreActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.SavedActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.SettingsActivity" />
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".ui.SavedActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"/>
+        <activity android:name=".ui.SettingsActivity"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".ui.DetailActivity"
-            android:parentActivityName=".ui.MainActivity"
-            />
+            android:parentActivityName=".ui.MainActivity" />
+        <activity android:name=".ui.AboutActivity"
+            android:parentActivityName=".ui.SettingsActivity"/>
     </application>
 
 </manifest>
