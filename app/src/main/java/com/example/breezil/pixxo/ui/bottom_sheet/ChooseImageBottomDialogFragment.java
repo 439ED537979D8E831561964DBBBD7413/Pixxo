@@ -58,12 +58,10 @@ public class ChooseImageBottomDialogFragment extends BottomSheetDialogFragment {
 
         binding.selectGallery.setOnClickListener(v -> {
             gotoGallery();
-
         });
 
         binding.selectCamera.setOnClickListener(v -> {
             gotoCamera();
-
         });
         return binding.getRoot();
     }
@@ -89,6 +87,7 @@ public class ChooseImageBottomDialogFragment extends BottomSheetDialogFragment {
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
         }
+
     }
 
     private void gotoGallery() {
@@ -134,6 +133,7 @@ public class ChooseImageBottomDialogFragment extends BottomSheetDialogFragment {
                 Intent editImageIntent = new Intent(getContext(),EditImageActivity.class);
                 editImageIntent.putExtra(EDIT_IMAGE_URI_STRING,String.valueOf(imageUri) );
                 startActivity(editImageIntent);
+                dismiss();
             }
         }
 

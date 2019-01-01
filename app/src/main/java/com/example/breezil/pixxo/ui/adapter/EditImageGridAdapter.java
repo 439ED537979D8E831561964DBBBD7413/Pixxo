@@ -122,11 +122,4 @@ public class EditImageGridAdapter extends BaseAdapter {
         return Uri.parse(path);
     }
 
-    public String bitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] arr=baos.toByteArray();
-        String result=Base64.encodeToString(arr, Base64.DEFAULT);
-        return result;
-    }
 }

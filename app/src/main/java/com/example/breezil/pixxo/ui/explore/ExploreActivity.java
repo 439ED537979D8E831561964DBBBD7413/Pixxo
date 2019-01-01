@@ -57,6 +57,7 @@ public class ExploreActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_explore);
+        viewModel = ViewModelProviders.of(this,viewModelFactory).get(SearchViewModel.class);
 
         setupBottomNavigation();
         binding.addButton.setOnClickListener(v -> {
@@ -77,8 +78,7 @@ public class ExploreActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query != null) {
-
-
+                    refresh(query);
                 }
                 return true;
             }
@@ -109,6 +109,8 @@ public class ExploreActivity extends AppCompatActivity {
         };
 
         QuickSearchListener quickSearchListener = string -> {
+            binding.searchView.setQuery(string,true);
+            refresh(string);
         };
 
         adapter = new GridRecyclerAdapter(this, imageClickListener, imageLongClickListener);
@@ -127,7 +129,6 @@ public class ExploreActivity extends AppCompatActivity {
 
     private void setUpViewModel(){
 
-        viewModel = ViewModelProviders.of(this,viewModelFactory).get(SearchViewModel.class);
 
         viewModel.setParameter("animal","","en","latest");
 
@@ -179,6 +180,12 @@ public class ExploreActivity extends AppCompatActivity {
 
     }
 
+    private void refresh(String search){
+        viewModel.setParameter(search,"","","latest");
 
+        viewModel.refreshImages().observe(this,imagesModels -> {
+            adapter.submitList(imagesModels);
+        });
+    }
 
 }

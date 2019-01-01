@@ -1,6 +1,7 @@
 package com.example.breezil.pixxo.ui.bottom_sheet;
 
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -13,7 +14,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.FragmentSavedActionBottomSheetBinding;
 import com.example.breezil.pixxo.model.SavedImageModel;
+import com.example.breezil.pixxo.ui.ImageSaveUtils;
 import com.example.breezil.pixxo.ui.saved_edit.SavedViewModel;
 import com.example.photoeditor.EditImageActivity;
 
@@ -46,6 +50,7 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
     FragmentSavedActionBottomSheetBinding binding;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    ImageSaveUtils imageSaveUtils;
 
     private SavedViewModel savedViewModel;
 
@@ -69,6 +74,7 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater ,R.layout.fragment_saved_action_bottom_sheet, container, false);
         savedViewModel = ViewModelProviders.of(this).get(SavedViewModel.class);
+        imageSaveUtils = new ImageSaveUtils(getActivity());
         updateUi(getSavedImage());
         return binding.getRoot();
     }
@@ -78,6 +84,7 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
             Intent editIntent = new Intent(getContext(), EditImageActivity.class);
             editIntent.putExtra(SINGLE_PHOTO, savedImageModel.getWebformatURL());
             startActivity(editIntent);
+            dismiss();
         });
         binding.selectDownload.setOnClickListener(v -> {
             Glide.with(getActivity())
@@ -90,13 +97,14 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
 
                         @Override
                         public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            startDownloading(bitmap);
+//                            startDownloading(bitmap);
+                            imageSaveUtils.startDownloading(getContext(),bitmap);
+                            dismiss();
                             return true;
                         }
                     }).submit();
-
             Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
-
+            dismiss();
         });
         binding.selectShare.setOnClickListener(v -> {
             Glide.with(getActivity())
@@ -109,14 +117,16 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
 
                         @Override
                         public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            getLocalBitmapUri(bitmap,getActivity());
-                            startSharing(getLocalBitmapUri(bitmap,getActivity()));
+//                            startSharing(getLocalBitmapUri(bitmap,getActivity()));
+                            startSharing(imageSaveUtils.getLocalBitmapUri(bitmap,getActivity()));
                             return true;
                         }
                     }).submit();
+
         });
         binding.selectDelete.setOnClickListener(v -> {
-            savedViewModel.delete(savedImageModel);
+            showDeleteDialog(savedImageModel);
+
         });
     }
 
@@ -125,49 +135,27 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
         shareIntent.setType("image/jpg");
         shareIntent.putExtra(Intent.EXTRA_STREAM,localBitmapUri);
         startActivity(Intent.createChooser(shareIntent, "Share image using"));
+        dismiss();
     }
 
-    private void startDownloading(Bitmap bitmap){
-        ContextWrapper wrapper = new ContextWrapper(getActivity());
+    private void showDeleteDialog(SavedImageModel savedImageModel) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(false);
+        builder.setMessage("Are you sure, you want to delete this image?").
+                setPositiveButton("Yes", (dialog, which) -> {
+                   savedViewModel.delete(savedImageModel);
 
-        Random generator = new Random();
-        int n = 10000;
-        n = generator.nextInt(n);
-        String fname = "Image-"+ n +".jpg";
 
-        File myDir = wrapper.getDir("Images",Context.MODE_PRIVATE);
-
-        File file = new File (myDir, fname);
-        if (file.exists ()) file.delete ();
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    Toast.makeText(getActivity(), "Image Deleted", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    dismiss();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setTitle("Delete Image");
+        alertDialog.show();
 
     }
-
-
-    static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
-        Uri bmpUri = null;
-        try {
-            File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                    "share_image_" + System.currentTimeMillis() + ".png");
-            FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.flush();
-            out.close();
-            bmpUri = Uri.fromFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmpUri;
-    }
-
 
     private SavedImageModel getSavedImage(){
         if(getArguments().getParcelable(SINGLE_PHOTO) != null){

@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.shimmerViewContainer.startShimmerAnimation();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
 
         setUpAdapter();
         setUpViewModel();
@@ -82,15 +82,9 @@ public class MainActivity extends AppCompatActivity {
         binding.addButton.setOnClickListener(v ->
                 chooseImageBottomDialogFragment.show(getSupportFragmentManager(),"Choose Image"));
 
-
-        binding.swipeRefresh.setOnRefreshListener(() -> {
-            setUpAdapter();
-            setUpViewModel();
-        });
-
+        binding.swipeRefresh.setOnRefreshListener(this::refresh);
 
     }
-
 
     private void setUpAdapter(){
         ImageClickListener imageClickListener = imagesModel -> {
@@ -118,11 +112,9 @@ public class MainActivity extends AppCompatActivity {
         String ordeyBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
 
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
-
-        viewModel.setParameter("","computer","en","popular");
 
 
+        viewModel.setParameter("","computer","en","latest");
 
         viewModel.getImageList().observe(this, imagesModels -> {
             imagesRecyclcerViewAdapter.submitList(imagesModels);
@@ -140,6 +132,18 @@ public class MainActivity extends AppCompatActivity {
             binding.swipeRefresh.setRefreshing(false);
         }
 
+    }
+
+
+    private void refresh(){
+        viewModel.setParameter("","computer","en","popular");
+
+        viewModel.getImageList().observe(this, imagesModels -> {
+            imagesRecyclcerViewAdapter.submitList(imagesModels);
+        });
+        if(binding.swipeRefresh != null){
+            binding.swipeRefresh.setRefreshing(false);
+        }
     }
 
     private void setupBottomNavigation(){

@@ -1,13 +1,11 @@
 package com.example.breezil.pixxo.ui.bottom_sheet;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.Fragment;
@@ -19,21 +17,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.FragmentActionBottomSheetBinding;
 import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.model.SavedImageModel;
+import com.example.breezil.pixxo.ui.ImageSaveUtils;
 import com.example.breezil.pixxo.ui.saved_edit.SavedViewModel;
 import com.example.photoeditor.EditImageActivity;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 
 /**
@@ -42,6 +33,8 @@ import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
 
     FragmentActionBottomSheetBinding binding;
+
+    ImageSaveUtils imageSaveUtils;
 
     public static ActionBottomSheetFragment getImageModel(ImagesModel imagesModel){
         ActionBottomSheetFragment fragment = new ActionBottomSheetFragment();
@@ -62,6 +55,8 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater ,R.layout.fragment_action_bottom_sheet, container, false);
+        imageSaveUtils = new ImageSaveUtils(getActivity());
+
         updateUi(getImage());
         return binding.getRoot();
     }
@@ -72,7 +67,7 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
             Intent editIntent = new Intent(getContext(), EditImageActivity.class);
             editIntent.putExtra(SINGLE_PHOTO, imagesModel.getWebformatURL());
             startActivity(editIntent);
-
+            dismiss();
         });
 
         binding.selectSaved.setOnClickListener(v -> {
@@ -83,8 +78,9 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                     imagesModel.getType(),imagesModel.getTags(), imagesModel.getDownloads(),imagesModel.getUser(),
                     imagesModel.getFavorites(),imagesModel.getUserImageURL(), imagesModel.getPreviewURL());
             savedViewModel.insert(savedImageModel);
-            dismiss();
+
             Toast.makeText(getContext(),"Saved ",Toast.LENGTH_LONG).show();
+            dismiss();
         });
 
         binding.selectDownload.setOnClickListener(v -> {
@@ -98,27 +94,26 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
 
                         @Override
                         public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            startDownloading(getContext(),bitmap);
+                            imageSaveUtils.startDownloading(getActivity(),bitmap);
                             return true;
                         }
                     }).submit();
 
             Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
+            dismiss();
         });
         binding.selectShare.setOnClickListener(v -> {
-
             Glide.with(getActivity())
                     .asBitmap().load(imagesModel.getWebformatURL())
                     .listener(new RequestListener<Bitmap>() {
                         @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, boolean isFirstResource) {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                             return false;
                         }
 
                         @Override
-                        public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            getLocalBitmapUri(bitmap,getActivity());
-                            startSharing(getLocalBitmapUri(bitmap,getActivity()));
+                        public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            startSharing(imageSaveUtils.getLocalBitmapUri(bitmap,getActivity()));
                             return true;
                         }
                     }).submit();
@@ -132,69 +127,7 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
         shareIntent.setType("image/jpg");
         shareIntent.putExtra(Intent.EXTRA_STREAM,localBitmapUri);
         startActivity(Intent.createChooser(shareIntent, "Share image using"));
-    }
-
-    static String startDownloading(Context context, Bitmap image) {
-
-        String savedImagePath = null;
-
-        // Create the new file in the external storage
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                Locale.getDefault()).format(new Date());
-        String imageFileName = "Pixxo" + timeStamp + ".jpg";
-        File storageDir = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                        + "/Pixxo");
-        boolean success = true;
-        if (!storageDir.exists()) {
-            success = storageDir.mkdirs();
-        }
-
-        // Save the new Bitmap
-        if (success) {
-            File imageFile = new File(storageDir, imageFileName);
-            savedImagePath = imageFile.getAbsolutePath();
-            try {
-                OutputStream fOut = new FileOutputStream(imageFile);
-                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-                fOut.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            // Add the image to the system gallery
-            galleryAddPic(context, savedImagePath);
-
-        }
-
-        return savedImagePath;
-    }
-
-    private static void galleryAddPic(Context context, String imagePath) {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(imagePath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        context.sendBroadcast(mediaScanIntent);
-    }
-
-
-
-
-    static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
-        Uri bmpUri = null;
-        try {
-            File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                    "share_image_" + System.currentTimeMillis() + ".png");
-            FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.flush();
-            out.close();
-            bmpUri = Uri.fromFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmpUri;
+        dismiss();
     }
 
 
