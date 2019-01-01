@@ -13,7 +13,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.disposables.CompositeDisposable;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.breezil.pixxo.BuildConfig.BASE_URL;
@@ -27,7 +29,8 @@ public class AppModule {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
+//                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttp.getClient())
                 .build()
                 .create(ImagesApi.class);
@@ -38,4 +41,10 @@ public class AppModule {
     AppDatabase provideDb(Application app) {
         return Room.databaseBuilder(app, AppDatabase.class, "pixxo.db").build();
     }
+
+    @Provides
+    CompositeDisposable provideCompositeDisposable(){
+        return new CompositeDisposable();
+    }
+
 }

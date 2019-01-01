@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.detail;
 
 
 import android.arch.lifecycle.ViewModelProvider;
@@ -17,14 +17,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.breezil.pixxo.databinding.FragmentPhotoDetailBinding;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.model.ImagesModel;
-import com.example.breezil.pixxo.model.SavedImageModel;
-import com.example.breezil.pixxo.view_model.DetailViewModel;
+import com.example.breezil.pixxo.ui.bottom_sheet.ActionBottomSheetFragment;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-import static com.example.breezil.pixxo.utils.Constant.SAVED_PHOTO_TYPE;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.example.breezil.pixxo.utils.Constant.TYPE;
 

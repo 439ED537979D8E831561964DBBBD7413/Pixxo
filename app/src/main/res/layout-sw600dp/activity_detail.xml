@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:baselineAligned="false"
-        tools:context=".ui.DetailActivity">
+        tools:context=".ui.detail.DetailActivity">
 
         <LinearLayout
             android:id="@+id/tab_container"

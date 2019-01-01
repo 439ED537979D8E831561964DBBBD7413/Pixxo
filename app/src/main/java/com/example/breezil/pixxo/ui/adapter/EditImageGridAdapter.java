@@ -1,7 +1,6 @@
 package com.example.breezil.pixxo.ui.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,11 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.model.EditedModel;
-import com.example.breezil.pixxo.ui.SavedImageDialogFragment;
+import com.example.breezil.pixxo.ui.saved_edit.SavedImageDialogFragment;
 import com.example.photoeditor.EditImageActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -26,8 +24,6 @@ import java.util.List;
 
 import static com.example.breezil.pixxo.utils.Constant.EDITED_TYPE;
 import static com.example.breezil.pixxo.utils.Constant.EDIT_IMAGE_URI_STRING;
-import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
-import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
 public class EditImageGridAdapter extends BaseAdapter {
 

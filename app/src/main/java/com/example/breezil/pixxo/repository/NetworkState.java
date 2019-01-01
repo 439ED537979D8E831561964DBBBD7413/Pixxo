@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.api;
+package com.example.breezil.pixxo.repository;
 
 public class NetworkState {
     public enum Status {

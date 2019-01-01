@@ -11,8 +11,8 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.example.breezil.pixxo.R;
-import com.example.breezil.pixxo.ui.EditSavedFragment;
-import com.example.breezil.pixxo.ui.SavedImageFragment;
+import com.example.breezil.pixxo.ui.saved_edit.EditSavedFragment;
+import com.example.breezil.pixxo.ui.saved_edit.SavedImageFragment;
 
 public class SavedPagerAdapter  extends FragmentStatePagerAdapter {
     Context context;

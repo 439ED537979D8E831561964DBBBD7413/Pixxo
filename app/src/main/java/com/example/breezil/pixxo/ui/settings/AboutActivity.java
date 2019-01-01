@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.settings;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;

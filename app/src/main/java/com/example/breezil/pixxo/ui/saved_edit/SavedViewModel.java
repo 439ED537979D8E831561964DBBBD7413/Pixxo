@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.view_model;
+package com.example.breezil.pixxo.ui.saved_edit;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;

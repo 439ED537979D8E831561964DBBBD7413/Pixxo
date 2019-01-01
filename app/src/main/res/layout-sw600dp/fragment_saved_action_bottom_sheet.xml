@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:background="@color/dark"
         android:weightSum="8"
-        tools:context=".ui.SavedActionBottomSheetFragment"
+        tools:context=".ui.bottom_sheet.SavedActionBottomSheetFragment"
         >
 
         <TextView

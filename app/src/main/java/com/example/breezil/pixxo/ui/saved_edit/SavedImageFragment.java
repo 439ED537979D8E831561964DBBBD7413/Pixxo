@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.saved_edit;
 
 
 import android.app.AlertDialog;
@@ -19,7 +19,7 @@ import com.example.breezil.pixxo.callbacks.SavedImageClickListener;
 import com.example.breezil.pixxo.callbacks.SavedImageLongClickListener;
 import com.example.breezil.pixxo.databinding.FragmentSavedImageBinding;
 import com.example.breezil.pixxo.ui.adapter.SavedImageRecyclerAdapter;
-import com.example.breezil.pixxo.view_model.SavedViewModel;
+import com.example.breezil.pixxo.ui.bottom_sheet.SavedActionBottomSheetFragment;
 
 import javax.inject.Inject;
 

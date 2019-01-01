@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:background="@color/dark"
         android:weightSum="10"
-        tools:context=".ui.ChooseImageBottomDialogFragment"
+        tools:context=".ui.bottom_sheet.ChooseImageBottomDialogFragment"
         >
 
         <TextView

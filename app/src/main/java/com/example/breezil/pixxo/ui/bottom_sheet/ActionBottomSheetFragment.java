@@ -1,15 +1,13 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.bottom_sheet;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.Fragment;
@@ -25,7 +23,7 @@ import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.FragmentActionBottomSheetBinding;
 import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.model.SavedImageModel;
-import com.example.breezil.pixxo.view_model.SavedViewModel;
+import com.example.breezil.pixxo.ui.saved_edit.SavedViewModel;
 import com.example.photoeditor.EditImageActivity;
 
 import java.io.File;
@@ -35,7 +33,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Random;
+
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 
 /**

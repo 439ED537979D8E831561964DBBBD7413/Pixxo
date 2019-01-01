@@ -1,12 +1,12 @@
 package com.example.breezil.pixxo.di.module;
 
-import com.example.breezil.pixxo.ui.ExploreActivity;
+import com.example.breezil.pixxo.ui.explore.ExploreActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
 public abstract class SearchActivityModule {
-    @ContributesAndroidInjector ( modules = SearchFragmentModule.class )
+    @ContributesAndroidInjector()
     abstract ExploreActivity contibuteExploreActivity();
 }

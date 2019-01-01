@@ -1,7 +1,7 @@
 package com.example.breezil.pixxo.di.module;
 
-import com.example.breezil.pixxo.ui.EditSavedFragment;
-import com.example.breezil.pixxo.ui.SavedImageFragment;
+import com.example.breezil.pixxo.ui.saved_edit.EditSavedFragment;
+import com.example.breezil.pixxo.ui.saved_edit.SavedImageFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

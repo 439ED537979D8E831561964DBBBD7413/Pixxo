@@ -1,13 +1,12 @@
 package com.example.breezil.pixxo.api;
 
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.Nullable;
 
 import com.example.breezil.pixxo.model.ImagesResult;
-import com.example.breezil.pixxo.utils.helper.ApiResponse;
 
 import java.util.Map;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -53,18 +52,31 @@ public interface ImagesApi {
         }
     }
 
+    enum Language{
+        ;
+        private String lang;
 
-//    @GET("api/")
-//    LiveData<ApiResponse<ImagesResult>> getImages(@QueryMap Map<String, Object> parameter
-//    );
+        Language(String lang) {
+            this.lang = lang;
+        }
+    }
+    enum Order {
+        ;
+        private String order;
+
+        Order(String order) {
+            this.order = order;
+        }
+    }
+
 
 
     @GET("api/")
-    Call<ImagesResult> getImagess(@QueryMap Map<String, Object> parameter
-    );
-
-    @GET("api/")
-    Call<ImagesResult> getImages(@Query("key")@Nullable String key,
+    Single<ImagesResult> getImages(@Query("key")@Nullable String key,
+                                   @Query("q")@Nullable String search,
+                                   @Query("lang")@Nullable String lang,
+                                   @Query("category")@Nullable String category,
+                                   @Query("order")@Nullable String order,
                                    @Query("page")int page,
                                    @Query("per_page")int per_page
     );

@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.main;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,15 +15,19 @@ import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.example.breezil.pixxo.databinding.ActivityMainBinding;
+import com.example.breezil.pixxo.ui.detail.DetailActivity;
+import com.example.breezil.pixxo.ui.explore.ExploreActivity;
+import com.example.breezil.pixxo.ui.saved_edit.SavedActivity;
+import com.example.breezil.pixxo.ui.settings.SettingsActivity;
 import com.example.breezil.pixxo.ui.adapter.ImagesRecyclcerViewAdapter;
+import com.example.breezil.pixxo.ui.bottom_sheet.ActionBottomSheetFragment;
+import com.example.breezil.pixxo.ui.bottom_sheet.ChooseImageBottomDialogFragment;
 import com.example.breezil.pixxo.utils.BottomNavigationHelper;
-import com.example.breezil.pixxo.view_model.MainViewModel;
 import com.example.breezil.pixxo.view_model.ViewModelFactory;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -36,8 +39,6 @@ import dagger.android.AndroidInjection;
 import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
-import static com.example.breezil.pixxo.utils.Constant.MAIN_PHOTO_TYPE;
-import static com.example.breezil.pixxo.utils.Constant.SAVED_PHOTO_TYPE;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
 
-        viewModel.setParameter("computer","nature");
+        viewModel.setParameter("","computer","en","popular");
 
 
 

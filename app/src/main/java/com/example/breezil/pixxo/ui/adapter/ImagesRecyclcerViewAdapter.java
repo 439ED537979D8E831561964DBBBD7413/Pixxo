@@ -17,7 +17,7 @@ import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.example.breezil.pixxo.databinding.ImageItemBinding;
 import com.example.breezil.pixxo.databinding.ItemNetworkStateBinding;
 import com.example.breezil.pixxo.model.ImagesModel;
-import com.example.breezil.pixxo.api.NetworkState;
+import com.example.breezil.pixxo.repository.NetworkState;
 
 public class ImagesRecyclcerViewAdapter extends PagedListAdapter<ImagesModel, RecyclerView.ViewHolder> {
 

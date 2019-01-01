@@ -22,7 +22,7 @@ public class ImageDataSourceFactory extends DataSource.Factory<Integer, ImagesMo
 
     @Override
     public DataSource<Integer, ImagesModel> create() {
-        dataSource = new ImageModelDataSource(imagesApi);
+//        dataSource = new ImageModelDataSource(imagesApi);
         imageDataSourceMutableLiveData.postValue(dataSource);
 
         return dataSource;

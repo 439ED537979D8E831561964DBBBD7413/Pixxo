@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.detail;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
@@ -16,6 +16,7 @@ import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import com.example.breezil.pixxo.databinding.ActivityDetailBinding;
+
 import dagger.android.support.HasSupportFragmentInjector;
 
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
@@ -44,10 +45,10 @@ public class DetailActivity extends AppCompatActivity implements HasSupportFragm
         if(isTablet){
             if(getIntent().hasExtra(TYPE)){
                 String type = getIntent().getStringExtra(TYPE);
-                if(type.equals("1")){
-                    tabletDetail();
-                }else {
+                if(type.equals("2")){
                     tabletSearchDetail();
+                }else if(type.equals("1")) {
+                    tabletDetail();
                 }
             }
 

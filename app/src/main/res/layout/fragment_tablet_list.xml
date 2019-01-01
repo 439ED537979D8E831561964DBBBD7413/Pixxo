@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/image_item"
-        tools:context=".ui.TabletListFragment">
+        tools:context=".ui.detail.TabletListFragment">
 
 
     </android.support.v7.widget.RecyclerView>

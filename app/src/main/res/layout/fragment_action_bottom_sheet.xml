@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:background="@color/dark"
 
-        tools:context=".ui.ActionBottomSheetFragment"
+        tools:context=".ui.bottom_sheet.ActionBottomSheetFragment"
         >
 
         <TextView

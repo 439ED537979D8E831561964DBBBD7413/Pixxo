@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.saved_edit;
 
 
 import android.content.Context;
@@ -37,6 +37,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
     FragmentEditSavedBinding binding;
 
     List<EditedModel> gridItems;
+    GridView gridView;
 
     public EditSavedFragment() {
         // Required empty public constructor
@@ -53,12 +54,17 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_saved, container, false);
+        View view = inflater.inflate( R.layout.fragment_edit_saved, container, false);
 
-        setGridAdapter(PIXXO_EDITED);
+        gridView =  view.findViewById(R.id.editGrid);
+
+        if(PIXXO_EDITED != null){
+            setGridAdapter(PIXXO_EDITED);
+        }
 
 
-        return binding.getRoot();
+
+        return view;
 
     }
 
@@ -69,7 +75,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
         EditImageGridAdapter adapter = new EditImageGridAdapter(getActivity(), gridItems,getFragmentManager());
         Collections.reverse(gridItems);
 
-        binding.editGrid.setAdapter(adapter);
+        gridView.setAdapter(adapter);
     }
 
     private List<EditedModel> createGridItems(String directoryPath) {

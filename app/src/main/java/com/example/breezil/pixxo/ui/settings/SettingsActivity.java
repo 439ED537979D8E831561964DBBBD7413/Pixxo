@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.settings;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -8,8 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.breezil.pixxo.R;
-import com.example.breezil.pixxo.databinding.ActivitySavedBinding;
-import com.example.breezil.pixxo.ui.adapter.SavedPagerAdapter;
+import com.example.breezil.pixxo.databinding.ActivityPreferenceBinding;
+import com.example.breezil.pixxo.ui.saved_edit.SavedActivity;
+import com.example.breezil.pixxo.ui.bottom_sheet.ChooseImageBottomDialogFragment;
+import com.example.breezil.pixxo.ui.explore.ExploreActivity;
+import com.example.breezil.pixxo.ui.main.MainActivity;
 import com.example.breezil.pixxo.utils.BottomNavigationHelper;
 
 import javax.inject.Inject;
@@ -20,28 +23,30 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.DaggerAppCompatActivity;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class SavedActivity extends DaggerAppCompatActivity implements HasSupportFragmentInjector {
+public class SettingsActivity extends DaggerAppCompatActivity implements HasSupportFragmentInjector {
 
-    ActivitySavedBinding binding;
+
+    ActivityPreferenceBinding binding;
+    ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
-    SavedPagerAdapter pagerAdapter;
-    ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_saved);
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_preference);
         setupBottomNavigation();
-        setupAdapter();
 
         binding.addButton.setOnClickListener(v ->
                 chooseImageBottomDialogFragment.show(getSupportFragmentManager(),"Choose Image"));
-    }
 
+        binding.aboutText.setOnClickListener(v -> {
+            startActivity(new Intent(this, AboutActivity.class));
+        });
+    }
 
     private void setupBottomNavigation() {
 
@@ -49,7 +54,7 @@ public class SavedActivity extends DaggerAppCompatActivity implements HasSupport
 
 
         Menu menu = binding.bottomNavViewBar.getMenu();
-        MenuItem menuItem= menu.getItem(3);
+        MenuItem menuItem= menu.getItem(4);
         menuItem.setChecked(true);
 
 
@@ -60,36 +65,28 @@ public class SavedActivity extends DaggerAppCompatActivity implements HasSupport
             switch (item.getItemId()){
 
                 case R.id.trending:
-                    Intent trendIntent = new Intent(SavedActivity.this,MainActivity.class);
+                    Intent trendIntent = new Intent(SettingsActivity.this,MainActivity.class);
                     trendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(trendIntent);
                     break;
                 case R.id.explore:
-                    Intent exploreIntent = new Intent(SavedActivity.this,ExploreActivity.class);
+                    Intent exploreIntent = new Intent(SettingsActivity.this,ExploreActivity.class);
                     exploreIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(exploreIntent);
                     break;
                 case R.id.saved:
-
+                    Intent saveIntent = new Intent(SettingsActivity.this,SavedActivity.class);
+                    saveIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(saveIntent);
                     break;
                 case R.id.preference:
-                    Intent prefIntent = new Intent(SavedActivity.this,SettingsActivity.class);
-                    prefIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(prefIntent);
+
                     break;
             }
 
 
             return false;
         });
-
-    }
-
-    void setupAdapter(){
-        pagerAdapter = new SavedPagerAdapter(getSupportFragmentManager(), this);
-        binding.container.setAdapter(pagerAdapter);
-        binding.tabs.setupWithViewPager(binding.container);
-        binding.container.setCurrentItem(0,false);
 
     }
 

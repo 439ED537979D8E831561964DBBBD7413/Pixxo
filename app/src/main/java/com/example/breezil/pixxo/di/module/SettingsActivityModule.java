@@ -1,6 +1,6 @@
 package com.example.breezil.pixxo.di.module;
 
-import com.example.breezil.pixxo.ui.SettingsActivity;
+import com.example.breezil.pixxo.ui.settings.SettingsActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

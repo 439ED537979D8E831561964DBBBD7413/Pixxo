@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.bottom_sheet;
 
 
 import android.arch.lifecycle.ViewModelProvider;
@@ -26,7 +26,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.FragmentSavedActionBottomSheetBinding;
 import com.example.breezil.pixxo.model.SavedImageModel;
-import com.example.breezil.pixxo.view_model.SavedViewModel;
+import com.example.breezil.pixxo.ui.saved_edit.SavedViewModel;
 import com.example.photoeditor.EditImageActivity;
 
 import java.io.File;

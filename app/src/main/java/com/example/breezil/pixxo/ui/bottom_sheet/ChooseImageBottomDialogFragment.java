@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.bottom_sheet;
 
 
 import android.content.Intent;

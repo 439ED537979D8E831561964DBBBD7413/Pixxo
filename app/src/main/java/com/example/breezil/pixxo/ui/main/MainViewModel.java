@@ -1,34 +1,31 @@
-package com.example.breezil.pixxo.view_model;
+package com.example.breezil.pixxo.ui.main;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
-import com.example.breezil.pixxo.api.NetworkState;
+import com.example.breezil.pixxo.repository.NetworkState;
 import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.repository.ImageDataSourceFactory;
 import com.example.breezil.pixxo.repository.ImageModelDataSource;
-import com.example.breezil.pixxo.repository.Repository;
 import com.example.breezil.pixxo.utils.helper.AppExecutors;
 
 import javax.inject.Inject;
 
 
 public class MainViewModel extends ViewModel {
-    Repository repository;
     private LiveData<PagedList<ImagesModel>> imageList;
     private LiveData<NetworkState> networkState;
     private LiveData<NetworkState> initialLoading;
     private AppExecutors appsExecutor;
-
     private ImageDataSourceFactory imageDataSourceFactory;
-    String mSearch;
 
     @Inject
     MainViewModel(ImageDataSourceFactory imageDataSourceFactory, AppExecutors appsExecutor) {
         this.imageDataSourceFactory = imageDataSourceFactory;
         this.appsExecutor = appsExecutor;
+
 
 
         networkState = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),
@@ -55,9 +52,11 @@ public class MainViewModel extends ViewModel {
     public LiveData<PagedList<ImagesModel>>getImageList(){
         return imageList;
     }
-    public void setParameter(String search, String category){
+    public void setParameter(String search, String category, String lang,String order){
         imageDataSourceFactory.getDataSource().setSearch(search);
         imageDataSourceFactory.getDataSource().setCategory(category);
+        imageDataSourceFactory.getDataSource().setLang(lang);
+        imageDataSourceFactory.getDataSource().setOrder(order);
     }
 
     public void setNetworkState() {

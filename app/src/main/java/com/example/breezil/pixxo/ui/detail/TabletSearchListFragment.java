@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.ui;
+package com.example.breezil.pixxo.ui.detail;
 
 
 import android.arch.lifecycle.ViewModelProvider;
@@ -18,21 +18,19 @@ import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.example.breezil.pixxo.callbacks.QuickSearchListener;
 import com.example.breezil.pixxo.databinding.FragmentTabletSearchListBinding;
-import com.example.breezil.pixxo.ui.adapter.GridRecyclerAdapter;
 import com.example.breezil.pixxo.ui.adapter.ImagesRecyclcerViewAdapter;
 import com.example.breezil.pixxo.ui.adapter.QuickSearchRecyclerListAdapter;
-import com.example.breezil.pixxo.view_model.MainViewModel;
+import com.example.breezil.pixxo.ui.bottom_sheet.ActionBottomSheetFragment;
+import com.example.breezil.pixxo.ui.explore.SearchViewModel;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-import static com.example.breezil.pixxo.utils.Constant.SEARCH_STRING;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 
 /**
@@ -43,7 +41,7 @@ public class TabletSearchListFragment extends Fragment {
     ViewModelProvider.Factory viewModelFactory;
 
     FragmentTabletSearchListBinding binding;
-    MainViewModel viewModel;
+    SearchViewModel viewModel;
     ImagesRecyclcerViewAdapter adapter;
 
     QuickSearchRecyclerListAdapter quickSearchRecyclerListAdapter;
@@ -88,11 +86,7 @@ public class TabletSearchListFragment extends Fragment {
         };
 
         QuickSearchListener quickSearchListener = string -> {
-            SearchListFragment fragment = new SearchListFragment();
-            Bundle args = new Bundle();
-            args.putString(SEARCH_STRING, string);
-            fragment.setArguments(args);
-            getFragmentManager().beginTransaction().replace(R.id.searchContainer,fragment).commit();
+
         };
 
         adapter = new ImagesRecyclcerViewAdapter(getContext(), imageClickListener, imageLongClickListener);
@@ -111,8 +105,8 @@ public class TabletSearchListFragment extends Fragment {
 
     private void setUpViewModel(){
 
-        viewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel.class);
-        viewModel.getImageList().observe(this,imagesModels -> {
+        viewModel = ViewModelProviders.of(this,viewModelFactory).get(SearchViewModel.class);
+        viewModel.getSearchList().observe(this,imagesModels -> {
 //            adapter.submitList(imagesModels.data);
             adapter.submitList(imagesModels);
         });
