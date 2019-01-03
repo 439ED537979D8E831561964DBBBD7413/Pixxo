@@ -85,7 +85,10 @@ public class ExploreActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                if(newText != null) {
+                    refresh(newText);
+                }
+                return true;
             }
         });
     }
@@ -130,7 +133,7 @@ public class ExploreActivity extends AppCompatActivity {
     private void setUpViewModel(){
 
 
-        viewModel.setParameter("animal","","en","latest");
+        viewModel.setParameter("","","en","random");
 
         viewModel.getSearchList().observe(this,imagesModels -> {
             adapter.submitList(imagesModels);
@@ -181,7 +184,7 @@ public class ExploreActivity extends AppCompatActivity {
     }
 
     private void refresh(String search){
-        viewModel.setParameter(search,"","","latest");
+        viewModel.setParameter(search,"","","random");
 
         viewModel.refreshImages().observe(this,imagesModels -> {
             adapter.submitList(imagesModels);

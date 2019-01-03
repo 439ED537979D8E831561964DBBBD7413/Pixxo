@@ -11,9 +11,15 @@
     <string name="edited">Edited</string>
 
     <string name="pref_category_label">Category</string>
-    <string name="pref_category_all_value" translatable="false"></string>
-    <string name="pref_category_key" translatable="false">category</string>
+    <string name="pref_category_all_value"></string>
+    <string name="pref_category_key" translatable="false">category-key</string>
+
+    <!--  by-->
     <string name="pref_orderby_key" translatable="false">orderby</string>
+    <string name="pref_order_by_label">Order By</string>
+    <string name="pref_order_by_all_value" translatable="false"></string>
+
+    <string name="pref_order_by_all" translatable="false">None</string>
 
     <!-- quick search -->
     <string name="music">music</string>
@@ -37,13 +43,59 @@
     <string name="buildings">buildings</string>
     <string name="business">business</string>
 
-    <!--  by-->
-    <string name="pref_order_by_label">Order By</string>
-    <string name="pref_order_by_all_value" translatable="false"></string>
+
+
+    <!-- quick search -->
+    <string name="pref_music">music</string>
+    <string name="pref_music_value">music</string>
+    <string name="pref_fashion">fashion</string>
+    <string name="pref_fashion_value">fashion</string>
+    <string name="pref_nature">nature</string>
+    <string name="pref_nature_value">nature</string>
+    <string name="pref_backgrounds">backgrounds</string>
+    <string name="pref_backgrounds_value">backgrounds</string>
+    <string name="pref_science">science</string>
+    <string name="pref_science_value">science</string>
+    <string name="pref_education">education</string>
+    <string name="pref_education_value">education</string>
+    <string name="pref_people">people</string>
+    <string name="pref_people_value">people</string>
+    <string name="pref_feelings">feelings</string>
+    <string name="pref_feelings_value">feelings</string>
+    <string name="pref_religion">religion</string>
+    <string name="pref_religion_value">religion</string>
+    <string name="pref_health">health</string>
+    <string name="pref_health_value">health</string>
+    <string name="pref_places">places</string>
+    <string name="pref_places_value">places</string>
+    <string name="pref_animals">animals</string>
+    <string name="pref_animals_value">animals</string>
+    <string name="pref_industry">industry</string>
+    <string name="pref_industry_value">industry</string>
+    <string name="pref_food">food</string>
+    <string name="pref_food_value">food</string>
+    <string name="pref_computer">computer</string>
+    <string name="pref_computer_value">computer</string>
+    <string name="pref_sports">sports</string>
+    <string name="pref_sports_value">sports</string>
+    <string name="pref_transportation">transportation</string>
+    <string name="pref_transportation_value">transportation</string>
+    <string name="pref_travel">travel</string>
+    <string name="pref_travel_value">travel</string>
+    <string name="pref_buildings">buildings</string>
+    <string name="pref_buildings_value">buildings</string>
+    <string name="pref_business">business</string>
+    <string name="pref_business_value">business</string>
+
+
 
     <!-- order by-->
-    <string name="popular">popular</string>
-    <string name="latest">latest</string>
+    <string name="pref_popular">popular</string>
+    <string name="pref_popular_value">popular</string>
+    <string name="pref_latest">latest</string>
+    <string name="pref_latest_value">latest</string>
+
+
 
     <string name="about_description">FavNews an awesome app.\n\n Where you can keep up on your latest and favorite world news from any cable source around the world, Build with Android Architecture Components(MVVM), also implemented Dagger2. This app let you sortby your favorite news source and mark news as bookmark to read later. \n\n Made with love by Kola Emiola and Api by NewsApi.org </string>
 
@@ -62,6 +114,10 @@
     <string name="version">Version: 1.0</string>
     <string name="libraries">Libraries</string>
     <string name="copy_right">Copyrights © %1$d</string>
+
+
+
+
 
 
 </resources>

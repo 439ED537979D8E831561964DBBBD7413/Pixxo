@@ -34,8 +34,6 @@ import static com.example.breezil.pixxo.utils.Constant.PIXXO_EDITED;
  */
 public class EditSavedFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    FragmentEditSavedBinding binding;
-
     List<EditedModel> gridItems;
     GridView gridView;
 
@@ -61,14 +59,12 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
         if(PIXXO_EDITED != null){
             setGridAdapter(PIXXO_EDITED);
         }
-
-
-
         return view;
 
     }
 
     private void setGridAdapter(String path) {
+
 
         gridItems = createGridItems(path);
 
@@ -79,10 +75,12 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     private List<EditedModel> createGridItems(String directoryPath) {
-        List<EditedModel> items = new ArrayList<EditedModel>();
+        List<EditedModel> items = new ArrayList<>();
 
         // List all the items within the folder.
+
         File[] files = new File(directoryPath).listFiles(new ImageFileFilter());
+
         for (File file : files) {
 
             // Add the directories containing images or sub-directories
@@ -96,6 +94,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
                 Bitmap image = BitmapHelper.decodeBitmapFromFile(file.getAbsolutePath());
                 items.add(new EditedModel(file.getAbsolutePath(), false, image));
             }
+
         }
 
         return items;

@@ -49,7 +49,6 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,7 +90,6 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, boolean isFirstResource) {
                             return false;
                         }
-
                         @Override
                         public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                             imageSaveUtils.startDownloading(getActivity(),bitmap);
@@ -114,6 +112,7 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                         @Override
                         public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                             startSharing(imageSaveUtils.getLocalBitmapUri(bitmap,getActivity()));
+                            
                             return true;
                         }
                     }).submit();

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
@@ -51,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private ImagesRecyclcerViewAdapter imagesRecyclcerViewAdapter;
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
 
-    SharedPreferences sharedPreferences;
-
+    private SharedPreferences sharedPreferences;
     String category;
+    String ordeyBy;
 
     MainViewModel viewModel;
     boolean isTablet;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         binding.shimmerViewContainer.startShimmerAnimation();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
+        ordeyBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
 
         setUpAdapter();
         setUpViewModel();
@@ -109,17 +111,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpViewModel() {
-        String ordeyBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
 
-
-
-
-        viewModel.setParameter("","computer","en","latest");
+        viewModel.setParameter(getCategoryList(),getCategoryList(),"en",ordeyBy);
 
         viewModel.getImageList().observe(this, imagesModels -> {
             imagesRecyclcerViewAdapter.submitList(imagesModels);
         });
-
 
         binding.shimmerViewContainer.stopShimmerAnimation();
         binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -136,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void refresh(){
-        viewModel.setParameter("","computer","en","popular");
+        viewModel.setParameter("",getCategoryList(),"en",ordeyBy);
 
         viewModel.getImageList().observe(this, imagesModels -> {
             imagesRecyclcerViewAdapter.submitList(imagesModels);
@@ -176,8 +173,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(prefIntent);
 
             }
-
-
             return false;
         });
 
@@ -186,22 +181,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     public String getCategoryList(){
-        Set<String> categorySet = new HashSet<>();
-        categorySet.add("");
+        Set<String> sourceSet = new HashSet<>();
+        sourceSet.add(getString(R.string.pref_category_all_value));
 
         List<String> entries = new ArrayList<>(Objects.requireNonNull(
-                sharedPreferences.getStringSet(getString(R.string.pref_category_key), categorySet)));
-        StringBuilder selectedCategory = new StringBuilder();
+                sharedPreferences.getStringSet(getString(R.string.pref_category_key), sourceSet)));
+        StringBuilder selectedSources = new StringBuilder();
 
         for (int i = 0; i < entries.size(); i++) {
-            selectedCategory.append(entries.get(i)).append(",");
+            selectedSources.append(entries.get(i)).append(",");
         }
 
-        if (selectedCategory.length() > 0) {
-            selectedCategory.deleteCharAt(selectedCategory.length() - 1);
+        if (selectedSources.length() > 0) {
+            selectedSources.deleteCharAt(selectedSources.length() - 1);
         }
 
-        return category = selectedCategory.toString();
+        return category = selectedSources.toString();
     }
 
     @Override

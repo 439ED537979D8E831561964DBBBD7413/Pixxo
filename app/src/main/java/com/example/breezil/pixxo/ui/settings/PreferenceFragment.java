@@ -22,11 +22,10 @@ import java.util.Objects;
 import java.util.Set;
 
 public class PreferenceFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener  {
-
     private MultiSelectListPreference mCategoryPref;
 
     @Override
-    public void onCreatePreferences(Bundle bundle, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.preference);
 
         PreferenceManager.setDefaultValues(Objects.requireNonNull(getActivity()), R.xml.preference, false);
@@ -38,10 +37,10 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
         initSummary(getPreferenceScreen());
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         final ListView listView = view.findViewById(android.R.id.list);
         if (listView != null)
             ViewCompat.setNestedScrollingEnabled(listView, true);
