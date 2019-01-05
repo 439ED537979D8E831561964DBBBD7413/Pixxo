@@ -23,6 +23,8 @@ public class Constant {
     public static String EDIT_IMAGE_URI_STRING = "edit_uri_string";
     public static String IMAGE_STRING = "image_string";
     public static String QUICK_SEARCH_STRING = "quick_search_string";
+    public static int STORAGE_PERMISSION_CODE = 99;
+    public static int CAMERA_PERMISSION_CODE = 90;
 
 
     public static int CAMERA_REQUEST_CODE = 1;

@@ -1,14 +1,19 @@
 package com.example.breezil.pixxo.ui.bottom_sheet;
 
+import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +31,7 @@ import com.example.breezil.pixxo.ui.ImageSaveUtils;
 import com.example.breezil.pixxo.ui.saved_edit.SavedViewModel;
 import com.example.photoeditor.EditImageActivity;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
+import static com.example.breezil.pixxo.utils.Constant.STORAGE_PERMISSION_CODE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,14 +98,27 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                         }
                         @Override
                         public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            imageSaveUtils.startDownloading(getActivity(),bitmap);
+                            if (ContextCompat.checkSelfPermission(getActivity(),
+                                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                imageSaveUtils.startDownloading(getActivity(), bitmap);
+                                Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
+                            }else{
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+
+                            }
                             return true;
                         }
                     }).submit();
 
-            Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
+
             dismiss();
         });
+
+
+
+
+
         binding.selectShare.setOnClickListener(v -> {
             Glide.with(getActivity())
                     .asBitmap().load(imagesModel.getWebformatURL())

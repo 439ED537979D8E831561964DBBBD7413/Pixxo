@@ -1,14 +1,19 @@
 package com.example.breezil.pixxo.ui.bottom_sheet;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +32,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.breezil.pixxo.utils.Constant.CAMERA_PERMISSION_CODE;
 import static com.example.breezil.pixxo.utils.Constant.CAMERA_REQUEST_CODE;
 import static com.example.breezil.pixxo.utils.Constant.EDIT_IMAGE_URI_STRING;
 import static com.example.breezil.pixxo.utils.Constant.GALLERY_REQUEST_CODE;
+import static com.example.breezil.pixxo.utils.Constant.STORAGE_PERMISSION_CODE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,17 +60,44 @@ public class ChooseImageBottomDialogFragment extends BottomSheetDialogFragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater ,R.layout.fragment_choose_image_bottom_dialog,
                 container, false);
-
-
-
         binding.selectGallery.setOnClickListener(v -> {
-            gotoGallery();
+            if (ContextCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                gotoGallery();
+            }else{
+                ActivityCompat.requestPermissions(getActivity(),
+                   new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+            }
+
         });
 
         binding.selectCamera.setOnClickListener(v -> {
-            gotoCamera();
+            if (ContextCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                gotoCamera();
+            }{
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, CAMERA_PERMISSION_CODE);
+            }
         });
         return binding.getRoot();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == STORAGE_PERMISSION_CODE)  {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                gotoGallery();
+            } else {
+                Toast.makeText(getActivity(), "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }else if(requestCode == CAMERA_PERMISSION_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                gotoCamera();
+            }else {
+                Toast.makeText(getActivity(), "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void gotoCamera() {

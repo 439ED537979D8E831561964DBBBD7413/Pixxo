@@ -1,12 +1,14 @@
 package com.example.breezil.pixxo.ui.bottom_sheet;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -15,7 +17,9 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +45,7 @@ import java.util.Random;
 import javax.inject.Inject;
 
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
+import static com.example.breezil.pixxo.utils.Constant.STORAGE_PERMISSION_CODE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,8 +58,6 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
     ImageSaveUtils imageSaveUtils;
 
     private SavedViewModel savedViewModel;
-
-
     public static SavedActionBottomSheetFragment getSavedModel(SavedImageModel savedImageModel){
         SavedActionBottomSheetFragment fragment = new SavedActionBottomSheetFragment();
         Bundle args = new Bundle();
@@ -97,13 +100,18 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
 
                         @Override
                         public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-//                            startDownloading(bitmap);
-                            imageSaveUtils.startDownloading(getContext(),bitmap);
-                            dismiss();
+                            if (ContextCompat.checkSelfPermission(getActivity(),
+                                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                imageSaveUtils.startDownloading(getActivity(), bitmap);
+                                Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
+                            }else{
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+
+                            }
                             return true;
                         }
                     }).submit();
-            Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
             dismiss();
         });
         binding.selectShare.setOnClickListener(v -> {
@@ -117,7 +125,6 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
 
                         @Override
                         public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-//                            startSharing(getLocalBitmapUri(bitmap,getActivity()));
                             startSharing(imageSaveUtils.getLocalBitmapUri(bitmap,getActivity()));
                             return true;
                         }
