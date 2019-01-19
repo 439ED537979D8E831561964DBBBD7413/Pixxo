@@ -10,10 +10,13 @@ import com.example.breezil.pixxo.model.SavedImageModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class SavedRepository {
     private SavedDao savedDao;
     private LiveData<List<SavedImageModel>> allSaved;
 
+    @Inject
     public SavedRepository(Application application){
         AppDatabase database = AppDatabase.getAppDatabase(application);
         savedDao = database.savedDao();

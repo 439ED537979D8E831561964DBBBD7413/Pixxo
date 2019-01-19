@@ -1,9 +1,13 @@
 package com.example.breezil.pixxo.ui.main;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +20,7 @@ import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.example.breezil.pixxo.databinding.ActivityMainBinding;
+import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.ui.detail.DetailActivity;
 import com.example.breezil.pixxo.ui.explore.ExploreActivity;
 import com.example.breezil.pixxo.ui.saved_edit.SavedActivity;
@@ -40,6 +45,7 @@ import dagger.android.AndroidInjection;
 import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
+import static android.support.v4.content.ContextCompat.getSystemService;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
@@ -57,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
     String ordeyBy;
 
     MainViewModel viewModel;
+
+
     boolean isTablet;
 
     private ShimmerFrameLayout mShimmerViewContainer;
@@ -84,7 +92,10 @@ public class MainActivity extends AppCompatActivity {
         binding.addButton.setOnClickListener(v ->
                 chooseImageBottomDialogFragment.show(getSupportFragmentManager(),"Choose Image"));
 
-        binding.swipeRefresh.setOnRefreshListener(this::refresh);
+        if(internetConnected()){
+            binding.swipeRefresh.setOnRefreshListener(this::refresh);
+        }
+
 
     }
 
@@ -112,11 +123,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpViewModel() {
 
-        viewModel.setParameter(getCategoryList(),getCategoryList(),"en",ordeyBy);
 
-        viewModel.getImageList().observe(this, imagesModels -> {
-            imagesRecyclcerViewAdapter.submitList(imagesModels);
-        });
+        if(internetConnected()){
+            viewModel.deleteAllInDb();
+            viewModel.setParameter(getCategoryList(),getCategoryList(),"en",ordeyBy);
+            viewModel.getImageList().observe(this, imagesModels -> {
+                imagesRecyclcerViewAdapter.submitList(imagesModels);
+
+                viewModel.insertImageDb("","eng",getCategoryList(),ordeyBy);
+            });
+        }else {
+            viewModel.getFromDbList().observe(this, imagesModels ->
+                    imagesRecyclcerViewAdapter.submitList(imagesModels));
+        }
+
 
         binding.shimmerViewContainer.stopShimmerAnimation();
         binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -135,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     private void refresh(){
         viewModel.setParameter("",getCategoryList(),"en",ordeyBy);
 
-        viewModel.getImageList().observe(this, imagesModels -> {
+        viewModel.refreshImages().observe(this, imagesModels -> {
             imagesRecyclcerViewAdapter.submitList(imagesModels);
         });
         if(binding.swipeRefresh != null){
@@ -209,6 +229,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         binding.shimmerViewContainer.stopShimmerAnimation();
+    }
+
+
+    private boolean internetConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
 

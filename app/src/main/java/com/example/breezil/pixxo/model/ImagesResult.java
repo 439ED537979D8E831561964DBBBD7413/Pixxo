@@ -1,24 +1,18 @@
 package com.example.breezil.pixxo.model;
-
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+
 public class ImagesResult implements Parcelable {
 
-    @PrimaryKey
+//    @PrimaryKey
     private int id;
 
-    @Ignore
+//    @Ignore
     @SerializedName("hits")
     @Expose
     private List<ImagesModel> hits = new ArrayList() ;

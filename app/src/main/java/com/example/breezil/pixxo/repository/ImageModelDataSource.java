@@ -1,10 +1,13 @@
 package com.example.breezil.pixxo.repository;
 
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
 
 import com.example.breezil.pixxo.api.EndpointRepository;
+import com.example.breezil.pixxo.db.AppDatabase;
+import com.example.breezil.pixxo.db.ImagesDao;
 import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.model.ImagesResult;
 
@@ -28,17 +31,21 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     private String mOrder;
     private CompositeDisposable compositeDisposable;
     EndpointRepository endpointRepository;
+    MainDbRepository mainDbRepository;
 
     private final MutableLiveData<NetworkState> mNetworkState;
     private final MutableLiveData<NetworkState> mInitialLoading;
+    ImagesDao imagesDao;
 
 
     @Inject
-    public ImageModelDataSource(EndpointRepository endpointRepository, CompositeDisposable compositeDisposable) {
+    public ImageModelDataSource(EndpointRepository endpointRepository, CompositeDisposable compositeDisposable, Application application) {
         mNetworkState = new MutableLiveData<>();
         mInitialLoading = new MutableLiveData<>();
         this.compositeDisposable = compositeDisposable;
         this.endpointRepository = endpointRepository;
+        AppDatabase database = AppDatabase.getAppDatabase(application);
+        imagesDao = database.imagesDao();
     }
 
 
@@ -75,23 +82,18 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
         return mOrder;
     }
 
-
-
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ImagesModel> callback) {
-
 
         List<ImagesModel> modelList = new ArrayList<>();
         Disposable imagesModel = endpointRepository.getImages(getSearch(),getLang(),getCategory(),getOrder(),1,5)
                 .subscribe(imagesResult -> onInitialSuccess(imagesResult,callback,modelList),this::onInitialError);
         compositeDisposable.add(imagesModel);
-
+  
     }
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ImagesModel> callback) {
-
-
 //        restApiInterface.getImages(API_KEY,getSearch(),getCategory(),params.key,5).enqueue(new Callback<ImagesResult>() {
 //            @Override
 //            public void onResponse(Call<ImagesResult> call, Response<ImagesResult> response) {
@@ -139,6 +141,8 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
 
             mInitialLoading.postValue(NetworkState.LOADED);
             mNetworkState.postValue(NetworkState.LOADED);
+
+
         } else {
             mInitialLoading.postValue(new NetworkState(NetworkState.Status.NO_RESULT));
             mNetworkState.postValue(new NetworkState(NetworkState.Status.NO_RESULT));

@@ -2,6 +2,7 @@ package com.example.breezil.pixxo.ui.bottom_sheet;
 
 import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -39,6 +40,7 @@ import static com.example.breezil.pixxo.utils.Constant.STORAGE_PERMISSION_CODE;
 public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
 
     FragmentActionBottomSheetBinding binding;
+    Context context;
 
     ImageSaveUtils imageSaveUtils;
 
@@ -107,6 +109,8 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                                         new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
 
                             }
+//                            imageSaveUtils.startDownloading(getActivity(), bitmap);
+//                            Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
                             return true;
                         }
                     }).submit();

@@ -8,7 +8,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Entity
+@Entity(tableName = "images_model_table")
 public class ImagesModel implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
@@ -19,7 +19,6 @@ public class ImagesModel implements Parcelable {
     @SerializedName("largeImageURL")
     @Expose
     private String largeImageURL;
-
 
     @SerializedName("likes")
     @Expose

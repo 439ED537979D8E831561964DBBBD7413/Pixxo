@@ -1,6 +1,5 @@
 package com.example.breezil.pixxo.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;

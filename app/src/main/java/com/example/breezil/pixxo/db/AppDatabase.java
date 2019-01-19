@@ -10,7 +10,7 @@ import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.model.ImagesResult;
 import com.example.breezil.pixxo.model.SavedImageModel;
 
-@Database(entities = {SavedImageModel.class, ImagesResult.class, ImagesModel.class}, version = 1)
+@Database(entities = {SavedImageModel.class, ImagesModel.class}, version = 1)
 public abstract class AppDatabase  extends RoomDatabase {
     private static AppDatabase appDatabase;
     public abstract SavedDao savedDao();
