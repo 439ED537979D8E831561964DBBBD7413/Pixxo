@@ -25,5 +25,6 @@ public class EndpointRepository {
                 .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+
     }
 }

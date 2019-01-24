@@ -11,6 +11,8 @@ import com.example.breezil.pixxo.db.AppDatabase;
 import com.example.breezil.pixxo.db.ImagesDao;
 import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.model.ImagesResult;
+import com.example.breezil.pixxo.model.SavedImageModel;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,13 +29,10 @@ import static com.example.breezil.pixxo.BuildConfig.API_KEY;
 public class MainDbRepository {
     private ImagesDao imagesDao;
     private LiveData<List<ImagesModel>> imageModelList;
-    private ImagesApi imagesApi;
-    private List<ImagesModel> imgList;
 
 
     @Inject
-    public MainDbRepository(ImagesApi imagesApi, Application application){
-        this.imagesApi = imagesApi;
+    public MainDbRepository(Application application){
         AppDatabase database = AppDatabase.getAppDatabase(application);
         imagesDao = database.imagesDao();
         imageModelList = imagesDao.getImages();
@@ -41,29 +40,6 @@ public class MainDbRepository {
 
 
 
-    public void insertData(String search,String lang, String category,String order){
-       ImagesApi imagesApii = new DemoClient().getClient();
-        imagesApii.getImageDb(API_KEY,search,lang,category,order,1,20).enqueue(new Callback<ImagesResult>() {
-            @Override
-            public void onResponse(Call<ImagesResult> call, Response<ImagesResult> response) {
-                 imgList = response.body().getHits();
-                 for(ImagesModel imagesModel : imgList){
-                    insert(imagesModel);
-                 }
-            }
-
-            @Override
-            public void onFailure(Call<ImagesResult> call, Throwable t) {
-
-            }
-        });
-//        return imgList;
-    }
-
-
-    public void insertAll(ImagesModel imagesModels){
-        new InsertAllImages(imagesDao).execute(imagesModels);
-    }
 
     public void insert(ImagesModel imagesModel){
         new InsertImages(imagesDao).execute(imagesModel);
@@ -79,20 +55,7 @@ public class MainDbRepository {
 
 
 
-    private static class InsertAllImages extends AsyncTask<ImagesModel, Void, Void>{
-        private ImagesDao imagesDao;
 
-        public InsertAllImages(ImagesDao imagesDao) {
-            this.imagesDao = imagesDao;
-        }
-
-
-        @Override
-        protected Void doInBackground(ImagesModel... imagesModels) {
-           imagesDao.insertAll(imagesModels);
-           return null;
-        }
-    }
 
     private static class InsertImages extends AsyncTask<ImagesModel, Void, Void>{
         private ImagesDao imagesDao;

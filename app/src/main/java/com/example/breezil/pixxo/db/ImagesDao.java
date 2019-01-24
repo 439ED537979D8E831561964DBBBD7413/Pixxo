@@ -15,9 +15,6 @@ import java.util.List;
 @Dao
 public interface ImagesDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long[] insertAll(ImagesModel... imagesModels);
-
     @Insert
     void insert(ImagesModel imagesModel);
 
@@ -26,7 +23,7 @@ public interface ImagesDao {
     LiveData<List<ImagesModel>> getImages();
 
     @Transaction
-    @Query("SELECT * FROM images_model_table ORDER BY roomId DESC ")
+    @Query("SELECT * FROM images_model_table ORDER BY roomId ASC")
     DataSource.Factory<Integer, ImagesModel> getPagedImages();
 
     @Query("DELETE FROM images_model_table")

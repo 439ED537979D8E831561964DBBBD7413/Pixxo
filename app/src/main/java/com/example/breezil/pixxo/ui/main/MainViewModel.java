@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.example.breezil.pixxo.api.ImagesApi;
 import com.example.breezil.pixxo.db.AppDatabase;
+import com.example.breezil.pixxo.model.SavedImageModel;
 import com.example.breezil.pixxo.repository.MainDbRepository;
 import com.example.breezil.pixxo.repository.NetworkState;
 import com.example.breezil.pixxo.model.ImagesModel;
@@ -32,10 +33,7 @@ public class MainViewModel extends AndroidViewModel {
     private AppExecutors appsExecutor;
     private ImageDataSourceFactory imageDataSourceFactory;
     private MainDbRepository mainDbRepository;
-    private LiveData<List<ImagesModel>> fromDbList;
     private AppDatabase appDatabase;
-    private List<ImagesModel> imgList;
-    ImagesApi imagesApi;
 
 
 
@@ -46,8 +44,7 @@ public class MainViewModel extends AndroidViewModel {
         this.appsExecutor = appsExecutor;
 
 
-        mainDbRepository = new MainDbRepository(imagesApi, application);
-        fromDbList = mainDbRepository.getImageModelList();
+        mainDbRepository = new MainDbRepository(application);
         appDatabase = AppDatabase.getAppDatabase(this.getApplication());
 
 
@@ -69,10 +66,14 @@ public class MainViewModel extends AndroidViewModel {
                 .setFetchExecutor(appsExecutor.networkIO())
                 .build();
 
+
+
+
     }
 
 
     public LiveData<PagedList<ImagesModel>>getImageList(){
+
         return imageList;
     }
     public void setParameter(String search, String category, String lang,String order){
@@ -114,6 +115,7 @@ public class MainViewModel extends AndroidViewModel {
         mainDbRepository.deleteAllImages();
     }
 
+
     public LiveData<PagedList<ImagesModel>> getFromDbList(){
 
         DataSource.Factory<Integer,ImagesModel> factory = appDatabase.imagesDao().getPagedImages();
@@ -122,9 +124,8 @@ public class MainViewModel extends AndroidViewModel {
         return imageDBList;
     }
 
-    public void insertImageDb(String search,String lang, String category,String order){
-       mainDbRepository.insertData(search,lang,category,order);
-    }
+
+
 
 
 

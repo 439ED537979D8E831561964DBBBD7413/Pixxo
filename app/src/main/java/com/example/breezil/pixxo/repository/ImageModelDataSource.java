@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.breezil.pixxo.api.EndpointRepository;
 import com.example.breezil.pixxo.db.AppDatabase;
@@ -20,10 +21,13 @@ import javax.inject.Singleton;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @Singleton
-public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesModel> implements PaginationListener<ImagesResult, ImagesModel> {
+public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesModel>
+        implements PaginationListener<ImagesResult, ImagesModel> {
 
     private String mSearch;
     private String mCategory;
@@ -37,13 +41,17 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     private final MutableLiveData<NetworkState> mInitialLoading;
     ImagesDao imagesDao;
 
+    List<ImagesModel> imagesModelList;
 
     @Inject
-    public ImageModelDataSource(EndpointRepository endpointRepository, CompositeDisposable compositeDisposable, Application application) {
+    public ImageModelDataSource(EndpointRepository endpointRepository,
+                                MainDbRepository mainDbRepository,
+                                CompositeDisposable compositeDisposable, Application application) {
         mNetworkState = new MutableLiveData<>();
         mInitialLoading = new MutableLiveData<>();
         this.compositeDisposable = compositeDisposable;
         this.endpointRepository = endpointRepository;
+        this.mainDbRepository = mainDbRepository;
         AppDatabase database = AppDatabase.getAppDatabase(application);
         imagesDao = database.imagesDao();
     }
@@ -86,9 +94,18 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ImagesModel> callback) {
 
         List<ImagesModel> modelList = new ArrayList<>();
-        Disposable imagesModel = endpointRepository.getImages(getSearch(),getLang(),getCategory(),getOrder(),1,5)
-                .subscribe(imagesResult -> onInitialSuccess(imagesResult,callback,modelList),this::onInitialError);
+        Disposable imagesModel = endpointRepository.getImages(getSearch(),getLang(),getCategory(),getOrder(),1,10)
+                .subscribe( imagesResult -> {
+                    onInitialSuccess(imagesResult, callback, modelList);
+                        for(ImagesModel img : imagesResult.getHits()){
+                            mainDbRepository.insert(img);
+                        }
+
+                    }, throwable -> {
+                    onInitialError(throwable);
+                });
         compositeDisposable.add(imagesModel);
+
   
     }
 
@@ -120,8 +137,12 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ImagesModel> callback) {
         List<ImagesModel> modelList = new ArrayList<>();
-        Disposable result = endpointRepository.getImages(getSearch(),getLang(), getCategory(),getOrder(), params.key,5)
-                .subscribe(response -> onPaginationSuccess(response, callback, params, modelList), this::onPaginationError);
+        Disposable result = endpointRepository.getImages(getSearch(),getLang(), getCategory(),getOrder(), params.key,10)
+                .subscribe(response -> {
+
+                    onPaginationSuccess(response, callback, params, modelList);
+
+                }, this::onPaginationError);
 
         compositeDisposable.add(result);
     }
@@ -134,10 +155,13 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     }
 
     @Override
-    public void onInitialSuccess(ImagesResult imagesResult, LoadInitialCallback<Integer, ImagesModel> callback, List<ImagesModel> imagesModels) {
+    public void onInitialSuccess(ImagesResult imagesResult,
+                                 LoadInitialCallback<Integer, ImagesModel> callback,
+                                 List<ImagesModel> imagesModels) {
         if (imagesResult.getHits() != null && imagesResult.getHits().size() > 0) {
             imagesModels.addAll(imagesResult.getHits());
             callback.onResult(imagesModels, null, 2);
+
 
             mInitialLoading.postValue(NetworkState.LOADED);
             mNetworkState.postValue(NetworkState.LOADED);
