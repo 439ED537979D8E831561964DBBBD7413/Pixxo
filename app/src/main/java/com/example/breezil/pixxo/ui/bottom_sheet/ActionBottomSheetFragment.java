@@ -40,9 +40,6 @@ import static com.example.breezil.pixxo.utils.Constant.STORAGE_PERMISSION_CODE;
 public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
 
     FragmentActionBottomSheetBinding binding;
-    Context context;
-
-
 
     ImageSaveUtils imageSaveUtils;
 

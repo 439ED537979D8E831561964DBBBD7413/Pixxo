@@ -8,8 +8,8 @@ import android.arch.paging.PagedList;
 
 import com.example.breezil.pixxo.repository.NetworkState;
 import com.example.breezil.pixxo.model.ImagesModel;
-import com.example.breezil.pixxo.repository.ImageDataSourceFactory;
-import com.example.breezil.pixxo.repository.ImageModelDataSource;
+import com.example.breezil.pixxo.repository.paging.ImageDataSourceFactory;
+import com.example.breezil.pixxo.repository.paging.ImageModelDataSource;
 import com.example.breezil.pixxo.utils.helper.AppExecutors;
 
 import javax.inject.Inject;

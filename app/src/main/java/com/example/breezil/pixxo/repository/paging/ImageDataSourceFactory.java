@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.repository;
+package com.example.breezil.pixxo.repository.paging;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;

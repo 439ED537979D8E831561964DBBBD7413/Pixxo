@@ -4,25 +4,14 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import com.example.breezil.pixxo.api.DemoClient;
-import com.example.breezil.pixxo.api.ImagesApi;
-import com.example.breezil.pixxo.api.OkHttp;
 import com.example.breezil.pixxo.db.AppDatabase;
 import com.example.breezil.pixxo.db.ImagesDao;
 import com.example.breezil.pixxo.model.ImagesModel;
-import com.example.breezil.pixxo.model.ImagesResult;
-import com.example.breezil.pixxo.model.SavedImageModel;
 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.example.breezil.pixxo.BuildConfig.API_KEY;
 
 
 @Singleton

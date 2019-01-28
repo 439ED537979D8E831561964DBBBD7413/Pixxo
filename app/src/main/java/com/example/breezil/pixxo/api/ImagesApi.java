@@ -72,15 +72,7 @@ public interface ImagesApi {
                                    @Query("per_page")int per_page
     );
 
-    @GET("api/")
-    Call<ImagesResult> getImageDb(@Query("key")@Nullable String key,
-                                   @Query("q")@Nullable String search,
-                                   @Query("lang")@Nullable String lang,
-                                   @Query("category")@Nullable String category,
-                                   @Query("order")@Nullable String order,
-                                   @Query("page")int page,
-                                   @Query("per_page")int per_page
-    );
+
 }
 
 

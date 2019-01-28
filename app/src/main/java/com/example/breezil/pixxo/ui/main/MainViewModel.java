@@ -4,23 +4,18 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
-import android.arch.lifecycle.ViewModel;
 import android.arch.paging.DataSource;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
 
-import com.example.breezil.pixxo.api.ImagesApi;
 import com.example.breezil.pixxo.db.AppDatabase;
-import com.example.breezil.pixxo.model.SavedImageModel;
 import com.example.breezil.pixxo.repository.MainDbRepository;
 import com.example.breezil.pixxo.repository.NetworkState;
 import com.example.breezil.pixxo.model.ImagesModel;
-import com.example.breezil.pixxo.repository.ImageDataSourceFactory;
-import com.example.breezil.pixxo.repository.ImageModelDataSource;
+import com.example.breezil.pixxo.repository.paging.ImageDataSourceFactory;
+import com.example.breezil.pixxo.repository.paging.ImageModelDataSource;
 import com.example.breezil.pixxo.utils.helper.AppExecutors;
-
-import java.util.List;
 
 import javax.inject.Inject;
 

@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if(internetConnected()){
-           viewModel.deleteAllInDb();
+          viewModel.deleteAllInDb();
             viewModel.setParameter(getCategoryList(),getCategoryList(),"en",ordeyBy);
             viewModel.getImageList().observe(this, imagesModels -> {
                 imagesRecyclcerViewAdapter.submitList(imagesModels);

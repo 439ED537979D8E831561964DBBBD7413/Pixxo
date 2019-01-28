@@ -68,7 +68,7 @@ import ja.burhanrashid52.photoeditor.ViewType;
 
 import static android.os.Build.TYPE;
 
-public class EditImageActivity extends BaseActivity implements OnPhotoEditorListener,
+public class  EditImageActivity extends BaseActivity implements OnPhotoEditorListener,
         View.OnClickListener,
         PropertiesBSFragment.Properties,
         EmojiBSFragment.EmojiListener,

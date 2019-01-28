@@ -1,4 +1,4 @@
-package com.example.breezil.pixxo.repository;
+package com.example.breezil.pixxo.repository.paging;
 
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
@@ -11,6 +11,9 @@ import com.example.breezil.pixxo.db.AppDatabase;
 import com.example.breezil.pixxo.db.ImagesDao;
 import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.model.ImagesResult;
+import com.example.breezil.pixxo.repository.MainDbRepository;
+import com.example.breezil.pixxo.repository.NetworkState;
+import com.example.breezil.pixxo.repository.PaginationListener;
 
 
 import java.util.ArrayList;
@@ -41,12 +44,12 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     private final MutableLiveData<NetworkState> mInitialLoading;
     ImagesDao imagesDao;
 
-    List<ImagesModel> imagesModelList;
 
     @Inject
     public ImageModelDataSource(EndpointRepository endpointRepository,
                                 MainDbRepository mainDbRepository,
-                                CompositeDisposable compositeDisposable, Application application) {
+                                CompositeDisposable compositeDisposable,
+                                Application application) {
         mNetworkState = new MutableLiveData<>();
         mInitialLoading = new MutableLiveData<>();
         this.compositeDisposable = compositeDisposable;
@@ -94,44 +97,21 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ImagesModel> callback) {
 
         List<ImagesModel> modelList = new ArrayList<>();
-        Disposable imagesModel = endpointRepository.getImages(getSearch(),getLang(),getCategory(),getOrder(),1,10)
+        Disposable imagesModel = endpointRepository.getImages(getSearch(),getLang(),getCategory(),getOrder(),1,15)
                 .subscribe( imagesResult -> {
                     onInitialSuccess(imagesResult, callback, modelList);
                         for(ImagesModel img : imagesResult.getHits()){
                             mainDbRepository.insert(img);
                         }
-
                     }, throwable -> {
                     onInitialError(throwable);
                 });
         compositeDisposable.add(imagesModel);
-
-  
     }
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ImagesModel> callback) {
-//        restApiInterface.getImages(API_KEY,getSearch(),getCategory(),params.key,5).enqueue(new Callback<ImagesResult>() {
-//            @Override
-//            public void onResponse(Call<ImagesResult> call, Response<ImagesResult> response) {
-//                if(response.isSuccessful()) {
-//                    Integer adjacencyKey = (params.key > 1) ? params.key - 1 : null;
-//                    if (response.body() != null) {
-//                        callback.onResult(response.body().getHits(), adjacencyKey);
-//                    }
-//                }else {
-//                    mNetworkState.postValue(NetworkState.LOADED);
-//                    mInitialLoading.postValue(NetworkState.LOADED);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ImagesResult> call, Throwable t) {
-//                mNetworkState.postValue(NetworkState.LOADED);
-//                mInitialLoading.postValue(NetworkState.LOADED);
-//            }
-//        });
+
     }
 
     @Override
@@ -180,7 +160,8 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     }
 
     @Override
-    public void onPaginationSuccess(ImagesResult imagesResult, LoadCallback<Integer, ImagesModel> callback, LoadParams<Integer> params, List<ImagesModel> imagesModels) {
+    public void onPaginationSuccess(ImagesResult imagesResult, LoadCallback<Integer, ImagesModel>
+            callback, LoadParams<Integer> params, List<ImagesModel> imagesModels) {
         if (imagesResult.getHits()!= null && imagesResult.getHits().size() > 0) {
             imagesModels.addAll(imagesResult.getHits());
 

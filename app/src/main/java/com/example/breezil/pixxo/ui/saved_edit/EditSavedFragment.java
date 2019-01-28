@@ -1,22 +1,23 @@
 package com.example.breezil.pixxo.ui.saved_edit;
-
-
+import android.Manifest;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.breezil.pixxo.R;
-import com.example.breezil.pixxo.databinding.FragmentEditSavedBinding;
 import com.example.breezil.pixxo.model.EditedModel;
 import com.example.breezil.pixxo.ui.adapter.EditImageGridAdapter;
-import com.example.breezil.pixxo.utils.Constant;
 import com.example.breezil.pixxo.utils.helper.BitmapHelper;
 
 import java.io.File;
@@ -28,6 +29,7 @@ import java.util.List;
 import dagger.android.support.AndroidSupportInjection;
 
 import static com.example.breezil.pixxo.utils.Constant.PIXXO_EDITED;
+import static com.example.breezil.pixxo.utils.Constant.STORAGE_PERMISSION_CODE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +38,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
 
     List<EditedModel> gridItems;
     GridView gridView;
+    TextView editEmptyText;
 
     public EditSavedFragment() {
         // Required empty public constructor
@@ -55,6 +58,8 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
         View view = inflater.inflate( R.layout.fragment_edit_saved, container, false);
 
         gridView =  view.findViewById(R.id.editGrid);
+        editEmptyText = view.findViewById(R.id.emptyText);
+
 
         if(PIXXO_EDITED != null){
             setGridAdapter(PIXXO_EDITED);
@@ -64,37 +69,54 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     private void setGridAdapter(String path) {
-
-
         gridItems = createGridItems(path);
 
         EditImageGridAdapter adapter = new EditImageGridAdapter(getActivity(), gridItems,getFragmentManager());
         Collections.reverse(gridItems);
 
-        gridView.setAdapter(adapter);
+
+
+        if(gridItems.size() > 0){
+            gridView.setAdapter(adapter);
+        }else {
+            editEmptyText.setVisibility(View.VISIBLE);
+        }
+
+
     }
 
     private List<EditedModel> createGridItems(String directoryPath) {
         List<EditedModel> items = new ArrayList<>();
 
         // List all the items within the folder.
-
         File[] files = new File(directoryPath).listFiles(new ImageFileFilter());
 
-        for (File file : files) {
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-            // Add the directories containing images or sub-directories
-            if (file.isDirectory()
-                    && file.listFiles(new ImageFileFilter()).length > 0) {
+            if(files.length > 0 ){
+                for (File file : files) {
 
-                items.add(new EditedModel(file.getAbsolutePath(), true, null));
+                    // Add the directories containing images or sub-directories
+                    if (file.isDirectory()
+                            && file.listFiles(new ImageFileFilter()).length > 0) {
+
+                        items.add(new EditedModel(file.getAbsolutePath(), true, null));
+                    }
+                    // Add the images
+                    else {
+                        Bitmap image = BitmapHelper.decodeBitmapFromFile(file.getAbsolutePath());
+                        items.add(new EditedModel(file.getAbsolutePath(), false, image));
+                    }
+
+                }
             }
-            // Add the images
-            else {
-                Bitmap image = BitmapHelper.decodeBitmapFromFile(file.getAbsolutePath());
-                items.add(new EditedModel(file.getAbsolutePath(), false, image));
-            }
 
+
+
+        }else{
+            ActivityCompat.requestPermissions(getActivity(),
+            new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
         }
 
         return items;
@@ -119,7 +141,6 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
             // Display the image
         }
     }
-
 
 
     /**

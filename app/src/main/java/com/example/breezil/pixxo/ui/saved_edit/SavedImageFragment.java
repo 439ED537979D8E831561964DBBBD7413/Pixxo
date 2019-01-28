@@ -60,6 +60,7 @@ public class SavedImageFragment extends Fragment {
         binding.deleteAll.setOnClickListener(v -> {
             showDeleteAllDialog();
         });
+
         return binding.getRoot();
     }
 
@@ -93,8 +94,17 @@ public class SavedImageFragment extends Fragment {
     private void setUpViewModel() {
 
         savedViewModel = ViewModelProviders.of(this).get(SavedViewModel.class);
+
+
         savedViewModel.getSavedList().observe(this, savedImageModels -> {
-            adapter.submitList(savedImageModels);
+
+            if(!savedImageModels.isEmpty()){
+                adapter.submitList(savedImageModels);
+
+            }else{
+                binding.savedEmpty.setVisibility(View.VISIBLE);
+            }
+
         });
     }
 
