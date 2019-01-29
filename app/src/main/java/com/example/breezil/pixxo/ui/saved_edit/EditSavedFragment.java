@@ -88,7 +88,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
     private List<EditedModel> createGridItems(String directoryPath) {
         List<EditedModel> items = new ArrayList<>();
 
-        // List all the items within the folder.
+        // List all the items within the folder..
         File[] files = new File(directoryPath).listFiles(new ImageFileFilter());
 
         if (ContextCompat.checkSelfPermission(getActivity(),
