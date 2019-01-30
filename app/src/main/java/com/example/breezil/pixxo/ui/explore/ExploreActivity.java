@@ -160,20 +160,20 @@ public class ExploreActivity extends AppCompatActivity {
 
                 case R.id.trending:
                     Intent trendingIntent = new Intent(ExploreActivity.this,MainActivity.class);
-                    trendingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(trendingIntent);
+                    finish();
                     break;
                 case R.id.explore:
                     break;
                 case R.id.saved:
                     Intent savedIntent = new Intent(ExploreActivity.this,SavedActivity.class);
-                    savedIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(savedIntent);
+                    finish();
                     break;
                 case R.id.preference:
                     Intent prefIntent = new Intent(ExploreActivity.this,SettingsActivity.class);
-                    prefIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(prefIntent);
+                    finish();
                     break;
             }
 

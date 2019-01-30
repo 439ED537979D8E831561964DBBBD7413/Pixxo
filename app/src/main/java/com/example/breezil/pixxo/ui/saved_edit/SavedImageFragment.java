@@ -1,10 +1,12 @@
 package com.example.breezil.pixxo.ui.saved_edit;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +22,8 @@ import com.example.breezil.pixxo.callbacks.SavedImageLongClickListener;
 import com.example.breezil.pixxo.databinding.FragmentSavedImageBinding;
 import com.example.breezil.pixxo.ui.adapter.SavedImageRecyclerAdapter;
 import com.example.breezil.pixxo.ui.bottom_sheet.SavedActionBottomSheetFragment;
+import com.example.breezil.pixxo.ui.explore.ExploreActivity;
+import com.example.breezil.pixxo.ui.main.MainActivity;
 
 import javax.inject.Inject;
 
@@ -91,6 +95,7 @@ public class SavedImageFragment extends Fragment {
 
 
 
+    @SuppressLint("RestrictedApi")
     private void setUpViewModel() {
 
         savedViewModel = ViewModelProviders.of(this).get(SavedViewModel.class);
@@ -100,9 +105,17 @@ public class SavedImageFragment extends Fragment {
 
             if(!savedImageModels.isEmpty()){
                 adapter.submitList(savedImageModels);
+                binding.deleteAll.setVisibility(View.VISIBLE);
 
             }else{
                 binding.savedEmpty.setVisibility(View.VISIBLE);
+                binding.clickToSaveBtn.setVisibility(View.VISIBLE);
+
+                binding.clickToSaveBtn.setOnClickListener(v -> {
+                    Intent mainIntent = new Intent(getActivity(),MainActivity.class);
+                    startActivity(mainIntent);
+                    getActivity().finish();
+                });
             }
 
         });

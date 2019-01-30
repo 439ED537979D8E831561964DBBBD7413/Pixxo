@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v14.preference.MultiSelectListPreference;
+import android.support.v14.preference.SwitchPreference;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+import timber.log.Timber;
 
 public class PreferenceFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener  {
     private MultiSelectListPreference mCategoryPref;
@@ -50,6 +53,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (!key.equals(getString(R.string.pref_category_key))) {
             updateSummary(findPreference(key));
+            updateNightMode(findPreference(key));
 
         } else {
             updateMultiSummary(findPreference(key),
@@ -67,6 +71,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
             updateSummary(p);
             updateMultiSummary(p, PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getActivity()))
                     .getStringSet(getString(R.string.pref_category_key), null));
+            updateNightMode(p);
 
         }
     }
@@ -97,6 +102,19 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
 
             p.setSummary(allEntries.toString());
 
+        }
+    }
+
+    private void updateNightMode(Preference p){
+        if(p instanceof SwitchPreference){
+            if (((SwitchPreference) p).isChecked()) {
+                p.setSummary(getString(R.string.pref_theme_checked_summary));
+                p.setDefaultValue(getString(R.string.pref_theme_true_value));
+                Timber.d(String.valueOf(((SwitchPreference) p).getSummaryOn()));
+            } else {
+                p.setSummary(getString(R.string.pref_theme_unchecked_summary));
+                p.setDefaultValue(getString(R.string.pref_theme_false_value));
+            }
         }
     }
 

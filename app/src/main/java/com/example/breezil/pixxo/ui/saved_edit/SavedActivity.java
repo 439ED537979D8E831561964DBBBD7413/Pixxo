@@ -65,21 +65,21 @@ public class SavedActivity extends DaggerAppCompatActivity implements HasSupport
 
                 case R.id.trending:
                     Intent trendIntent = new Intent(SavedActivity.this,MainActivity.class);
-                    trendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(trendIntent);
+                    finish();
                     break;
                 case R.id.explore:
                     Intent exploreIntent = new Intent(SavedActivity.this,ExploreActivity.class);
-                    exploreIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(exploreIntent);
+                    finish();
                     break;
                 case R.id.saved:
 
                     break;
                 case R.id.preference:
                     Intent prefIntent = new Intent(SavedActivity.this,SettingsActivity.class);
-                    prefIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(prefIntent);
+                    finish();
                     break;
             }
 

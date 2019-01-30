@@ -7,7 +7,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.MainActivity">
+        tools:context=".ui.main.MainActivity"
+        android:background="?attr/backgroundcolor">
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"
@@ -54,9 +55,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/imageList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="0dp"
                 tools:listitem="@layout/image_item" />
         </android.support.v4.widget.SwipeRefreshLayout>
 

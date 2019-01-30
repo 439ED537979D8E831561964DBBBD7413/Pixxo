@@ -11,13 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.model.EditedModel;
 import com.example.breezil.pixxo.ui.adapter.EditImageGridAdapter;
+import com.example.breezil.pixxo.ui.bottom_sheet.ChooseImageBottomDialogFragment;
 import com.example.breezil.pixxo.utils.helper.BitmapHelper;
 
 import java.io.File;
@@ -39,6 +39,8 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
     List<EditedModel> gridItems;
     GridView gridView;
     TextView editEmptyText;
+    Button clickEditBtn;
+    ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
 
     public EditSavedFragment() {
         // Required empty public constructor
@@ -59,6 +61,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
 
         gridView =  view.findViewById(R.id.editGrid);
         editEmptyText = view.findViewById(R.id.emptyText);
+        clickEditBtn = view.findViewById(R.id.clickToEditbtn);
 
 
         if(PIXXO_EDITED != null){
@@ -80,6 +83,11 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
             gridView.setAdapter(adapter);
         }else {
             editEmptyText.setVisibility(View.VISIBLE);
+            clickEditBtn.setVisibility(View.VISIBLE);
+            clickEditBtn.setOnClickListener(v -> {
+                chooseImageBottomDialogFragment.show(getFragmentManager(),"Choose Image");
+                }
+            );
         }
 
 

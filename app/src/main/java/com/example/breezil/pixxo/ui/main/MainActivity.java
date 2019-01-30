@@ -61,10 +61,9 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     String category;
     String ordeyBy;
+    boolean themeMode;
 
     MainViewModel viewModel;
-
-
     boolean isTablet;
 
     private ShimmerFrameLayout mShimmerViewContainer;
@@ -73,14 +72,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        themeMode = sharedPreferences.getBoolean(getString(R.string.pref_theme_key),true);
+
+        if(themeMode){
+            setTheme(R.style.DarkTheme);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
         binding.imageList.setHasFixedSize(true);
         setupBottomNavigation();
 
         binding.shimmerViewContainer.startShimmerAnimation();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
         ordeyBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
+
+
+//        Toast.makeText(this, String.valueOf(themeMode), Toast.LENGTH_LONG).show();
 
         setUpAdapter();
         setUpViewModel();
@@ -95,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
         if(internetConnected()){
             binding.swipeRefresh.setOnRefreshListener(this::refresh);
         }
-
-
     }
 
     private void setUpAdapter(){
@@ -115,14 +123,12 @@ public class MainActivity extends AppCompatActivity {
 
         };
 
-
         imagesRecyclcerViewAdapter
                 = new ImagesRecyclcerViewAdapter(this,imageClickListener,imageLongClickListener);
         binding.imageList.setAdapter(imagesRecyclcerViewAdapter);
     }
 
     private void setUpViewModel() {
-
 
         if(internetConnected()){
           viewModel.deleteAllInDb();
@@ -135,8 +141,6 @@ public class MainActivity extends AppCompatActivity {
             viewModel.getFromDbList().observe(this, imagesModels ->
                     imagesRecyclcerViewAdapter.submitList(imagesModels));
         }
-
-
         binding.shimmerViewContainer.stopShimmerAnimation();
         binding.shimmerViewContainer.setVisibility(View.GONE);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -147,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
         if(binding.swipeRefresh != null){
             binding.swipeRefresh.setRefreshing(false);
         }
-
     }
 
 
@@ -178,18 +181,19 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.explore:
                     Intent exploreIntent = new Intent(MainActivity.this,ExploreActivity.class);
-                    exploreIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(exploreIntent);
+                    finish();
                     break;
                 case R.id.saved:
                     Intent savedIntent = new Intent(MainActivity.this,SavedActivity.class);
-                    savedIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(savedIntent);
+                    finish();
                     break;
                 case R.id.preference:
                     Intent prefIntent = new Intent(MainActivity.this,SettingsActivity.class);
-                    prefIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(prefIntent);
+                    finish();
+                    break;
 
             }
             return false;
@@ -232,11 +236,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private boolean internetConnected(){
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-
         return networkInfo != null && networkInfo.isConnected();
     }
 }

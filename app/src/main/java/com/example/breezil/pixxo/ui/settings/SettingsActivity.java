@@ -66,18 +66,18 @@ public class SettingsActivity extends DaggerAppCompatActivity implements HasSupp
 
                 case R.id.trending:
                     Intent trendIntent = new Intent(SettingsActivity.this,MainActivity.class);
-                    trendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(trendIntent);
+                    finish();
                     break;
                 case R.id.explore:
                     Intent exploreIntent = new Intent(SettingsActivity.this,ExploreActivity.class);
-                    exploreIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(exploreIntent);
+                    finish();
                     break;
                 case R.id.saved:
                     Intent saveIntent = new Intent(SettingsActivity.this,SavedActivity.class);
-                    saveIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(saveIntent);
+                    finish();
                     break;
                 case R.id.preference:
 

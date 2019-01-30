@@ -95,6 +95,16 @@
     <string name="pref_latest">latest</string>
     <string name="pref_latest_value">latest</string>
 
+    <string name="pref_skin_title">Themes</string>
+    <string name="pref_theme_checked_summary">Night Mode enabled.</string>
+    <string name="pref_theme_unchecked_summary">Night Mode disabled.</string>
+
+    <string name="pref_theme_key">theme-key</string>
+
+    <string name="pref_theme_true_value">0</string>
+    <string name="pref_theme_false_value">1</string>
+
+
 
 
     <string name="about_description">FavNews an awesome app.\n\n Where you can keep up on your latest and favorite world news from any cable source around the world, Build with Android Architecture Components(MVVM), also implemented Dagger2. This app let you sortby your favorite news source and mark news as bookmark to read later. \n\n Made with love by Kola Emiola and Api by NewsApi.org </string>

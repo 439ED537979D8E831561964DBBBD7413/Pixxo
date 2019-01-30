@@ -16,4 +16,13 @@
             android:title="@string/pref_order_by_label"
             android:summary="@string/pref_order_by_all"/>
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_skin_title">
+
+        <SwitchPreference android:title="Night Mode"
+            android:key="@string/pref_theme_key"
+            android:defaultValue="@string/pref_theme_true_value"
+            android:checked="true"/>
+
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -1,6 +1,7 @@
 package com.example.breezil.pixxo.ui.bottom_sheet;
 
 import android.Manifest;
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,7 @@ import static com.example.breezil.pixxo.utils.Constant.STORAGE_PERMISSION_CODE;
 public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
 
     FragmentActionBottomSheetBinding binding;
+    Context context;
 
     ImageSaveUtils imageSaveUtils;
 
@@ -54,7 +56,11 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
 
     public ActionBottomSheetFragment() {
         // Required empty public constructor
+
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
