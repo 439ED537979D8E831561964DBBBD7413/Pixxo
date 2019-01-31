@@ -1,5 +1,6 @@
 package com.example.breezil.pixxo.ui.settings;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.breezil.pixxo.BaseActivity;
 import com.example.breezil.pixxo.R;
 
 import java.util.ArrayList;
@@ -54,10 +56,13 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
         if (!key.equals(getString(R.string.pref_category_key))) {
             updateSummary(findPreference(key));
             updateNightMode(findPreference(key));
+            restartApp ();
 
         } else {
             updateMultiSummary(findPreference(key),
                     sharedPreferences.getStringSet(getString(R.string.pref_category_key), null));
+            restartApp ();
+
         }
     }
 
@@ -134,5 +139,11 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
     public void onStop() {
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         super.onStop();
+    }
+
+    public void restartApp () {
+        Intent intent = new Intent(getActivity(),SettingsActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 }

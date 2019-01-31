@@ -1,5 +1,6 @@
 package com.example.breezil.pixxo;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,8 +21,12 @@ public class BaseActivity extends AppCompatActivity {
 
         if(themeMode){
             setTheme(R.style.DarkTheme);
+
         }else {
             setTheme(R.style.AppTheme);
+
         }
     }
+
+
 }

@@ -45,9 +45,10 @@ public class SettingsActivity extends BaseActivity implements HasSupportFragment
         binding.addButton.setOnClickListener(v ->
                 chooseImageBottomDialogFragment.show(getSupportFragmentManager(),"Choose Image"));
 
-        binding.aboutText.setOnClickListener(v -> {
-            startActivity(new Intent(this, AboutActivity.class));
-        });
+        binding.aboutText.setOnClickListener(v ->
+                startActivity(new Intent(this, AboutActivity.class)));
+
+        getSupportActionBar().setTitle("Settings");
     }
 
     private void setupBottomNavigation() {

@@ -54,6 +54,19 @@
             android:parentActivityName=".ui.main.MainActivity" />
         <activity android:name=".ui.settings.AboutActivity"
             android:parentActivityName=".ui.settings.SettingsActivity"/>
+    <receiver android:name=".widget.PixxoAppWidget">
+        <intent-filter>
+            <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+        </intent-filter>
+        <meta-data
+            android:name="android.appwidget.provider"
+            android:resource="@xml/pixxo_app_widget" />
+    </receiver>
+
+    <service android:name=".widget.WidgetService"
+        android:permission="android.permission.BIND_REMOTEVIEWS"
+        />
+
     </application>
 
 </manifest>

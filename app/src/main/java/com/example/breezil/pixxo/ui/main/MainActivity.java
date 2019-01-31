@@ -98,6 +98,8 @@ public class MainActivity extends BaseActivity {
         if(internetConnected()){
             binding.swipeRefresh.setOnRefreshListener(this::refresh);
         }
+
+        getSupportActionBar().setTitle("Trending");
     }
 
     private void setUpAdapter(){
@@ -194,7 +196,30 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    //Creating the option menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        //set the menu layout
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return true;
+    }
+    //Option menu selected
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        //if logout item is selected
 
+
+        if(item.getItemId() == R.id.preference) {
+            Intent trendIntent = new Intent(MainActivity.this,SettingsActivity.class);
+            startActivity(trendIntent);
+            finish();
+        }
+
+
+        return true;
+    }
 
     public String getCategoryList(){
         Set<String> sourceSet = new HashSet<>();
