@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/bottomNavViewBar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,11 +32,11 @@
                 android:id="@+id/aboutText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="20dp"
                 android:text="About"
                 android:textColor="@color/colorAccent"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
 

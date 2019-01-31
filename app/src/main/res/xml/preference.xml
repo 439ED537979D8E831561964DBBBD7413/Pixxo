@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     >
-    <PreferenceCategory android:title="Preference settings">
+    <PreferenceCategory android:title="Preference settings"
+
+        >
         <MultiSelectListPreference
             android:defaultValue="@string/pref_category_all_value"
             android:entries="@array/pref_search_list"
             android:entryValues="@array/pref_search_list_value"
             android:key="@string/pref_category_key"
-            android:title="@string/pref_category_label" />
+            android:title="@string/pref_category_label"
+            />
 
         <ListPreference
             android:defaultValue="@string/pref_order_by_all_value"
@@ -17,15 +18,18 @@
             android:entryValues="@array/order_by_list_value"
             android:key="@string/pref_orderby_key"
             android:title="@string/pref_order_by_label"
-            android:summary="@string/pref_order_by_all"/>
+            android:summary="@string/pref_order_by_all"
+
+            />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_skin_title">
+    <PreferenceCategory android:title="@string/pref_skin_title"
+        >
         <SwitchPreference android:title="Night Mode"
             android:key="@string/pref_theme_key"
-
             android:defaultValue="@string/pref_theme_true_value"
-            android:checked="true"/>
+            android:checked="true"
+            />
 
     </PreferenceCategory>
 </PreferenceScreen>
