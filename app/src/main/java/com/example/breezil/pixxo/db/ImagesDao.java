@@ -22,6 +22,11 @@ public interface ImagesDao {
     @Query("SELECT * FROM images_model_table ORDER BY roomId DESC ")
     LiveData<List<ImagesModel>> getImages();
 
+
+    @Transaction
+    @Query("SELECT * FROM images_model_table ORDER BY roomId DESC ")
+    List<ImagesModel> getImagesss();
+
     @Transaction
     @Query("SELECT * FROM images_model_table ORDER BY roomId ASC")
     DataSource.Factory<Integer, ImagesModel> getPagedImages();

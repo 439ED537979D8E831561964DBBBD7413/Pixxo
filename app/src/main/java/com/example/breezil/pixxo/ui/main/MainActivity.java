@@ -1,7 +1,9 @@
 package com.example.breezil.pixxo.ui.main;
 
+import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +33,8 @@ import com.example.breezil.pixxo.ui.bottom_sheet.ActionBottomSheetFragment;
 import com.example.breezil.pixxo.ui.bottom_sheet.ChooseImageBottomDialogFragment;
 import com.example.breezil.pixxo.utils.BottomNavigationHelper;
 import com.example.breezil.pixxo.view_model.ViewModelFactory;
+import com.example.breezil.pixxo.widget.PixxoAppWidget;
+import com.example.breezil.pixxo.widget.WidgetPref;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 
@@ -216,6 +220,9 @@ public class MainActivity extends BaseActivity {
             startActivity(trendIntent);
             finish();
         }
+        if(item.getItemId() == R.id.addWidget){
+            addWidget();
+        }
 
 
         return true;
@@ -258,6 +265,18 @@ public class MainActivity extends BaseActivity {
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private void addWidget() {
+
+        WidgetPref.setTitle(this,"Trending");
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
+                new ComponentName(this, PixxoAppWidget.class));
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_images_list);
+
+        PixxoAppWidget.updateAppWidget(this, appWidgetManager, appWidgetIds);
+
     }
 }
 

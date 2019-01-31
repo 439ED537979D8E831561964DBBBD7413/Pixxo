@@ -91,7 +91,7 @@ public class EditImageGridAdapter extends BaseAdapter {
         
         CharSequence options [] = new CharSequence[]{"Edit", "Share"};
 
-        final AlertDialog.Builder  builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder  builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
         builder.setTitle("Select Options");
         builder.setItems(options, (dialog, which) -> {
             //Click event for selected item
@@ -104,7 +104,9 @@ public class EditImageGridAdapter extends BaseAdapter {
                 startSharing(getImageUri(context, image));
             }
         });
-        builder.show();
+        AlertDialog alertDialog = builder.create();
+
+        alertDialog.show();
 
     }
 

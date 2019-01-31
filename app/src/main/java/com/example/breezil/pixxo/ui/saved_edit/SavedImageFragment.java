@@ -123,7 +123,7 @@ public class SavedImageFragment extends Fragment {
 
     private void showDeleteAllDialog() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
         builder.setCancelable(false);
         builder.setMessage("Are you sure, you want to delete all saved photos?").
                 setPositiveButton("Yes", (dialog, which) -> {

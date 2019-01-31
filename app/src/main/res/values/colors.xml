@@ -17,4 +17,5 @@
     <color name="dark1">#424242</color>
     <color name="dark2">#3030</color>
     <color name="faded">#FFF3F0</color>
+    <color name="background">?attr/background</color>
 </resources>
