@@ -9,6 +9,8 @@ import android.view.View;
 import com.example.breezil.pixxo.BaseActivity;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.ActivityAboutBinding;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.Calendar;
 
@@ -40,6 +42,7 @@ public class AboutActivity extends BaseActivity {
                 .addWebsite(getString(R.string.web), getString(R.string.website))
                 .addTwitter(getString(R.string.twitter), getString(R.string.ontwitter))
                 .addGitHub(getString(R.string.github), getString(R.string.ongithub))
+                .addItem(getLibElement())
                 .addItem(getCopyRights())
                 .create();
     }
@@ -53,5 +56,23 @@ public class AboutActivity extends BaseActivity {
         copyRightsElement.setIconNightTint(android.R.color.white);
         copyRightsElement.setGravity(Gravity.CENTER);
         return copyRightsElement;
+    }
+
+
+    private Element getLibElement() {
+        Element libElement = new Element();
+
+        libElement.setTitle(getString(R.string.open_source_libs));
+        libElement.setOnClickListener( v -> {
+
+                new LibsBuilder()
+                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                        .withActivityTitle(getString(R.string.library_text))
+                        .withAutoDetect(true)
+                        .start(getApplicationContext());
+
+        });
+
+        return libElement;
     }
 }

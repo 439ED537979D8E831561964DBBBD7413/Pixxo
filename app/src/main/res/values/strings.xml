@@ -106,7 +106,6 @@
 
 
 
-
     <string name="about_description">FavNews an awesome app.\n\n Where you can keep up on your latest and favorite world news from any cable source around the world, Build with Android Architecture Components(MVVM), also implemented Dagger2. This app let you sortby your favorite news source and mark news as bookmark to read later. \n\n Made with love by Kola Emiola and Api by NewsApi.org </string>
 
 
@@ -119,12 +118,11 @@
     <string name="ongithub">github</string>
     <string name="twitter">kola_emi</string>
     <string name="ontwitter">twitter</string>
-    <string name="library_used">Library Used</string>
     <string name="open_source_libs">Open Source Libraries</string>
     <string name="version">Version: 1.0</string>
-    <string name="libraries">Libraries</string>
     <string name="copy_right">Copyrights © %1$d</string>
     <string name="widget">Add Widget</string>
+    <string name="library_text">Libraries</string>
 
 
 </resources>

@@ -46,6 +46,8 @@ dependencies {
     def espresso_version = '3.0.2'
     def okhttp_version = '3.12.0'
     def timber_version = '4.7.1'
+    def aboutPage = '1.2.4'
+    def aboutLibraries = '6.0.6'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //Support
@@ -75,9 +77,12 @@ dependencies {
     implementation "android.arch.paging:runtime:$paging_version"
 
     //About
-    implementation 'com.github.medyo:android-about-page:1.2.4'
+    implementation "com.github.medyo:android-about-page:$aboutPage"
+    implementation("com.mikepenz:aboutlibraries:$aboutLibraries") {
+        transitive = true
+    }
 
-    implementation 'com.squareup.picasso:picasso:2.71828'
+
 
     //Dagger
     implementation "com.google.dagger:dagger:$dagger_version"
