@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.breezil.pixxo.BaseActivity;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.ActivityPreferenceBinding;
 import com.example.breezil.pixxo.ui.saved_edit.SavedActivity;
@@ -23,7 +25,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.DaggerAppCompatActivity;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class SettingsActivity extends DaggerAppCompatActivity implements HasSupportFragmentInjector {
+public class SettingsActivity extends BaseActivity implements HasSupportFragmentInjector {
 
 
     ActivityPreferenceBinding binding;

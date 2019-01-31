@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.breezil.pixxo.BaseActivity;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
@@ -49,7 +50,7 @@ import static android.support.v4.content.ContextCompat.getSystemService;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Inject
     ViewModelFactory viewModelFactory;
@@ -73,13 +74,7 @@ public class MainActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        themeMode = sharedPreferences.getBoolean(getString(R.string.pref_theme_key),true);
 
-        if(themeMode){
-            setTheme(R.style.DarkTheme);
-        }else {
-            setTheme(R.style.AppTheme);
-        }
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
         binding.imageList.setHasFixedSize(true);
         setupBottomNavigation();
@@ -89,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
         ordeyBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
 
-
-//        Toast.makeText(this, String.valueOf(themeMode), Toast.LENGTH_LONG).show();
 
         setUpAdapter();
         setUpViewModel();

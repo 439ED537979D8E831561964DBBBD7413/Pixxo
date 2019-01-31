@@ -96,8 +96,8 @@
     <string name="pref_latest_value">latest</string>
 
     <string name="pref_skin_title">Themes</string>
-    <string name="pref_theme_checked_summary">Night Mode enabled.</string>
-    <string name="pref_theme_unchecked_summary">Night Mode disabled.</string>
+    <string name="pref_theme_checked_summary">enabled</string>
+    <string name="pref_theme_unchecked_summary">disabled</string>
 
     <string name="pref_theme_key">theme-key</string>
 

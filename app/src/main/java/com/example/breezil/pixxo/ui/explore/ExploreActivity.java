@@ -3,14 +3,17 @@ package com.example.breezil.pixxo.ui.explore;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.breezil.pixxo.BaseActivity;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
@@ -51,11 +54,23 @@ public class ExploreActivity extends AppCompatActivity {
     QuickSearchRecyclerListAdapter quickSearchRecyclerListAdapter;
     List<String> quickSearchList;
     boolean isTablet;
+    private SharedPreferences sharedPreferences;
+
+    boolean themeMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        themeMode = sharedPreferences.getBoolean(getString(R.string.pref_theme_key),true);
+
+        if(themeMode){
+            setTheme(R.style.DarkNoActionTheme);
+        }else {
+            setTheme(R.style.AppNoActionTheme);
+        }
         binding = DataBindingUtil.setContentView(this,R.layout.activity_explore);
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(SearchViewModel.class);
 

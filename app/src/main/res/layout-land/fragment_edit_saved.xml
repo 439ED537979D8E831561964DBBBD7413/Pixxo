@@ -25,6 +25,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="No Image edited yet"
+            android:textColor="?attr/textcolor"
             android:layout_gravity="center"
             android:drawableTop="@mipmap/ic_empty_folder"
             android:drawablePadding="2dp"

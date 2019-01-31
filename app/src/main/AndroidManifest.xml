@@ -25,12 +25,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <activity android:name=".BaseActivity"/>
 
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".ui.main.MainActivity"
-            android:launchMode="singleTop">
+         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,13 +42,13 @@
             android:name=".ui.explore.ExploreActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
-            android:launchMode="singleTop"/>
+            />
         <activity
             android:name=".ui.saved_edit.SavedActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop"/>
+            />
         <activity android:name=".ui.settings.SettingsActivity"
-            android:launchMode="singleTop"/>
+           />
         <activity
             android:name=".ui.detail.DetailActivity"
             android:parentActivityName=".ui.main.MainActivity" />

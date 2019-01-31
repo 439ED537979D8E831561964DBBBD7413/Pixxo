@@ -1,12 +1,16 @@
 package com.example.breezil.pixxo.ui.saved_edit;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.breezil.pixxo.BaseActivity;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.ActivitySavedBinding;
 import com.example.breezil.pixxo.ui.adapter.SavedPagerAdapter;
@@ -32,12 +36,23 @@ public class SavedActivity extends DaggerAppCompatActivity implements HasSupport
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
     SavedPagerAdapter pagerAdapter;
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
+    private SharedPreferences sharedPreferences;
 
+    boolean themeMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        themeMode = sharedPreferences.getBoolean(getString(R.string.pref_theme_key),true);
+
+        if(themeMode){
+            setTheme(R.style.DarkNoActionTheme);
+        }else {
+            setTheme(R.style.AppNoActionTheme);
+        }
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_saved);
         setupBottomNavigation();
         setupAdapter();

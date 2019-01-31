@@ -3,6 +3,7 @@
     <PreferenceCategory android:title="Preference settings">
         <MultiSelectListPreference
             android:defaultValue="@string/pref_category_all_value"
+
             android:entries="@array/pref_search_list"
             android:entryValues="@array/pref_search_list_value"
             android:key="@string/pref_category_key"
@@ -10,6 +11,7 @@
 
         <ListPreference
             android:defaultValue="@string/pref_order_by_all_value"
+
             android:entries="@array/order_by_list"
             android:entryValues="@array/order_by_list_value"
             android:key="@string/pref_orderby_key"
@@ -21,6 +23,7 @@
 
         <SwitchPreference android:title="Night Mode"
             android:key="@string/pref_theme_key"
+
             android:defaultValue="@string/pref_theme_true_value"
             android:checked="true"/>
 
