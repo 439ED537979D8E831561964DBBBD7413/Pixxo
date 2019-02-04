@@ -85,7 +85,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
             editEmptyText.setVisibility(View.VISIBLE);
             clickEditBtn.setVisibility(View.VISIBLE);
             clickEditBtn.setOnClickListener(v -> {
-                chooseImageBottomDialogFragment.show(getFragmentManager(),"Choose Image");
+                chooseImageBottomDialogFragment.show(getFragmentManager(),getString(R.string.choose_image));
                 }
             );
         }
@@ -131,7 +131,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     private boolean isImageFile(String filePath) {
-        if (filePath.endsWith(".jpg") || filePath.endsWith(".png"))
+        if (filePath.endsWith(getString(R.string.jpg)) || filePath.endsWith(getString(R.string.png)))
         // Add other formats as desired
         {
             return true;

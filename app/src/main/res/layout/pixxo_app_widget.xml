@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/widget_layout"
     android:background="@color/colorGrey"
     android:padding="8dp"
@@ -27,5 +28,7 @@
         android:divider="@color/colorGrey"
         android:dividerHeight="1dp"
         tools:listitem="@layout/widget_item"/>
+
+
 
 </LinearLayout>

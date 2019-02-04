@@ -96,56 +96,53 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
         });
 
         binding.selectDownload.setOnClickListener(v -> {
-            Glide.with(getActivity())
-                    .asBitmap().load(imagesModel.getWebformatURL())
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, boolean isFirstResource) {
-                            return false;
-                        }
-                        @Override
-                        public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            if (ContextCompat.checkSelfPermission(getActivity(),
-                                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                imageSaveUtils.startDownloading(getActivity(), bitmap);
-                                Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
-                            }else{
-                                ActivityCompat.requestPermissions(getActivity(),
-                                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
 
+
+                Glide.with(getActivity())
+                        .asBitmap().load(imagesModel.getWebformatURL())
+                        .listener(new RequestListener<Bitmap>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, boolean isFirstResource) {
+                                return false;
                             }
+                            @Override
+                            public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                if (ContextCompat.checkSelfPermission(getActivity(),
+                                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                    imageSaveUtils.startDownloading(getActivity(), bitmap);
+                                    Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
+                                }else{
+                                    ActivityCompat.requestPermissions(getActivity(),
+                                            new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+
+                                }
 //                            imageSaveUtils.startDownloading(getActivity(), bitmap);
 //                            Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
-                            return true;
-                        }
-                    }).submit();
+                                return true;
+                            }
+                        }).submit();
+                dismiss();
 
 
-            dismiss();
-        });
-
-
+         });
 
 
 
-        binding.selectShare.setOnClickListener(v -> {
-            Glide.with(getActivity())
-                    .asBitmap().load(imagesModel.getWebformatURL())
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                            return false;
-                        }
+        binding.selectShare.setOnClickListener(v -> Glide.with(getActivity())
+                .asBitmap().load(imagesModel.getWebformatURL())
+                .listener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                        return false;
+                    }
 
-                        @Override
-                        public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            startSharing(imageSaveUtils.getLocalBitmapUri(bitmap,getActivity()));
-                            
-                            return true;
-                        }
-                    }).submit();
+                    @Override
+                    public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        startSharing(imageSaveUtils.getLocalBitmapUri(bitmap,getActivity()));
 
-        });
+                        return true;
+                    }
+                }).submit());
 
     }
 

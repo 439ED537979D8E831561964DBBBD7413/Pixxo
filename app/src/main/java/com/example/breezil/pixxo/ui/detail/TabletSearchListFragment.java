@@ -18,7 +18,7 @@ import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.example.breezil.pixxo.callbacks.QuickSearchListener;
 import com.example.breezil.pixxo.databinding.FragmentTabletSearchListBinding;
-import com.example.breezil.pixxo.ui.adapter.ImagesRecyclcerViewAdapter;
+import com.example.breezil.pixxo.ui.adapter.ImagesRecyclerViewAdapter;
 import com.example.breezil.pixxo.ui.adapter.QuickSearchRecyclerListAdapter;
 import com.example.breezil.pixxo.ui.bottom_sheet.ActionBottomSheetFragment;
 import com.example.breezil.pixxo.ui.explore.SearchViewModel;
@@ -42,7 +42,7 @@ public class TabletSearchListFragment extends Fragment {
 
     FragmentTabletSearchListBinding binding;
     SearchViewModel viewModel;
-    ImagesRecyclcerViewAdapter adapter;
+    ImagesRecyclerViewAdapter adapter;
 
     QuickSearchRecyclerListAdapter quickSearchRecyclerListAdapter;
     List<String> quickSearchList;
@@ -89,7 +89,7 @@ public class TabletSearchListFragment extends Fragment {
 
         };
 
-        adapter = new ImagesRecyclcerViewAdapter(getContext(), imageClickListener, imageLongClickListener);
+        adapter = new ImagesRecyclerViewAdapter(getContext(), imageClickListener, imageLongClickListener);
         binding.searchDefaultList.setAdapter(adapter);
         String[] textArray = getResources().getStringArray(R.array.search_list);
 

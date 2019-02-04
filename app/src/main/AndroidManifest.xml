@@ -47,7 +47,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity android:name=".ui.settings.SettingsActivity"
-           />
+            />
         <activity
             android:name=".ui.detail.DetailActivity"
              />

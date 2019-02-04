@@ -2,7 +2,6 @@ package com.example.breezil.pixxo.ui.main;
 
 import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,24 +10,21 @@ import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.breezil.pixxo.BaseActivity;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
 import com.example.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.example.breezil.pixxo.databinding.ActivityMainBinding;
-import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.ui.detail.DetailActivity;
 import com.example.breezil.pixxo.ui.explore.ExploreActivity;
 import com.example.breezil.pixxo.ui.saved_edit.SavedActivity;
 import com.example.breezil.pixxo.ui.settings.SettingsActivity;
-import com.example.breezil.pixxo.ui.adapter.ImagesRecyclcerViewAdapter;
+import com.example.breezil.pixxo.ui.adapter.ImagesRecyclerViewAdapter;
 import com.example.breezil.pixxo.ui.bottom_sheet.ActionBottomSheetFragment;
 import com.example.breezil.pixxo.ui.bottom_sheet.ChooseImageBottomDialogFragment;
 import com.example.breezil.pixxo.utils.BottomNavigationHelper;
@@ -50,7 +46,6 @@ import dagger.android.AndroidInjection;
 import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
-import static android.support.v4.content.ContextCompat.getSystemService;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
@@ -60,13 +55,12 @@ public class MainActivity extends BaseActivity {
     ViewModelFactory viewModelFactory;
     ActivityMainBinding binding;
 
-    private ImagesRecyclcerViewAdapter imagesRecyclcerViewAdapter;
+    private ImagesRecyclerViewAdapter imagesRecyclcerViewAdapter;
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
 
     private SharedPreferences sharedPreferences;
     String category;
-    String ordeyBy;
-    boolean themeMode;
+    String orderBy;
 
     MainViewModel viewModel;
     boolean isTablet;
@@ -86,7 +80,7 @@ public class MainActivity extends BaseActivity {
         binding.shimmerViewContainer.startShimmerAnimation();
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
-        ordeyBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
+        orderBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
 
 
         setUpAdapter();
@@ -123,7 +117,7 @@ public class MainActivity extends BaseActivity {
         };
 
         imagesRecyclcerViewAdapter
-                = new ImagesRecyclcerViewAdapter(this,imageClickListener,imageLongClickListener);
+                = new ImagesRecyclerViewAdapter(this,imageClickListener,imageLongClickListener);
         binding.imageList.setAdapter(imagesRecyclcerViewAdapter);
     }
 
@@ -131,7 +125,7 @@ public class MainActivity extends BaseActivity {
 
         if(internetConnected()){
           viewModel.deleteAllInDb();
-            viewModel.setParameter(getCategoryList(),getCategoryList(),"en",ordeyBy);
+            viewModel.setParameter(getCategoryList(),getCategoryList(),"en",orderBy);
             viewModel.getImageList().observe(this, imagesModels -> {
                 imagesRecyclcerViewAdapter.submitList(imagesModels);
 
@@ -154,7 +148,7 @@ public class MainActivity extends BaseActivity {
 
 
     private void refresh(){
-        viewModel.setParameter("",getCategoryList(),"en",ordeyBy);
+        viewModel.setParameter("",getCategoryList(),"en",orderBy);
 
         viewModel.refreshImages().observe(this, imagesModels -> {
             imagesRecyclcerViewAdapter.submitList(imagesModels);
@@ -268,15 +262,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void addWidget() {
-
         WidgetPref.setTitle(this,"Trending");
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
                 new ComponentName(this, PixxoAppWidget.class));
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_images_list);
-
         PixxoAppWidget.updateAppWidget(this, appWidgetManager, appWidgetIds);
-
     }
 }
 

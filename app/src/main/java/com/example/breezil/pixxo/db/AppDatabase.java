@@ -6,6 +6,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.model.ImagesResult;
 import com.example.breezil.pixxo.model.SavedImageModel;
@@ -19,7 +20,7 @@ public abstract class AppDatabase  extends RoomDatabase {
     public static synchronized AppDatabase getAppDatabase(Context context){
         if(appDatabase == null){
             appDatabase = Room.databaseBuilder(context.getApplicationContext(),
-                    AppDatabase.class, "pixxo.db")
+                    AppDatabase.class, context.getString(R.string.pixxo_db))
                     .fallbackToDestructiveMigration()
                     .build();
         }

@@ -123,6 +123,11 @@
     <string name="copy_right">Copyrights © %1$d</string>
     <string name="widget">Add Widget</string>
     <string name="library_text">Libraries</string>
+    <string name="png">.png</string>
+    <string name="jpg">.jpg</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="pixxo">Pixxo</string>
+    <string name="pixxo.db">pixxo.db</string>
 
 
 </resources>

@@ -19,7 +19,7 @@ import com.example.breezil.pixxo.databinding.ItemNetworkStateBinding;
 import com.example.breezil.pixxo.model.ImagesModel;
 import com.example.breezil.pixxo.repository.NetworkState;
 
-public class ImagesRecyclcerViewAdapter extends PagedListAdapter<ImagesModel, RecyclerView.ViewHolder> {
+public class ImagesRecyclerViewAdapter extends PagedListAdapter<ImagesModel, RecyclerView.ViewHolder> {
 
     ImageItemBinding binding;
     ItemNetworkStateBinding networkStateBinding;
@@ -33,8 +33,8 @@ public class ImagesRecyclcerViewAdapter extends PagedListAdapter<ImagesModel, Re
 
 
 
-    public ImagesRecyclcerViewAdapter(Context context, ImageClickListener imageClickListener ,
-                                      ImageLongClickListener imageLongClickListener) {
+    public ImagesRecyclerViewAdapter(Context context, ImageClickListener imageClickListener ,
+                                     ImageLongClickListener imageLongClickListener) {
         super(DIFF_CALLBACK);
         this.context = context;
         this.imageClickListener = imageClickListener;

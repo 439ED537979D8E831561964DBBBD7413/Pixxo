@@ -19,6 +19,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.breezil.pixxo.BuildConfig.BASE_URL;
+import static com.example.breezil.pixxo.utils.Constant.PIXXO_DB;
 
 @Module(includes = ViewModelModule.class)
 public class AppModule {
@@ -39,7 +40,7 @@ public class AppModule {
     @Singleton
     @Provides
     AppDatabase provideDb(Application app) {
-        return Room.databaseBuilder(app, AppDatabase.class, "pixxo.db").build();
+        return Room.databaseBuilder(app, AppDatabase.class, PIXXO_DB).build();
     }
 
     @Provides

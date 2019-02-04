@@ -97,7 +97,7 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ImagesModel> callback) {
 
         List<ImagesModel> modelList = new ArrayList<>();
-        Disposable imagesModel = endpointRepository.getImages(getSearch(),getLang(),getCategory(),getOrder(),1,15)
+        Disposable imagesModel = endpointRepository.getImages(getSearch(),getLang(),getCategory(),getOrder(),1,10)
                 .subscribe( imagesResult -> {
                     onInitialSuccess(imagesResult, callback, modelList);
                         for(ImagesModel img : imagesResult.getHits()){
@@ -141,6 +141,7 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
         if (imagesResult.getHits() != null && imagesResult.getHits().size() > 0) {
             imagesModels.addAll(imagesResult.getHits());
             callback.onResult(imagesModels, null, 2);
+
 
 
             mInitialLoading.postValue(NetworkState.LOADED);

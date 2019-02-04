@@ -6,12 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 
-public class Constant {
-
-
+public class Constant { 
 
     public static String SEARCH_STRING = "search";
-
     public static String SINGLE_PHOTO = "single_photo";
     public static String PHOTO_TYPE = "images";
     public static String SAVED_PHOTO_TYPE = "saved_image";
@@ -25,6 +22,7 @@ public class Constant {
     public static String QUICK_SEARCH_STRING = "quick_search_string";
     public static int STORAGE_PERMISSION_CODE = 99;
     public static int CAMERA_PERMISSION_CODE = 90;
+    public static String PIXXO_DB = "pixxo.db";
 
 
     public static int CAMERA_REQUEST_CODE = 1;
