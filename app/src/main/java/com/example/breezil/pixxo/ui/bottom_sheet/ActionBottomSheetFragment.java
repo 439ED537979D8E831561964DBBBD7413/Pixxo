@@ -2,6 +2,7 @@ package com.example.breezil.pixxo.ui.bottom_sheet;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -19,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -41,9 +44,11 @@ import static com.example.breezil.pixxo.utils.Constant.STORAGE_PERMISSION_CODE;
 public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
 
     FragmentActionBottomSheetBinding binding;
-    Context context;
+    private Context mContext;
 
     ImageSaveUtils imageSaveUtils;
+
+    ProgressDialog mProgress;
 
     public static ActionBottomSheetFragment getImageModel(ImagesModel imagesModel){
         ActionBottomSheetFragment fragment = new ActionBottomSheetFragment();
@@ -60,14 +65,14 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater ,R.layout.fragment_action_bottom_sheet, container, false);
-        imageSaveUtils = new ImageSaveUtils(getActivity());
+        this.mContext = getActivity();
+        imageSaveUtils = new ImageSaveUtils(mContext);
+        mProgress = new ProgressDialog(mContext);
 
         updateUi(getImage());
         return binding.getRoot();
@@ -91,12 +96,11 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                     imagesModel.getFavorites(),imagesModel.getUserImageURL(), imagesModel.getPreviewURL());
             savedViewModel.insert(savedImageModel);
 
-            Toast.makeText(getContext(),"Saved ",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),"Saved ",Toast.LENGTH_SHORT).show();
             dismiss();
         });
 
         binding.selectDownload.setOnClickListener(v -> {
-
 
                 Glide.with(getActivity())
                         .asBitmap().load(imagesModel.getWebformatURL())
@@ -107,17 +111,25 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                             }
                             @Override
                             public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                if (ContextCompat.checkSelfPermission(getActivity(),
+                                if (ContextCompat.checkSelfPermission(ActionBottomSheetFragment.this.mContext,
                                         Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                    imageSaveUtils.startDownloading(getActivity(), bitmap);
-                                    Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
+                                    mProgress.setTitle("Downloading");
+                                    mProgress.setMessage("Please wait image is downloading");
+                                    mProgress.show();
+                                    Handler handler = new Handler();
+                                    handler.postDelayed(() -> {
+                                        imageSaveUtils.startDownloading(ActionBottomSheetFragment.this.mContext, bitmap);
+                                        mProgress.dismiss();
+                                        Toast.makeText(ActionBottomSheetFragment.this.mContext,"Downloaded",Toast.LENGTH_SHORT).show();
+                                    }, 2000);
+
+
                                 }else{
-                                    ActivityCompat.requestPermissions(getActivity(),
+                                    ActivityCompat.requestPermissions((Activity) ActionBottomSheetFragment.this.mContext,
                                             new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
 
                                 }
-//                            imageSaveUtils.startDownloading(getActivity(), bitmap);
-//                            Toast.makeText(getActivity(),"Downloaded",Toast.LENGTH_LONG).show();
+
                                 return true;
                             }
                         }).submit();
