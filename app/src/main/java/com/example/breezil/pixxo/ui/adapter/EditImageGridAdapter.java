@@ -112,15 +112,15 @@ public class EditImageGridAdapter extends BaseAdapter {
 
     private void startSharing(Uri localBitmapUri) {
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("image/jpg");
+        shareIntent.setType(context.getString(R.string.image_jpg));
         shareIntent.putExtra(Intent.EXTRA_STREAM,localBitmapUri);
-        context.startActivity(Intent.createChooser(shareIntent, "Share image using"));
+        context.startActivity(Intent.createChooser(shareIntent,  context.getString(R.string.share_image)));
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, inContext.getString(R.string.title), null);
         return Uri.parse(path);
     }
 

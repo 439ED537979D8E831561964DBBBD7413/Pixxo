@@ -106,22 +106,23 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                         .asBitmap().load(imagesModel.getWebformatURL())
                         .listener(new RequestListener<Bitmap>() {
                             @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, boolean isFirstResource) {
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                                 return false;
                             }
                             @Override
-                            public boolean onResourceReady(Bitmap bitmap, Object model, com.bumptech.glide.request.target.Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                                 if (ContextCompat.checkSelfPermission(ActionBottomSheetFragment.this.mContext,
                                         Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                    mProgress.setTitle("Downloading");
-                                    mProgress.setMessage("Please wait image is downloading");
+                                    mProgress.setTitle(mContext.getString(R.string.downloading));
+                                    mProgress.setMessage(mContext.getString(R.string.please_wait_image_is_downloading));
+                                    mProgress.setCancelable(false);
                                     mProgress.show();
                                     Handler handler = new Handler();
                                     handler.postDelayed(() -> {
                                         imageSaveUtils.startDownloading(ActionBottomSheetFragment.this.mContext, bitmap);
                                         mProgress.dismiss();
-                                        Toast.makeText(ActionBottomSheetFragment.this.mContext,"Downloaded",Toast.LENGTH_SHORT).show();
-                                    }, 2000);
+                                        Toast.makeText(ActionBottomSheetFragment.this.mContext, R.string.downloaded,Toast.LENGTH_SHORT).show();
+                                    }, 1000);
 
 
                                 }else{
@@ -160,9 +161,9 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void startSharing(Uri localBitmapUri) {
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("image/jpg");
+        shareIntent.setType(getString(R.string.image_jpg));
         shareIntent.putExtra(Intent.EXTRA_STREAM,localBitmapUri);
-        startActivity(Intent.createChooser(shareIntent, "Share image using"));
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_image)));
         dismiss();
     }
 

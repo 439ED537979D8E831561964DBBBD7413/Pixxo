@@ -128,6 +128,12 @@
     <string name="choose_image">Choose Image</string>
     <string name="pixxo">Pixxo</string>
     <string name="pixxo.db">pixxo.db</string>
+    <string name="downloading">Downloading</string>
+    <string name="please_wait_image_is_downloading">Please wait image is downloading</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="image_jpg">image/jpg</string>
+    <string name="share_image">Share image</string>
+    <string name="title">Title</string>
 
 
 </resources>
