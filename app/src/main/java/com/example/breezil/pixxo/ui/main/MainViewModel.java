@@ -43,7 +43,6 @@ public class MainViewModel extends AndroidViewModel {
         appDatabase = AppDatabase.getAppDatabase(this.getApplication());
 
 
-
         networkState = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),
                 ImageModelDataSource::getNetworkState);
         initialLoading = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),

@@ -66,8 +66,6 @@ public class TabletListFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tablet_list, container, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-
-
         setUpAdapter();
         setUpViewModel();
         orderBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
@@ -95,14 +93,11 @@ public class TabletListFragment extends Fragment {
 
     private void setUpViewModel() {
 
-
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
 
         viewModel.setParameter("",getCategoryList(),"en",orderBy);
 
-        viewModel.getImageList().observe(this, imagesModels -> {
-            adapter.submitList(imagesModels);
-        });
+        viewModel.getImageList().observe(this, imagesModels -> adapter.submitList(imagesModels));
 
     }
 

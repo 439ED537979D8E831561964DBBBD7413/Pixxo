@@ -49,8 +49,8 @@ public class SavedImageRecyclerAdapter extends ListAdapter<SavedImageModel, Save
     public SavedImageHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         binding = GridImageItemBinding.inflate(layoutInflater,viewGroup,false);
-
         return new SavedImageHolder(binding);
+
     }
 
     @Override
@@ -77,10 +77,7 @@ public class SavedImageRecyclerAdapter extends ListAdapter<SavedImageModel, Save
                          SavedImageClickListener imageClickListener,
                          SavedImageLongClickListener imageLongClickListener
         ){
-            itemView.setOnClickListener(v -> {
-                imageClickListener.showFullImage(imagesModel);
-
-            });
+            itemView.setOnClickListener(v -> imageClickListener.showFullImage(imagesModel));
             itemView.setOnLongClickListener(v -> {
                 imageLongClickListener.doSomethingWithImage(imagesModel);
                 return true;

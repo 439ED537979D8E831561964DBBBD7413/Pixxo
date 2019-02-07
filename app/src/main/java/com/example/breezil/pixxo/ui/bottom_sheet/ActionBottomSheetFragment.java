@@ -96,7 +96,7 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                     imagesModel.getFavorites(),imagesModel.getUserImageURL(), imagesModel.getPreviewURL());
             savedViewModel.insert(savedImageModel);
 
-            Toast.makeText(getContext(),"Saved ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.saved, Toast.LENGTH_SHORT).show();
             dismiss();
         });
 

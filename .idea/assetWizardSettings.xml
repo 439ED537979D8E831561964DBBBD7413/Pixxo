@@ -45,17 +45,38 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
+                                      <entry key="backgroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="scalingPercent" value="51" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                       <entry key="foregroundImage">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="scalingPercent" value="53" />
                                               </map>
                                             </option>
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="backgroundColor" value="f9f9f9" />
+                                      <entry key="backgroundImage" value="C:\Users\breezil\Downloads\photo-camera-with-px-sign (2).png" />
+                                      <entry key="foregroundImage" value="C:\Users\breezil\Downloads\photo-camera-with-px-sign (2).png" />
+                                      <entry key="legacyIconShape" value="NONE" />
+                                      <entry key="webIconShape" value="NONE" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -94,7 +115,7 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\breezil\Downloads\photo-camera-with-px-sign (1).png" />
+                                      <entry key="imageAsset" value="C:\Users\breezil\Downloads\photo-camera-with-px-sign (2).png" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -123,17 +144,17 @@
                             </entry>
                           </map>
                         </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
-                          </map>
-                        </option>
                       </PersistentState>
                     </value>
                   </entry>
                 </map>
               </option>
             </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState />
           </value>
         </entry>
       </map>

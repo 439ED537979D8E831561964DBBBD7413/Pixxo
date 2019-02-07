@@ -61,9 +61,7 @@ public class SavedImageFragment extends Fragment {
         
         binding.savedList.setHasFixedSize(true);
 
-        binding.deleteAll.setOnClickListener(v -> {
-            showDeleteAllDialog();
-        });
+        binding.deleteAll.setOnClickListener(v -> showDeleteAllDialog());
 
         return binding.getRoot();
     }
@@ -81,12 +79,12 @@ public class SavedImageFragment extends Fragment {
         SavedImageClickListener savedImageClickListener = imagesModel -> {
             SavedImageDialogFragment savedImageAlertFragment =
                     SavedImageDialogFragment.getImageString(imagesModel.getWebformatURL(),SAVED_TYPE);
-            savedImageAlertFragment.show(getFragmentManager(),"some");
+            savedImageAlertFragment.show(getFragmentManager(),getString(R.string.some));
         };
 
         SavedImageLongClickListener imageLongClickListener = imagesModel -> {
             SavedActionBottomSheetFragment savedActionBottomSheetFragment = SavedActionBottomSheetFragment.getSavedModel(imagesModel);
-            savedActionBottomSheetFragment.show(getFragmentManager(),"Do something");
+            savedActionBottomSheetFragment.show(getFragmentManager(),getString(R.string.do_something));
         };
         
         adapter = new SavedImageRecyclerAdapter(getContext(), imageLongClickListener, savedImageClickListener);
@@ -99,8 +97,6 @@ public class SavedImageFragment extends Fragment {
     private void setUpViewModel() {
 
         savedViewModel = ViewModelProviders.of(this).get(SavedViewModel.class);
-
-
         savedViewModel.getSavedList().observe(this, savedImageModels -> {
 
             if(!savedImageModels.isEmpty()){
@@ -125,22 +121,23 @@ public class SavedImageFragment extends Fragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
         builder.setCancelable(false);
-        builder.setMessage("Are you sure, you want to delete all saved photos?").
-                setPositiveButton("Yes", (dialog, which) -> {
+        builder.setMessage(R.string.are_you_sure_you_want_to_delete_all_saved).
+                setPositiveButton(R.string.yes, (dialog, which) -> {
                     deleteAll();
                     dialog.dismiss();
 
-                    Toast.makeText(getActivity(), "Saved list emptied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.saved_list_emptied, Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+                .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
         AlertDialog alertDialog = builder.create();
-        alertDialog.setTitle("Delete All");
+        alertDialog.setTitle(getString(R.string.delete_all));
         alertDialog.show();
 
     }
 
     private void deleteAll(){
         savedViewModel.deleteAll();
+
     }
 
 

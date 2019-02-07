@@ -32,6 +32,8 @@ import com.example.breezil.pixxo.view_model.ViewModelFactory;
 import com.example.breezil.pixxo.widget.PixxoAppWidget;
 import com.example.breezil.pixxo.widget.WidgetPref;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 
 import java.util.ArrayList;
@@ -65,6 +67,10 @@ public class MainActivity extends BaseActivity {
     MainViewModel viewModel;
     boolean isTablet;
 
+    String deviceToken;
+
+    FirebaseAnalytics firebaseAnalytics;
+
     private ShimmerFrameLayout mShimmerViewContainer;
 
     @Override
@@ -72,7 +78,7 @@ public class MainActivity extends BaseActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-
+        deviceToken = FirebaseInstanceId.getInstance().getToken();
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
         binding.imageList.setHasFixedSize(true);
         setupBottomNavigation();
@@ -82,9 +88,13 @@ public class MainActivity extends BaseActivity {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
         orderBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
 
+        // Obtain the Firebase Analytics instance.
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
         setUpAdapter();
         setUpViewModel();
+        firebaseAnalytics();
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor(message -> Timber.tag("OkHttp").d(message));
 
@@ -268,6 +278,18 @@ public class MainActivity extends BaseActivity {
                 new ComponentName(this, PixxoAppWidget.class));
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_images_list);
         PixxoAppWidget.updateAppWidget(this, appWidgetManager, appWidgetIds);
+    }
+
+
+    private void firebaseAnalytics(){
+        Bundle bundle = new Bundle();
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, (int) System.currentTimeMillis());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, deviceToken);
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        firebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        firebaseAnalytics.setMinimumSessionDuration(20000);
+
+        firebaseAnalytics.setSessionTimeoutDuration(500);
     }
 }
 

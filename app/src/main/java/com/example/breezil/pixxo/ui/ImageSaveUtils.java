@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+
+import com.example.breezil.pixxo.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,12 +26,12 @@ public class ImageSaveUtils {
     public String startDownloading(Context context, Bitmap image) {
         String savedImagePath = null;
         // Create the new file in the external storage
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+        String timeStamp = new SimpleDateFormat(context.getString(R.string.date_format),
                 Locale.getDefault()).format(new Date());
-        String imageFileName = "Pixxo" + timeStamp + ".jpg";
+        String imageFileName = context.getString(R.string.app_name) + timeStamp + context.getString(R.string.png);
         File storageDir = new File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                        + "/Pixxo");
+                        + context.getString(R.string._slash_pixxo));
         boolean success = true;
         if (!storageDir.exists()) {
             success = storageDir.mkdirs();
@@ -39,9 +42,9 @@ public class ImageSaveUtils {
             File imageFile = new File(storageDir, imageFileName);
             savedImagePath = imageFile.getAbsolutePath();
             try {
-                OutputStream fOut = new FileOutputStream(imageFile);
-                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-                fOut.close();
+                OutputStream fileOut = new FileOutputStream(imageFile);
+                image.compress(Bitmap.CompressFormat.JPEG, 100, fileOut);
+                fileOut.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -67,7 +70,8 @@ public class ImageSaveUtils {
         Uri bmpUri = null;
         try {
             File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                    "share_image_" + System.currentTimeMillis() + ".png");
+                    context.getString(R.string.share_image_) + 
+                            System.currentTimeMillis() + context.getString(R.string.png));
             FileOutputStream out = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.flush();
