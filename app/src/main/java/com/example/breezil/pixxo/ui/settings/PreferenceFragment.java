@@ -56,12 +56,12 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
         if (!key.equals(getString(R.string.pref_category_key))) {
             updateSummary(findPreference(key));
             updateNightMode(findPreference(key));
-            restartApp ();
+            restartActivity ();
 
         } else {
             updateMultiSummary(findPreference(key),
                     sharedPreferences.getStringSet(getString(R.string.pref_category_key), null));
-            restartApp ();
+            restartActivity ();
 
         }
     }
@@ -141,7 +141,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
         super.onStop();
     }
 
-    public void restartApp () {
+    public void restartActivity () {
         Intent intent = new Intent(getActivity(),SettingsActivity.class);
         startActivity(intent);
         getActivity().finish();

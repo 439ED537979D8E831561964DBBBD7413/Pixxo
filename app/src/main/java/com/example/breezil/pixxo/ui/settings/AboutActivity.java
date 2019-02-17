@@ -25,7 +25,7 @@ public class AboutActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding  = DataBindingUtil.setContentView(this,R.layout.activity_about);
-        getSupportActionBar().setTitle("About");
+        getSupportActionBar().setTitle(R.string.about);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         View aboutPage = createPage();
         binding.aboutLayout.addView(aboutPage,0);

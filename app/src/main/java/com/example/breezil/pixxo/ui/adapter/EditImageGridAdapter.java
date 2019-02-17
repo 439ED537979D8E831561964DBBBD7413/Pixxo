@@ -74,7 +74,7 @@ public class EditImageGridAdapter extends BaseAdapter {
             String stringUri = String.valueOf(getImageUri(context, image));
             SavedImageDialogFragment savedImageAlertFragment =
                     SavedImageDialogFragment.getImageString(stringUri,EDITED_TYPE);
-            savedImageAlertFragment.show(fragmentManager,"some");
+            savedImageAlertFragment.show(fragmentManager,context.getString(R.string.some));
         });
 
         convertView.setOnLongClickListener(v -> {
@@ -89,10 +89,10 @@ public class EditImageGridAdapter extends BaseAdapter {
 
     private void doSomething(Bitmap image) {
         
-        CharSequence options [] = new CharSequence[]{"Edit", "Share"};
+        CharSequence options [] = new CharSequence[]{context.getString(R.string.edit), context.getString(R.string.share_image)};
 
         final AlertDialog.Builder  builder = new AlertDialog.Builder(context,R.style.MyDialogTheme);
-        builder.setTitle("Select Options");
+        builder.setTitle(R.string.select_options);
         builder.setItems(options, (dialog, which) -> {
             //Click event for selected item
             if(which == 0){

@@ -8,34 +8,52 @@
         tools:context=".ui.detail.PhotoDetailFragment">
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cardView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:cardCornerRadius="5dp"
-            android:layout_margin="1px"
-            app:cardElevation="3dp"
+            android:layout_margin="@dimen/oneDP"
+            android:layout_marginTop="@dimen/fiveDP"
+            app:cardCornerRadius="@dimen/fiveDP"
+            app:cardElevation="@dimen/threeDP"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
                 android:id="@+id/detailImage"
                 android:layout_width="match_parent"
-                android:scaleType="fitXY"
-                android:layout_height="350dp"
+                android:layout_height="@dimen/threeHundredFiftyDP"
                 android:adjustViewBounds="true"
+                android:scaleType="fitXY"
                 android:src="@drawable/placeholder"
-                android:transitionName="imageTransition"
-                />
+                android:transitionName="imageTransition" />
 
         </android.support.v7.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/detailTags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sixteenSP"
+            android:layout_marginStart="@dimen/eightDP"
+            android:layout_marginTop="@dimen/twentyDP"
+            android:layout_marginEnd="@dimen/eightDP"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.012"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView4"
+            tools:text="something" />
+
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/detailFloatBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/eightDP"
+            android:layout_marginBottom="@dimen/eightDP"
             android:src="@drawable/ic_bubble_chart_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

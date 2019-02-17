@@ -8,13 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.detail.TabletSearchListFragment"
+        android:background="?attr/backgroundcolor"
         >
 
         <android.support.v7.widget.SearchView
-            android:background="@color/colorPrimary"
+            android:background="?attr/actionbarcolor"
             android:id="@+id/searchView"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zeroDP"
             app:iconifiedByDefault="false"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,21 +26,23 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zeroDP"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:padding="2dp"
+            android:background="?attr/backgroundcolor"
+            android:layout_marginStart="@dimen/minusOneDP"
+            android:layout_marginTop="@dimen/twoDP"
+            android:layout_marginEnd="@dimen/eightDP"
+            android:layout_marginBottom="@dimen/twoDP"
+            android:padding="@dimen/twoDP"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchView">
 
             <android.support.v7.widget.RecyclerView
+                android:background="?attr/backgroundcolor"
                 android:id="@+id/quickChooseList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
                 tools:listitem="@layout/single_quck_search">
 
             </android.support.v7.widget.RecyclerView>
@@ -49,9 +52,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/searchDefaultList"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="2dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="@dimen/zeroDP"
+            android:layout_margin="@dimen/twoDP"
+            android:layout_marginTop="@dimen/eightDP"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

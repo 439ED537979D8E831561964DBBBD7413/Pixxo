@@ -24,6 +24,7 @@ import com.example.breezil.pixxo.ui.adapter.SavedImageRecyclerAdapter;
 import com.example.breezil.pixxo.ui.bottom_sheet.SavedActionBottomSheetFragment;
 import com.example.breezil.pixxo.ui.explore.ExploreActivity;
 import com.example.breezil.pixxo.ui.main.MainActivity;
+import com.example.breezil.pixxo.ui.settings.SettingsActivity;
 
 import javax.inject.Inject;
 
@@ -137,7 +138,14 @@ public class SavedImageFragment extends Fragment {
 
     private void deleteAll(){
         savedViewModel.deleteAll();
+        restartActivity();
 
+    }
+
+    public void restartActivity () {
+        Intent intent = new Intent(getActivity(), SavedActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
 

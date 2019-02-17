@@ -26,19 +26,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
                 <include layout="@layout/image_item" />
-
                 <include layout="@layout/image_item" />
-
                 <include layout="@layout/image_item" />
-
                 <include layout="@layout/image_item" />
-
                 <include layout="@layout/image_item" />
-
                 <include layout="@layout/image_item" />
-
                 <include layout="@layout/image_item" />
             </LinearLayout>
 
@@ -57,7 +50,7 @@
                 android:id="@+id/imageList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="@dimen/twoDP"
                 app:layoutManager="android.support.v7.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:listitem="@layout/image_item" />
@@ -67,12 +60,12 @@
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavViewBar"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:elevation="5dp"
+            android:layout_width="@dimen/zeroDP"
+            android:layout_height="@dimen/fiftyDP"
+            android:layout_marginStart="@dimen/eightDP"
+            android:layout_marginEnd="@dimen/eightDP"
+            android:layout_marginBottom="@dimen/eightDP"
+            app:elevation="@dimen/fiveDP"
             app:labelVisibilityMode="labeled"
             android:background="?attr/backgroundcolor"
             app:itemTextColor="@drawable/item_color"
@@ -87,12 +80,12 @@
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addButton"
 
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="@dimen/fiftySixDP"
+            android:layout_height="@dimen/fiftySixDP"
             android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/eightDP"
+            android:layout_marginEnd="@dimen/eightDP"
+            android:layout_marginBottom="@dimen/eightDP"
             android:src="@drawable/ic_add_black_24dp"
             app:backgroundTint="@color/colorPrimary"
             app:elevation="8dp"

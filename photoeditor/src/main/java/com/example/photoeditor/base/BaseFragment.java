@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.photoeditor.R;
+
 
 /**
  * @author <a href="https://github.com/burhanrashid52">Burhanuddin Rashid</a>
@@ -23,7 +25,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (getLayoutId() == 0) {
-            throw new IllegalArgumentException("Invalid layout id");
+            throw new IllegalArgumentException(getString(R.string.invalid_layout_id));
         }
         return inflater.inflate(getLayoutId(), container, false);
     }

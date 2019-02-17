@@ -43,7 +43,8 @@ import static com.example.breezil.pixxo.utils.Constant.TYPE;
 public class ExploreActivity extends AppCompatActivity {
 
     ActivityExploreBinding binding;
-    ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
+    ChooseImageBottomDialogFragment chooseImageBottomDialogFragment
+            = new ChooseImageBottomDialogFragment();
 
 
     @Inject
@@ -55,7 +56,6 @@ public class ExploreActivity extends AppCompatActivity {
     List<String> quickSearchList;
     boolean isTablet;
     private SharedPreferences sharedPreferences;
-
     boolean themeMode;
 
     @Override
@@ -75,9 +75,8 @@ public class ExploreActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(SearchViewModel.class);
 
         setupBottomNavigation();
-        binding.addButton.setOnClickListener(v -> {
-            chooseImageBottomDialogFragment.show(getSupportFragmentManager(),"Choose Image");
-        });
+        binding.addButton.setOnClickListener(v -> chooseImageBottomDialogFragment
+                .show(getSupportFragmentManager(),getString(R.string.choose_image)));
 
         binding.searchDefaultList.hasFixedSize();
         binding.quickChooseList.hasFixedSize();
@@ -106,6 +105,7 @@ public class ExploreActivity extends AppCompatActivity {
                 return true;
             }
         });
+
     }
 
     private void setUpAdapter(){
@@ -114,7 +114,7 @@ public class ExploreActivity extends AppCompatActivity {
             Intent detailIntent = new Intent(this, DetailActivity.class);
             detailIntent.putExtra(SINGLE_PHOTO, imagesModel);
             if(isTablet){
-                detailIntent.putExtra(TYPE, "2");
+                detailIntent.putExtra(TYPE, getString(R.string.two));
             }
             startActivity(detailIntent);
 
@@ -122,7 +122,7 @@ public class ExploreActivity extends AppCompatActivity {
 
         ImageLongClickListener imageLongClickListener = imagesModel -> {
             ActionBottomSheetFragment actionBottomSheetFragment = ActionBottomSheetFragment.getImageModel(imagesModel);
-            actionBottomSheetFragment.show(getSupportFragmentManager(),"Do something Image");
+            actionBottomSheetFragment.show(getSupportFragmentManager(),getString(R.string.do_something));
 
         };
 
@@ -146,13 +146,9 @@ public class ExploreActivity extends AppCompatActivity {
     }
 
     private void setUpViewModel(){
-
-
-        viewModel.setParameter("","","en","random");
-
-        viewModel.getSearchList().observe(this,imagesModels -> {
-            adapter.submitList(imagesModels);
-        });
+        viewModel.setParameter(getString(R.string.blank),getString(R.string.blank),
+                getString(R.string.en),getString(R.string.random));
+        viewModel.getSearchList().observe(this,imagesModels -> adapter.submitList(imagesModels));
     }
 
 
@@ -199,11 +195,9 @@ public class ExploreActivity extends AppCompatActivity {
     }
 
     private void refresh(String search){
-        viewModel.setParameter(search,"","","random");
+        viewModel.setParameter(search,getString(R.string.blank),getString(R.string.en),getString(R.string.random));
 
-        viewModel.refreshImages().observe(this,imagesModels -> {
-            adapter.submitList(imagesModels);
-        });
+        viewModel.refreshImages().observe(this,imagesModels -> adapter.submitList(imagesModels));
     }
 
 }

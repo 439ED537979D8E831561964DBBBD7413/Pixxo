@@ -28,6 +28,11 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
+import static com.example.breezil.pixxo.utils.Constant.ONE;
+import static com.example.breezil.pixxo.utils.Constant.TEN;
+import static com.example.breezil.pixxo.utils.Constant.TWO;
+import static com.example.breezil.pixxo.utils.Constant.ZERO;
+
 @Singleton
 public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesModel>
         implements PaginationListener<ImagesResult, ImagesModel> {
@@ -68,6 +73,7 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
         return mInitialLoading;
     }
 
+
     public void setSearch(String search){
         mSearch = search;
     }
@@ -97,15 +103,13 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ImagesModel> callback) {
 
         List<ImagesModel> modelList = new ArrayList<>();
-        Disposable imagesModel = endpointRepository.getImages(getSearch(),getLang(),getCategory(),getOrder(),1,10)
+        Disposable imagesModel = endpointRepository.getImages(getSearch(),getLang(),getCategory(),getOrder(),ONE,TEN)
                 .subscribe( imagesResult -> {
                     onInitialSuccess(imagesResult, callback, modelList);
                         for(ImagesModel img : imagesResult.getHits()){
                             mainDbRepository.insert(img);
                         }
-                    }, throwable -> {
-                    onInitialError(throwable);
-                });
+                    }, throwable -> onInitialError(throwable));
         compositeDisposable.add(imagesModel);
     }
 
@@ -117,12 +121,8 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ImagesModel> callback) {
         List<ImagesModel> modelList = new ArrayList<>();
-        Disposable result = endpointRepository.getImages(getSearch(),getLang(), getCategory(),getOrder(), params.key,10)
-                .subscribe(response -> {
-
-                    onPaginationSuccess(response, callback, params, modelList);
-
-                }, this::onPaginationError);
+        Disposable result = endpointRepository.getImages(getSearch(),getLang(), getCategory(),getOrder(), params.key,TEN)
+                .subscribe(response -> onPaginationSuccess(response, callback, params, modelList), this::onPaginationError);
 
         compositeDisposable.add(result);
     }
@@ -138,9 +138,9 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     public void onInitialSuccess(ImagesResult imagesResult,
                                  LoadInitialCallback<Integer, ImagesModel> callback,
                                  List<ImagesModel> imagesModels) {
-        if (imagesResult.getHits() != null && imagesResult.getHits().size() > 0) {
+        if (imagesResult.getHits() != null && imagesResult.getHits().size() > ZERO) {
             imagesModels.addAll(imagesResult.getHits());
-            callback.onResult(imagesModels, null, 2);
+            callback.onResult(imagesModels, null, TWO);
 
 
 
@@ -163,10 +163,10 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     @Override
     public void onPaginationSuccess(ImagesResult imagesResult, LoadCallback<Integer, ImagesModel>
             callback, LoadParams<Integer> params, List<ImagesModel> imagesModels) {
-        if (imagesResult.getHits()!= null && imagesResult.getHits().size() > 0) {
+        if (imagesResult.getHits()!= null && imagesResult.getHits().size() > ZERO) {
             imagesModels.addAll(imagesResult.getHits());
 
-            Integer key=(params.key>1)?params.key+1:null;
+            Integer key=(params.key>ONE)?params.key+ONE:null;
             callback.onResult(imagesModels, key);
 
             mNetworkState.postValue(NetworkState.LOADED);

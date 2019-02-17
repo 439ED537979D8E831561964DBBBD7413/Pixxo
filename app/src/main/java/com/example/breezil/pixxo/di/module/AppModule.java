@@ -7,7 +7,6 @@ import android.arch.persistence.room.Room;
 import com.example.breezil.pixxo.api.ImagesApi;
 import com.example.breezil.pixxo.api.OkHttp;
 import com.example.breezil.pixxo.db.AppDatabase;
-import com.example.breezil.pixxo.utils.helper.LiveDataCallAdapterFactory;
 
 import javax.inject.Singleton;
 

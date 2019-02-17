@@ -46,7 +46,6 @@ public class TabletListFragment extends Fragment {
     String category;
     String orderBy;
 
-
     MainViewModel viewModel;
 
     public TabletListFragment() {
@@ -81,13 +80,11 @@ public class TabletListFragment extends Fragment {
         };
         ImageLongClickListener imageLongClickListener = imagesModel -> {
             ActionBottomSheetFragment actionBottomSheetFragment = ActionBottomSheetFragment.getImageModel(imagesModel);
-            actionBottomSheetFragment.show(getFragmentManager(),"Do something Image");
+            actionBottomSheetFragment.show(getFragmentManager(),getString(R.string.do_something));
 
         };
 
-
-        adapter
-                = new GridRecyclerAdapter(getContext(),imageClickListener,imageLongClickListener);
+        adapter = new GridRecyclerAdapter(getContext(),imageClickListener,imageLongClickListener);
         binding.tabletList.setAdapter(adapter);
     }
 
@@ -95,12 +92,11 @@ public class TabletListFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
 
-        viewModel.setParameter("",getCategoryList(),"en",orderBy);
+        viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
 
         viewModel.getImageList().observe(this, imagesModels -> adapter.submitList(imagesModels));
 
     }
-
 
     public String getCategoryList(){
         Set<String> sourceSet = new HashSet<>();
@@ -111,7 +107,7 @@ public class TabletListFragment extends Fragment {
         StringBuilder selectedSources = new StringBuilder();
 
         for (int i = 0; i < entries.size(); i++) {
-            selectedSources.append(entries.get(i)).append(",");
+            selectedSources.append(entries.get(i)).append(getString(R.string.comma));
         }
 
         if (selectedSources.length() > 0) {

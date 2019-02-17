@@ -19,6 +19,8 @@ import com.example.breezil.pixxo.utils.helper.AppExecutors;
 
 import javax.inject.Inject;
 
+import static com.example.breezil.pixxo.utils.Constant.FIVE;
+
 
 public class MainViewModel extends AndroidViewModel {
     private LiveData<PagedList<ImagesModel>> imageList;
@@ -51,9 +53,9 @@ public class MainViewModel extends AndroidViewModel {
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
-                .setInitialLoadSizeHint(5)
-                .setPrefetchDistance(5)
-                .setPageSize(5)
+                .setInitialLoadSizeHint(FIVE)
+                .setPrefetchDistance(FIVE)
+                .setPageSize(FIVE)
                 .build();
 
         imageList = new LivePagedListBuilder<>(imageDataSourceFactory,config)
@@ -113,7 +115,7 @@ public class MainViewModel extends AndroidViewModel {
     public LiveData<PagedList<ImagesModel>> getFromDbList(){
 
         DataSource.Factory<Integer,ImagesModel> factory = appDatabase.imagesDao().getPagedImages();
-        LivePagedListBuilder<Integer, ImagesModel> livePagedListBuilder = new LivePagedListBuilder<Integer,ImagesModel>(factory,5);
+        LivePagedListBuilder<Integer, ImagesModel> livePagedListBuilder = new LivePagedListBuilder<Integer,ImagesModel>(factory,FIVE);
         imageDBList = livePagedListBuilder.build();
         return imageDBList;
     }

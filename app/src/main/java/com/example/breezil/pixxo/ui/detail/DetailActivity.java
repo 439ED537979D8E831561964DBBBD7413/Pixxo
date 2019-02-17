@@ -47,9 +47,9 @@ public class DetailActivity extends BaseActivity implements HasSupportFragmentIn
         if(isTablet){
             if(getIntent().hasExtra(TYPE)){
                 String type = getIntent().getStringExtra(TYPE);
-                if(type.equals("2")){
+                if(type.equals(getString(R.string.two))){
                     tabletSearchDetail();
-                }else if(type.equals("1")) {
+                }else if(type.equals(getString(R.string.one))) {
                     tabletDetail();
                 }
             }

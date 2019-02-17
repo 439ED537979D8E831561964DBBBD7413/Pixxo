@@ -1,6 +1,5 @@
 package com.example.breezil.pixxo;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;

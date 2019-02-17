@@ -96,18 +96,18 @@ public class MainActivity extends BaseActivity {
         setUpViewModel();
         firebaseAnalytics();
 
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(message -> Timber.tag("OkHttp").d(message));
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(message -> Timber.tag(getString(R.string.okhttp)).d(message));
 
-        logging.redactHeader("Authorization");
-        logging.redactHeader("Cookie");
+        logging.redactHeader(getString(R.string.authorization));
+        logging.redactHeader(getString(R.string.cookie));
         binding.addButton.setOnClickListener(v ->
-                chooseImageBottomDialogFragment.show(getSupportFragmentManager(),"Choose Image"));
+                chooseImageBottomDialogFragment.show(getSupportFragmentManager(),getString(R.string.choose_image)));
 
         if(internetConnected()){
             binding.swipeRefresh.setOnRefreshListener(this::refresh);
         }
 
-        getSupportActionBar().setTitle("Trending");
+        getSupportActionBar().setTitle(getString(R.string.trending));
     }
 
     private void setUpAdapter(){
@@ -116,13 +116,13 @@ public class MainActivity extends BaseActivity {
             Intent detailIntent = new Intent(this, DetailActivity.class);
             detailIntent.putExtra(SINGLE_PHOTO, imagesModel);
             if(isTablet){
-                detailIntent.putExtra(TYPE, "1");
+                detailIntent.putExtra(TYPE, getString(R.string.one));
             }
             startActivity(detailIntent);
         };
         ImageLongClickListener imageLongClickListener = imagesModel -> {
             ActionBottomSheetFragment actionBottomSheetFragment = ActionBottomSheetFragment.getImageModel(imagesModel);
-            actionBottomSheetFragment.show(getSupportFragmentManager(),"Do something Image");
+            actionBottomSheetFragment.show(getSupportFragmentManager(),getString(R.string.do_something));
 
         };
 
@@ -135,11 +135,8 @@ public class MainActivity extends BaseActivity {
 
         if(internetConnected()){
           viewModel.deleteAllInDb();
-            viewModel.setParameter(getCategoryList(),getCategoryList(),"en",orderBy);
-            viewModel.getImageList().observe(this, imagesModels -> {
-                imagesRecyclcerViewAdapter.submitList(imagesModels);
-
-            });
+            viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
+            viewModel.getImageList().observe(this, imagesModels -> imagesRecyclcerViewAdapter.submitList(imagesModels));
         }else {
             viewModel.getFromDbList().observe(this, imagesModels ->
                     imagesRecyclcerViewAdapter.submitList(imagesModels));
@@ -148,7 +145,7 @@ public class MainActivity extends BaseActivity {
         binding.shimmerViewContainer.setVisibility(View.GONE);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("category",category);
+        editor.putString(getString(R.string.category),category);
         editor.apply();
 
         if(binding.swipeRefresh != null){
@@ -158,11 +155,9 @@ public class MainActivity extends BaseActivity {
 
 
     private void refresh(){
-        viewModel.setParameter("",getCategoryList(),"en",orderBy);
+        viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
 
-        viewModel.refreshImages().observe(this, imagesModels -> {
-            imagesRecyclcerViewAdapter.submitList(imagesModels);
-        });
+        viewModel.refreshImages().observe(this, imagesModels -> imagesRecyclcerViewAdapter.submitList(imagesModels));
         if(binding.swipeRefresh != null){
             binding.swipeRefresh.setRefreshing(false);
         }
@@ -241,7 +236,7 @@ public class MainActivity extends BaseActivity {
         StringBuilder selectedSources = new StringBuilder();
 
         for (int i = 0; i < entries.size(); i++) {
-            selectedSources.append(entries.get(i)).append(",");
+            selectedSources.append(entries.get(i)).append(R.string.comma);
         }
 
         if (selectedSources.length() > 0) {
@@ -272,7 +267,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void addWidget() {
-        WidgetPref.setTitle(this,"Trending");
+        WidgetPref.setTitle(this,this.getString(R.string.trending));
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
                 new ComponentName(this, PixxoAppWidget.class));
@@ -288,7 +283,6 @@ public class MainActivity extends BaseActivity {
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         firebaseAnalytics.setAnalyticsCollectionEnabled(true);
         firebaseAnalytics.setMinimumSessionDuration(20000);
-
         firebaseAnalytics.setSessionTimeoutDuration(500);
     }
 }

@@ -37,6 +37,7 @@ import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.databinding.FragmentSavedActionBottomSheetBinding;
 import com.example.breezil.pixxo.model.SavedImageModel;
 import com.example.breezil.pixxo.ui.ImageSaveUtils;
+import com.example.breezil.pixxo.ui.saved_edit.SavedActivity;
 import com.example.breezil.pixxo.ui.saved_edit.SavedViewModel;
 import com.example.photoeditor.EditImageActivity;
 
@@ -162,6 +163,7 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
                    savedViewModel.delete(savedImageModel);
                     Toast.makeText(getActivity(), R.string.image_deleted, Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
+                    restartActivity();
                     dismiss();
                 })
                 .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
@@ -177,6 +179,11 @@ public class SavedActionBottomSheetFragment extends BottomSheetDialogFragment {
         }else{
             return  null;
         }
+    }
+    public void restartActivity () {
+        Intent intent = new Intent(getActivity(), SavedActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
 }

@@ -50,7 +50,7 @@ public class SavedPagerAdapter  extends FragmentStatePagerAdapter {
             case editsaved_Position:
                 return resources.getString(R.string.edited);
             default:
-                return "none";
+                return context.getString(R.string.none);
 
         }
     }

@@ -14,6 +14,8 @@ import com.example.breezil.pixxo.utils.helper.AppExecutors;
 
 import javax.inject.Inject;
 
+import static com.example.breezil.pixxo.utils.Constant.FIVE;
+
 public class SearchViewModel  extends ViewModel {
 
     private LiveData<PagedList<ImagesModel>> imageList;
@@ -37,9 +39,9 @@ public class SearchViewModel  extends ViewModel {
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
-                .setInitialLoadSizeHint(5)
-                .setPrefetchDistance(5)
-                .setPageSize(5)
+                .setInitialLoadSizeHint(FIVE)
+                .setPrefetchDistance(FIVE)
+                .setPageSize(FIVE)
                 .build();
 
         imageList = new LivePagedListBuilder<>(imageDataSourceFactory,config)
@@ -66,7 +68,7 @@ public class SearchViewModel  extends ViewModel {
     public LiveData<PagedList<ImagesModel>> refreshImages(){
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
-                .setPageSize(5)
+                .setPageSize(FIVE)
                 .build();
 
         imageList = new LivePagedListBuilder<>(imageDataSourceFactory, config)

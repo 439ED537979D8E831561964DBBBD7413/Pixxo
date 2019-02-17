@@ -7,7 +7,12 @@ import android.util.Log;
 
 import java.lang.reflect.Field;
 
+import timber.log.Timber;
+
 public class BottomNavigationHelper {
+    public static String UNABLE_TO_GET_SHIFT = "Unable to get shift mode field";
+    public static String UNABLE_TO_CHANGE_VALUE = "Unable to change value of shift mode";
+
     public static void disableShiftMode(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         try {
@@ -28,9 +33,9 @@ public class BottomNavigationHelper {
 
             }
         } catch (NoSuchFieldException e) {
-            Log.e("BNVHelper", "Unable to get shift mode field", e);
+            Timber.e(e,UNABLE_TO_GET_SHIFT );
         } catch (IllegalAccessException e) {
-            Log.e("BNVHelper", "Unable to change value of shift mode", e);
+            Timber.e(e, UNABLE_TO_CHANGE_VALUE);
         }
     }
 }

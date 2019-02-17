@@ -5,10 +5,13 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ import com.example.breezil.pixxo.ui.explore.SearchViewModel;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -46,9 +50,10 @@ public class TabletSearchListFragment extends Fragment {
 
     QuickSearchRecyclerListAdapter quickSearchRecyclerListAdapter;
     List<String> quickSearchList;
+    boolean themeMode;
+    private SharedPreferences sharedPreferences;
 
-
-
+    
     public TabletSearchListFragment() {
         // Required empty public constructor
     }
@@ -63,12 +68,21 @@ public class TabletSearchListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        themeMode = sharedPreferences.getBoolean(getString(R.string.pref_theme_key),true);
+
+        if(themeMode){
+            Objects.requireNonNull(getActivity()).setTheme(R.style.DarkNoActionTheme);
+        }else {
+            Objects.requireNonNull(getActivity()).setTheme(R.style.AppNoActionTheme);
+        }
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_tablet_search_list, container, false);
         binding.searchDefaultList.hasFixedSize();
         binding.quickChooseList.hasFixedSize();
 
         setUpAdapter();
         setUpViewModel();
+        search();
         return binding.getRoot();
     }
     private void setUpAdapter(){
@@ -81,12 +95,12 @@ public class TabletSearchListFragment extends Fragment {
 
         ImageLongClickListener imageLongClickListener = imagesModel -> {
             ActionBottomSheetFragment actionBottomSheetFragment = ActionBottomSheetFragment.getImageModel(imagesModel);
-            actionBottomSheetFragment.show(getFragmentManager(),"Do something Image");
-
+            actionBottomSheetFragment.show(getFragmentManager(),getString(R.string.do_something));
         };
 
         QuickSearchListener quickSearchListener = string -> {
-
+            binding.searchView.setQuery(string,true);
+            refresh(string);
         };
 
         adapter = new ImagesRecyclerViewAdapter(getContext(), imageClickListener, imageLongClickListener);
@@ -104,12 +118,32 @@ public class TabletSearchListFragment extends Fragment {
     }
 
     private void setUpViewModel(){
-
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(SearchViewModel.class);
-        viewModel.getSearchList().observe(this,imagesModels -> {
-//            adapter.submitList(imagesModels.data);
-            adapter.submitList(imagesModels);
+        viewModel.getSearchList().observe(this,imagesModels -> adapter.submitList(imagesModels));
+    }
+
+    private void search() {
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(query != null) {
+                    refresh(query);
+                }
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText != null) {
+                    refresh(newText);
+                }
+                return true;
+            }
         });
+    }
+
+    private void refresh(String search){
+        viewModel.setParameter(search,getString(R.string.blank),getString(R.string.en),getString(R.string.random));
+        viewModel.refreshImages().observe(this,imagesModels -> adapter.submitList(imagesModels));
     }
 
 }

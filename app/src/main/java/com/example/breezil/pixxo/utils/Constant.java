@@ -6,7 +6,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 
-public class Constant { 
+public class Constant {
+
+    public static int ZERO = 0;
+    public static int ONE = 1;
+    public static int TWO = 2;
+    public static int ONE_THOUSAND = 1000;
+    public static int FIVE = 5;
+    public static int TEN = 10;
+
 
     public static String SEARCH_STRING = "search";
     public static String SINGLE_PHOTO = "single_photo";

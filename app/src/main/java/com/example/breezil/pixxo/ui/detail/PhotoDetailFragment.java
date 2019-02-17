@@ -95,8 +95,10 @@ public class PhotoDetailFragment extends Fragment {
         binding.detailFloatBtn.setOnClickListener(v -> {
 
             actionBottomSheetFragment = ActionBottomSheetFragment.getImageModel(imagesModel);
-            actionBottomSheetFragment.show(getFragmentManager(),"get");
+            actionBottomSheetFragment.show(getFragmentManager(),getString(R.string.get));
         });
+
+        binding.detailTags.setText(imagesModel.getTags());
 
     }
 

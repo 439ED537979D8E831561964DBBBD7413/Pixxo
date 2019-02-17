@@ -6,18 +6,18 @@
         android:id="@+id/searchLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        android:layout_margin="5dp"
-        android:elevation="3dp"
-        android:padding="2dp">
+        app:cardCornerRadius="@dimen/eightDP"
+        android:layout_margin="@dimen/fiveDP"
+        android:elevation="@dimen/threeDP"
+        android:padding="@dimen/twoDP">
         <TextView
             android:id="@+id/searchText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="something"
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
-            android:layout_margin="3dp"/>
+            android:layout_margin="@dimen/threeDP"/>
 
     </android.support.v7.widget.CardView>
 </layout>
