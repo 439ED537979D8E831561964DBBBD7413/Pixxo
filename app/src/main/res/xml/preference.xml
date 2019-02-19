@@ -6,7 +6,7 @@
         >
         <MultiSelectListPreference
             android:defaultValue="@string/pref_category_all_value"
-            android:entries="@array/pref_search_list"
+            android:entries="@array/pref_search_list_value"
             android:entryValues="@array/pref_search_list_value"
             android:key="@string/pref_category_key"
             android:title="@string/pref_category_label"

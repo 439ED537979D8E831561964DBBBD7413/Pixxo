@@ -35,6 +35,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
+import static com.example.breezil.pixxo.utils.Constant.SEARCH_STRING;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 
 /**
@@ -48,12 +49,10 @@ public class TabletSearchListFragment extends Fragment {
     SearchViewModel viewModel;
     ImagesRecyclerViewAdapter adapter;
 
-    QuickSearchRecyclerListAdapter quickSearchRecyclerListAdapter;
-    List<String> quickSearchList;
-    boolean themeMode;
-    private SharedPreferences sharedPreferences;
+    String searchString;
 
-    
+
+
     public TabletSearchListFragment() {
         // Required empty public constructor
     }
@@ -63,87 +62,63 @@ public class TabletSearchListFragment extends Fragment {
         super.onAttach(context);
     }
 
+    public static TabletSearchListFragment getInstance(String searchString){
+        TabletSearchListFragment fragment = new TabletSearchListFragment();
+        Bundle args = new Bundle();
+        args.putString(SEARCH_STRING, searchString);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        themeMode = sharedPreferences.getBoolean(getString(R.string.pref_theme_key),true);
 
-        if(themeMode){
-            Objects.requireNonNull(getActivity()).setTheme(R.style.DarkNoActionTheme);
-        }else {
-            Objects.requireNonNull(getActivity()).setTheme(R.style.AppNoActionTheme);
-        }
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_tablet_search_list, container, false);
         binding.searchDefaultList.hasFixedSize();
-        binding.quickChooseList.hasFixedSize();
 
         setUpAdapter();
         setUpViewModel();
-        search();
+
         return binding.getRoot();
     }
     private void setUpAdapter(){
         ImageClickListener imageClickListener = imagesModel -> {
-            Intent detailIntent = new Intent(getContext(), DetailActivity.class);
-            detailIntent.putExtra(SINGLE_PHOTO, imagesModel);
-            startActivity(detailIntent);
+            PhotoDetailFragment fragment = PhotoDetailFragment.getPhoto(imagesModel);
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.detailFragmentContainer,fragment)
+                    .commit();
 
         };
 
         ImageLongClickListener imageLongClickListener = imagesModel -> {
-            ActionBottomSheetFragment actionBottomSheetFragment = ActionBottomSheetFragment.getImageModel(imagesModel);
+            ActionBottomSheetFragment actionBottomSheetFragment
+                    = ActionBottomSheetFragment.getImageModel(imagesModel);
             actionBottomSheetFragment.show(getFragmentManager(),getString(R.string.do_something));
-        };
-
-        QuickSearchListener quickSearchListener = string -> {
-            binding.searchView.setQuery(string,true);
-            refresh(string);
         };
 
         adapter = new ImagesRecyclerViewAdapter(getContext(), imageClickListener, imageLongClickListener);
         binding.searchDefaultList.setAdapter(adapter);
-        String[] textArray = getResources().getStringArray(R.array.search_list);
 
-        quickSearchList = Arrays.asList(textArray);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-        quickSearchRecyclerListAdapter = new QuickSearchRecyclerListAdapter(quickSearchList,quickSearchListener);
-        binding.quickChooseList.setLayoutManager(layoutManager);
-        binding.quickChooseList.setAdapter(quickSearchRecyclerListAdapter);
-        Collections.shuffle(quickSearchList);
-        quickSearchRecyclerListAdapter.setList(quickSearchList);
     }
 
     private void setUpViewModel(){
+        if(getArguments().getString(SEARCH_STRING) != null){
+            searchString = getArguments().getString(SEARCH_STRING);
+        }else {
+            searchString = "";
+        }
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(SearchViewModel.class);
+        viewModel.setParameter(searchString,getString(R.string.blank),
+                getString(R.string.en),getString(R.string.random));
         viewModel.getSearchList().observe(this,imagesModels -> adapter.submitList(imagesModels));
     }
 
-    private void search() {
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if(query != null) {
-                    refresh(query);
-                }
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if(newText != null) {
-                    refresh(newText);
-                }
-                return true;
-            }
-        });
-    }
 
-    private void refresh(String search){
-        viewModel.setParameter(search,getString(R.string.blank),getString(R.string.en),getString(R.string.random));
-        viewModel.refreshImages().observe(this,imagesModels -> adapter.submitList(imagesModels));
-    }
+
+
 
 }

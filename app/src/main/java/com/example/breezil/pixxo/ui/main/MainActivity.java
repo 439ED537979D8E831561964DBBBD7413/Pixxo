@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.breezil.pixxo.BaseActivity;
 import com.example.breezil.pixxo.R;
@@ -48,7 +49,9 @@ import dagger.android.AndroidInjection;
 import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
+import static com.example.breezil.pixxo.utils.Constant.FIVE_HUNDRED;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
+import static com.example.breezil.pixxo.utils.Constant.TWO_THOUSAND;
 import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
 public class MainActivity extends BaseActivity {
@@ -57,7 +60,7 @@ public class MainActivity extends BaseActivity {
     ViewModelFactory viewModelFactory;
     ActivityMainBinding binding;
 
-    private ImagesRecyclerViewAdapter imagesRecyclcerViewAdapter;
+    private ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
 
     private SharedPreferences sharedPreferences;
@@ -96,7 +99,8 @@ public class MainActivity extends BaseActivity {
         setUpViewModel();
         firebaseAnalytics();
 
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(message -> Timber.tag(getString(R.string.okhttp)).d(message));
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(message ->
+                Timber.tag(getString(R.string.okhttp)).d(message));
 
         logging.redactHeader(getString(R.string.authorization));
         logging.redactHeader(getString(R.string.cookie));
@@ -126,9 +130,9 @@ public class MainActivity extends BaseActivity {
 
         };
 
-        imagesRecyclcerViewAdapter
+        imagesRecyclerViewAdapter
                 = new ImagesRecyclerViewAdapter(this,imageClickListener,imageLongClickListener);
-        binding.imageList.setAdapter(imagesRecyclcerViewAdapter);
+        binding.imageList.setAdapter(imagesRecyclerViewAdapter);
     }
 
     private void setUpViewModel() {
@@ -136,10 +140,12 @@ public class MainActivity extends BaseActivity {
         if(internetConnected()){
           viewModel.deleteAllInDb();
             viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
-            viewModel.getImageList().observe(this, imagesModels -> imagesRecyclcerViewAdapter.submitList(imagesModels));
+            viewModel.getImageList().observe(this,
+                    imagesModels -> imagesRecyclerViewAdapter.submitList(imagesModels));
+
         }else {
             viewModel.getFromDbList().observe(this, imagesModels ->
-                    imagesRecyclcerViewAdapter.submitList(imagesModels));
+                    imagesRecyclerViewAdapter.submitList(imagesModels));
         }
         binding.shimmerViewContainer.stopShimmerAnimation();
         binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -151,13 +157,17 @@ public class MainActivity extends BaseActivity {
         if(binding.swipeRefresh != null){
             binding.swipeRefresh.setRefreshing(false);
         }
+
+
+
     }
 
 
     private void refresh(){
         viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
 
-        viewModel.refreshImages().observe(this, imagesModels -> imagesRecyclcerViewAdapter.submitList(imagesModels));
+        viewModel.refreshImages().observe(this,
+                imagesModels -> imagesRecyclerViewAdapter.submitList(imagesModels));
         if(binding.swipeRefresh != null){
             binding.swipeRefresh.setRefreshing(false);
         }
@@ -228,22 +238,22 @@ public class MainActivity extends BaseActivity {
     }
 
     public String getCategoryList(){
-        Set<String> sourceSet = new HashSet<>();
-        sourceSet.add(getString(R.string.pref_category_all_value));
+        Set<String> categorySet = new HashSet<>();
+        categorySet.add(getString(R.string.pref_category_all_value));
 
         List<String> entries = new ArrayList<>(Objects.requireNonNull(
-                sharedPreferences.getStringSet(getString(R.string.pref_category_key), sourceSet)));
-        StringBuilder selectedSources = new StringBuilder();
+                sharedPreferences.getStringSet(getString(R.string.pref_category_key), categorySet)));
+        StringBuilder selectedcategories = new StringBuilder();
 
         for (int i = 0; i < entries.size(); i++) {
-            selectedSources.append(entries.get(i)).append(R.string.comma);
+            selectedcategories.append(entries.get(i)).append(",");
         }
 
-        if (selectedSources.length() > 0) {
-            selectedSources.deleteCharAt(selectedSources.length() - 1);
+        if (selectedcategories.length() > 0) {
+            selectedcategories.deleteCharAt(selectedcategories.length() - 1);
         }
 
-        return category = selectedSources.toString();
+        return category = selectedcategories.toString();
     }
 
     @Override
@@ -282,8 +292,8 @@ public class MainActivity extends BaseActivity {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, deviceToken);
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         firebaseAnalytics.setAnalyticsCollectionEnabled(true);
-        firebaseAnalytics.setMinimumSessionDuration(20000);
-        firebaseAnalytics.setSessionTimeoutDuration(500);
+        firebaseAnalytics.setMinimumSessionDuration(TWO_THOUSAND);
+        firebaseAnalytics.setSessionTimeoutDuration(FIVE_HUNDRED);
     }
 }
 

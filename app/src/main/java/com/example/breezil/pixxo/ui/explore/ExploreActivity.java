@@ -37,6 +37,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 
+import static com.example.breezil.pixxo.utils.Constant.SEARCH_STRING;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
@@ -57,6 +58,7 @@ public class ExploreActivity extends AppCompatActivity {
     boolean isTablet;
     private SharedPreferences sharedPreferences;
     boolean themeMode;
+    String searchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,7 @@ public class ExploreActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 if(query != null) {
                     refresh(query);
+                    searchText = query;
                 }
                 return true;
             }
@@ -115,6 +118,7 @@ public class ExploreActivity extends AppCompatActivity {
             detailIntent.putExtra(SINGLE_PHOTO, imagesModel);
             if(isTablet){
                 detailIntent.putExtra(TYPE, getString(R.string.two));
+                detailIntent.putExtra(SEARCH_STRING, searchText);
             }
             startActivity(detailIntent);
 
@@ -125,6 +129,7 @@ public class ExploreActivity extends AppCompatActivity {
             actionBottomSheetFragment.show(getSupportFragmentManager(),getString(R.string.do_something));
 
         };
+
 
         QuickSearchListener quickSearchListener = string -> {
             binding.searchView.setQuery(string,true);

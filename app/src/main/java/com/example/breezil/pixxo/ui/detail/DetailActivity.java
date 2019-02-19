@@ -21,6 +21,7 @@ import com.example.breezil.pixxo.databinding.ActivityDetailBinding;
 
 import dagger.android.support.HasSupportFragmentInjector;
 
+import static com.example.breezil.pixxo.utils.Constant.SEARCH_STRING;
 import static com.example.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.example.breezil.pixxo.utils.Constant.TYPE;
 
@@ -33,7 +34,6 @@ public class DetailActivity extends BaseActivity implements HasSupportFragmentIn
     ViewModelProvider.Factory viewModelFactory;
 
     boolean isTablet;
-
 
     ActivityDetailBinding binding;
 
@@ -49,10 +49,14 @@ public class DetailActivity extends BaseActivity implements HasSupportFragmentIn
                 String type = getIntent().getStringExtra(TYPE);
                 if(type.equals(getString(R.string.two))){
                     tabletSearchDetail();
+
+
                 }else if(type.equals(getString(R.string.one))) {
                     tabletDetail();
                 }
             }
+
+
 
         }
         updateToolbar();
@@ -68,16 +72,33 @@ public class DetailActivity extends BaseActivity implements HasSupportFragmentIn
     }
 
     private void tabletSearchDetail() {
-        TabletSearchListFragment tabletSearchListFragment = new TabletSearchListFragment();
+        TabletSearchListFragment tabletSearchListFragment = TabletSearchListFragment.getInstance(getSearchText());
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentListContainer,tabletSearchListFragment)
                 .commit();
+
     }
 
     private void updateToolbar(){
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(imagesModel().getTags());
+
+        if(isTablet){
+            String type = getIntent().getStringExtra(TYPE);
+            if(type.equals(getString(R.string.two))){
+                getSupportActionBar().setTitle(getString(R.string.explore));
+                if(getIntent().hasExtra(SEARCH_STRING)){
+                    getSupportActionBar().setTitle(getSearchText());
+                }
+
+
+            }else if(type.equals(getString(R.string.one))) {
+                getSupportActionBar().setTitle(getString(R.string.trending));
+            }
+        }else {
+            getSupportActionBar().setTitle(imagesModel().getTags());
+        }
+
     }
 
 
@@ -114,6 +135,11 @@ public class DetailActivity extends BaseActivity implements HasSupportFragmentIn
             return true;
         }
         return false;
+    }
+
+
+    private String getSearchText(){
+        return getIntent().getStringExtra(SEARCH_STRING);
     }
 
 

@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eightDP"
             android:layout_marginBottom="@dimen/eightDP"
+            app:backgroundTint="@color/colorPrimary"
             android:src="@drawable/ic_bubble_chart_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

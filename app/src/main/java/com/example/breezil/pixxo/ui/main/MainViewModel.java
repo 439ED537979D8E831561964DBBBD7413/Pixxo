@@ -82,11 +82,15 @@ public class MainViewModel extends AndroidViewModel {
 
 
     public void setNetworkState() {
+        networkState = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),
+                ImageModelDataSource::getNetworkState);
+        initialLoading = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),
+                ImageModelDataSource::getInitialLoading);
     }
     public LiveData<PagedList<ImagesModel>> refreshImages(){
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
-                .setPageSize(5)
+                .setPageSize(FIVE)
                 .build();
 
         imageList = new LivePagedListBuilder<>(imageDataSourceFactory, config)

@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -79,7 +81,8 @@ public class TabletListFragment extends Fragment {
                     .commit();
         };
         ImageLongClickListener imageLongClickListener = imagesModel -> {
-            ActionBottomSheetFragment actionBottomSheetFragment = ActionBottomSheetFragment.getImageModel(imagesModel);
+            ActionBottomSheetFragment actionBottomSheetFragment
+                    = ActionBottomSheetFragment.getImageModel(imagesModel);
             actionBottomSheetFragment.show(getFragmentManager(),getString(R.string.do_something));
 
         };
@@ -93,8 +96,13 @@ public class TabletListFragment extends Fragment {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
 
         viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
-
-        viewModel.getImageList().observe(this, imagesModels -> adapter.submitList(imagesModels));
+        if(internetConnected()){
+            viewModel.getImageList()
+                    .observe(this, imagesModels -> adapter.submitList(imagesModels));
+        }else{
+            viewModel.getFromDbList().observe(this, imagesModels ->
+                    adapter.submitList(imagesModels));
+        }
 
     }
 
@@ -107,7 +115,7 @@ public class TabletListFragment extends Fragment {
         StringBuilder selectedSources = new StringBuilder();
 
         for (int i = 0; i < entries.size(); i++) {
-            selectedSources.append(entries.get(i)).append(getString(R.string.comma));
+            selectedSources.append(entries.get(i)).append(",");
         }
 
         if (selectedSources.length() > 0) {
@@ -115,6 +123,13 @@ public class TabletListFragment extends Fragment {
         }
 
         return category = selectedSources.toString();
+    }
+
+    private boolean internetConnected(){
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 

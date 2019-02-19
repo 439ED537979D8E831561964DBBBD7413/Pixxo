@@ -11,7 +11,9 @@ public class Constant {
     public static int ZERO = 0;
     public static int ONE = 1;
     public static int TWO = 2;
-    public static int ONE_THOUSAND = 1000;
+    public static int FIVE_HUNDRED = 500;
+    public static int ONE_THOUSAND = 2000;
+    public static int TWO_THOUSAND = 1000;
     public static int FIVE = 5;
     public static int TEN = 10;
 

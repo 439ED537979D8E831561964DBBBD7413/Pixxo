@@ -154,7 +154,7 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
         }
     }
 
-    @Override
+       @Override
     public void onPaginationError(Throwable throwable) {
         mNetworkState.postValue(new NetworkState(NetworkState.Status.FAILED));
         Timber.e(throwable);
