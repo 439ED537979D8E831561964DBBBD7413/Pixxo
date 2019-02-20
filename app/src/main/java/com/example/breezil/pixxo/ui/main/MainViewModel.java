@@ -25,8 +25,7 @@ import static com.example.breezil.pixxo.utils.Constant.FIVE;
 public class MainViewModel extends AndroidViewModel {
     private LiveData<PagedList<ImagesModel>> imageList;
     private LiveData<PagedList<ImagesModel>> imageDBList;
-    private LiveData<NetworkState> networkState;
-    private LiveData<NetworkState> initialLoading;
+    private LiveData networkState;
     private AppExecutors appsExecutor;
     private ImageDataSourceFactory imageDataSourceFactory;
     private MainDbRepository mainDbRepository;
@@ -47,8 +46,6 @@ public class MainViewModel extends AndroidViewModel {
 
         networkState = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),
                 ImageModelDataSource::getNetworkState);
-        initialLoading = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),
-                ImageModelDataSource::getInitialLoading);
 
 
         PagedList.Config config = new PagedList.Config.Builder()
@@ -61,9 +58,6 @@ public class MainViewModel extends AndroidViewModel {
         imageList = new LivePagedListBuilder<>(imageDataSourceFactory,config)
                 .setFetchExecutor(appsExecutor.networkIO())
                 .build();
-
-
-
 
     }
 
@@ -81,12 +75,6 @@ public class MainViewModel extends AndroidViewModel {
 
 
 
-    public void setNetworkState() {
-        networkState = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),
-                ImageModelDataSource::getNetworkState);
-        initialLoading = Transformations.switchMap(imageDataSourceFactory.getImageDataSources(),
-                ImageModelDataSource::getInitialLoading);
-    }
     public LiveData<PagedList<ImagesModel>> refreshImages(){
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
@@ -100,11 +88,6 @@ public class MainViewModel extends AndroidViewModel {
         return imageList;
     }
 
-
-
-    public LiveData<NetworkState> getInitialLoading() {
-        return initialLoading;
-    }
 
     public LiveData<NetworkState> getNetworkState() {
         return networkState;

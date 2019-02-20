@@ -21,8 +21,8 @@ import com.example.breezil.pixxo.repository.NetworkState;
 
 public class ImagesRecyclerViewAdapter extends PagedListAdapter<ImagesModel, RecyclerView.ViewHolder> {
 
-    ImageItemBinding binding;
-    ItemNetworkStateBinding networkStateBinding;
+    private ImageItemBinding binding;
+    private ItemNetworkStateBinding networkStateBinding;
     private ImageLongClickListener imageLongClickListener;
     private ImageClickListener imageClickListener;
     Context context;

@@ -43,7 +43,6 @@
     <string name="business">business</string>
 
 
-
     <!-- quick search -->
     <string name="pref_music">music</string>
     <string name="pref_music_value" translatable="false">music</string>
@@ -87,7 +86,6 @@
     <string name="pref_business_value" translatable="false">business</string>
 
 
-
     <!-- order by-->
     <string name="pref_popular">popular</string>
     <string name="pref_popular_value" translatable="false">popular</string>
@@ -102,7 +100,6 @@
 
     <string name="pref_theme_true_value">0</string>
     <string name="pref_theme_false_value">1</string>
-
 
 
     <string name="about_description">Pixxo an awesome app.\n\n Where you can keep up on your latest and favorite world news from any cable source around the world, Build with Android Architecture Components(MVVM), also implemented Dagger2. This app let you sortby your favorite news source and mark news as bookmark to read later. \n\n Made with love by Kola Emiola and Api by NewsApi.org </string>

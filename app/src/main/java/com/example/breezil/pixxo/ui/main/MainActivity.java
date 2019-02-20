@@ -143,6 +143,8 @@ public class MainActivity extends BaseActivity {
             viewModel.getImageList().observe(this,
                     imagesModels -> imagesRecyclerViewAdapter.submitList(imagesModels));
 
+            viewModel.getNetworkState().observe(this,networkState -> imagesRecyclerViewAdapter.setNetworkState(networkState));
+
         }else {
             viewModel.getFromDbList().observe(this, imagesModels ->
                     imagesRecyclerViewAdapter.submitList(imagesModels));
