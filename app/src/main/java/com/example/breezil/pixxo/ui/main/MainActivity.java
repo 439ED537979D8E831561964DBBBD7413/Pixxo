@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.breezil.pixxo.BaseActivity;
 import com.example.breezil.pixxo.R;
 import com.example.breezil.pixxo.callbacks.ImageClickListener;
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity {
         binding.imageList.setHasFixedSize(true);
         setupBottomNavigation();
 
-        binding.shimmerViewContainer.startShimmerAnimation();
+
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
         orderBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
@@ -128,22 +129,29 @@ public class MainActivity extends BaseActivity {
             ActionBottomSheetFragment actionBottomSheetFragment = ActionBottomSheetFragment.getImageModel(imagesModel);
             actionBottomSheetFragment.show(getSupportFragmentManager(),getString(R.string.do_something));
 
+
         };
 
         imagesRecyclerViewAdapter
                 = new ImagesRecyclerViewAdapter(this,imageClickListener,imageLongClickListener);
         binding.imageList.setAdapter(imagesRecyclerViewAdapter);
+        binding.shimmerViewContainer.startShimmerAnimation();
     }
 
     private void setUpViewModel() {
 
         if(internetConnected()){
-          viewModel.deleteAllInDb();
+            binding.swipeRefresh.setVisibility(View.VISIBLE);
+            binding.swipeRefresh.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimary,
+                    R.color.colorblue,R.color.hotPink);
+
+            viewModel.deleteAllInDb();
             viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
             viewModel.getImageList().observe(this,
                     imagesModels -> imagesRecyclerViewAdapter.submitList(imagesModels));
 
-            viewModel.getNetworkState().observe(this,networkState -> imagesRecyclerViewAdapter.setNetworkState(networkState));
+            viewModel.getNetworkState().observe(this,networkState ->
+                    imagesRecyclerViewAdapter.setNetworkState(networkState));
 
         }else {
             viewModel.getFromDbList().observe(this, imagesModels ->
@@ -161,8 +169,9 @@ public class MainActivity extends BaseActivity {
         }
 
 
-
     }
+
+
 
 
     private void refresh(){
@@ -173,43 +182,10 @@ public class MainActivity extends BaseActivity {
         if(binding.swipeRefresh != null){
             binding.swipeRefresh.setRefreshing(false);
         }
+        binding.shimmerViewContainer.stopShimmerAnimation();
+        binding.shimmerViewContainer.setVisibility(View.GONE);
     }
 
-    private void setupBottomNavigation(){
-        BottomNavigationHelper.disableShiftMode(binding.bottomNavViewBar);
-        Menu menu = binding.bottomNavViewBar.getMenu();
-        MenuItem menuItem= menu.getItem(0);
-        menuItem.setChecked(true);
-        /*
-         * here sets the navigations to its corresponding activities
-         */
-        binding.bottomNavViewBar.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()){
-
-                case R.id.trending:
-
-                    break;
-                case R.id.explore:
-                    Intent exploreIntent = new Intent(MainActivity.this,ExploreActivity.class);
-                    startActivity(exploreIntent);
-                    finish();
-                    break;
-                case R.id.saved:
-                    Intent savedIntent = new Intent(MainActivity.this,SavedActivity.class);
-                    startActivity(savedIntent);
-                    finish();
-                    break;
-                case R.id.preference:
-                    Intent prefIntent = new Intent(MainActivity.this,SettingsActivity.class);
-                    startActivity(prefIntent);
-                    finish();
-                    break;
-
-            }
-            return false;
-        });
-
-    }
 
     //Creating the option menu
     @Override
@@ -297,6 +273,42 @@ public class MainActivity extends BaseActivity {
         firebaseAnalytics.setMinimumSessionDuration(TWO_THOUSAND);
         firebaseAnalytics.setSessionTimeoutDuration(FIVE_HUNDRED);
     }
+    private void setupBottomNavigation(){
+        BottomNavigationHelper.disableShiftMode(binding.bottomNavViewBar);
+        Menu menu = binding.bottomNavViewBar.getMenu();
+        MenuItem menuItem= menu.getItem(0);
+        menuItem.setChecked(true);
+        /*
+         * here sets the navigations to its corresponding activities
+         */
+        binding.bottomNavViewBar.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+
+                case R.id.trending:
+
+                    break;
+                case R.id.explore:
+                    Intent exploreIntent = new Intent(MainActivity.this,ExploreActivity.class);
+                    startActivity(exploreIntent);
+                    finish();
+                    break;
+                case R.id.saved:
+                    Intent savedIntent = new Intent(MainActivity.this,SavedActivity.class);
+                    startActivity(savedIntent);
+                    finish();
+                    break;
+                case R.id.preference:
+                    Intent prefIntent = new Intent(MainActivity.this,SettingsActivity.class);
+                    startActivity(prefIntent);
+                    finish();
+                    break;
+
+            }
+            return false;
+        });
+
+    }
+
 }
 
 

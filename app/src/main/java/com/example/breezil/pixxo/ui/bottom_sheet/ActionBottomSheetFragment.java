@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -81,22 +82,54 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
     private void updateUi(ImagesModel imagesModel){
 
         binding.selectEdit.setOnClickListener(v -> {
-            Intent editIntent = new Intent(getContext(), EditImageActivity.class);
-            editIntent.putExtra(SINGLE_PHOTO, imagesModel.getWebformatURL());
-            startActivity(editIntent);
+            Glide.with(getActivity())
+                    .load(imagesModel.getWebformatURL())
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            Toast.makeText(ActionBottomSheetFragment.this.mContext, R.string.cant_edit_until_image_is_displayed, Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            Intent editIntent = new Intent(ActionBottomSheetFragment.this.mContext, EditImageActivity.class);
+                            editIntent.putExtra(SINGLE_PHOTO, imagesModel.getWebformatURL());
+                            ActionBottomSheetFragment.this.mContext.startActivity(editIntent);
+                            return true;
+                        }
+                    }).submit();
             dismiss();
+
         });
 
         binding.selectSaved.setOnClickListener(v -> {
             SavedViewModel savedViewModel = ViewModelProviders.of(this)
                     .get(SavedViewModel.class);
-            SavedImageModel savedImageModel = new SavedImageModel(imagesModel.getLargeImageURL(),
-                    imagesModel.getLikes(),imagesModel.getId(),imagesModel.getViews(),imagesModel.getWebformatURL(),
-                    imagesModel.getType(),imagesModel.getTags(), imagesModel.getDownloads(),imagesModel.getUser(),
-                    imagesModel.getFavorites(),imagesModel.getUserImageURL(), imagesModel.getPreviewURL());
-            savedViewModel.insert(savedImageModel);
 
-            Toast.makeText(getContext(), R.string.saved, Toast.LENGTH_SHORT).show();
+
+            Glide.with(getActivity())
+                    .load(imagesModel.getWebformatURL())
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            Toast.makeText(ActionBottomSheetFragment.this.mContext, R.string.cant_save_until_image_displayed, Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
+                            SavedImageModel savedImageModel = new SavedImageModel(imagesModel.getLargeImageURL(),
+                                    imagesModel.getLikes(),imagesModel.getId(),imagesModel.getViews(),imagesModel.getWebformatURL(),
+                                    imagesModel.getType(),imagesModel.getTags(), imagesModel.getDownloads(),imagesModel.getUser(),
+                                    imagesModel.getFavorites(),imagesModel.getUserImageURL(), imagesModel.getPreviewURL());
+                            savedViewModel.insert(savedImageModel);
+
+                            Toast.makeText(ActionBottomSheetFragment.this.mContext, R.string.saved, Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                    }).submit();
+
             dismiss();
         });
 
@@ -107,7 +140,8 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                         .listener(new RequestListener<Bitmap>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                return false;
+                                Toast.makeText(ActionBottomSheetFragment.this.mContext, R.string.cant_download_until_images_is_loaded, Toast.LENGTH_SHORT).show();
+                                return true;
                             }
                             @Override
                             public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
@@ -146,7 +180,8 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        return false;
+                        Toast.makeText(ActionBottomSheetFragment.this.mContext, R.string.cant_share_until_image_is_loaded, Toast.LENGTH_SHORT).show();
+                        return true;
                     }
 
                     @Override
@@ -156,7 +191,7 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
                         return true;
                     }
                 }).submit());
-
+        dismiss();
     }
 
     private void startSharing(Uri localBitmapUri) {

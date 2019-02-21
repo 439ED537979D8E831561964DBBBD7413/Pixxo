@@ -174,6 +174,10 @@
     <string name="delete">Delete</string>
     <string name="no_image_saved_in_collections_yet">No Image saved in collections yet</string>
     <string name="click_to_save_images">Click to Save Images</string>
+    <string name="cant_edit_until_image_is_displayed">Can\'t Edit, until image is displayed</string>
+    <string name="cant_save_until_image_displayed">Can\'t save, until image is displayed</string>
+    <string name="cant_download_until_images_is_loaded">Can\'t Download, Until Image is loaded</string>
+    <string name="cant_share_until_image_is_loaded">Can\'t Share, Until Image is Loaded</string>
 
 
 </resources>
