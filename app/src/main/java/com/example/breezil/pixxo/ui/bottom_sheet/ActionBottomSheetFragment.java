@@ -174,32 +174,44 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
          });
 
 
+        binding.selectShare.setOnClickListener(v -> {
+                    Glide.with(getActivity())
+                            .asBitmap().load(imagesModel.getWebformatURL())
+                            .listener(new RequestListener<Bitmap>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                            Target<Bitmap> target, boolean isFirstResource) {
+                                    Toast.makeText(ActionBottomSheetFragment.this.mContext,
+                                            R.string.cant_share_until_image_is_loaded, Toast.LENGTH_SHORT).show();
+                                    return false;
+                                }
 
-        binding.selectShare.setOnClickListener(v -> Glide.with(getActivity())
-                .asBitmap().load(imagesModel.getWebformatURL())
-                .listener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        Toast.makeText(ActionBottomSheetFragment.this.mContext, R.string.cant_share_until_image_is_loaded, Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
+                                @Override
+                                public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target,
+                                                               DataSource dataSource, boolean isFirstResource) {
 
-                    @Override
-                    public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        startSharing(imageSaveUtils.getLocalBitmapUri(bitmap,getActivity()));
+                                    startSharing(imageSaveUtils.getLocalBitmapUri(bitmap, ActionBottomSheetFragment.this.mContext));
 
-                        return true;
-                    }
-                }).submit());
-        dismiss();
+                                    return true;
+
+                                }
+                            }).submit();
+                    dismiss();
+                });
+
     }
 
     private void startSharing(Uri localBitmapUri) {
-        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType(getString(R.string.image_jpg));
-        shareIntent.putExtra(Intent.EXTRA_STREAM,localBitmapUri);
-        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_image)));
+        Activity activity = getActivity();
+        if(activity != null && isAdded()){
+            final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType(getString(R.string.image_jpg));
+            shareIntent.putExtra(Intent.EXTRA_STREAM,localBitmapUri);
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_image)));
+
+        }
         dismiss();
+
     }
 
 

@@ -69,11 +69,12 @@ public class ImageSaveUtils {
     public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
         Uri bmpUri = null;
         try {
-            File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            
+                File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                     context.getString(R.string.share_image_) + 
                             System.currentTimeMillis() + context.getString(R.string.png));
             FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.flush();
             out.close();
             bmpUri = Uri.fromFile(file);

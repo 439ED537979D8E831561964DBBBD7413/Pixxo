@@ -75,7 +75,6 @@ public class MainActivity extends BaseActivity {
 
     FirebaseAnalytics firebaseAnalytics;
 
-    private ShimmerFrameLayout mShimmerViewContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +130,7 @@ public class MainActivity extends BaseActivity {
 
 
         };
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
 
         imagesRecyclerViewAdapter
                 = new ImagesRecyclerViewAdapter(this,imageClickListener,imageLongClickListener);
@@ -146,6 +146,7 @@ public class MainActivity extends BaseActivity {
                     R.color.colorblue,R.color.hotPink);
 
             viewModel.deleteAllInDb();
+
             viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
             viewModel.getImageList().observe(this,
                     imagesModels -> imagesRecyclerViewAdapter.submitList(imagesModels));
@@ -155,7 +156,12 @@ public class MainActivity extends BaseActivity {
 
         }else {
             viewModel.getFromDbList().observe(this, imagesModels ->
-                    imagesRecyclerViewAdapter.submitList(imagesModels));
+            {
+                binding.swipeRefresh.setVisibility(View.VISIBLE);
+                imagesRecyclerViewAdapter.submitList(imagesModels);
+                Toast.makeText(this, String.valueOf(imagesModels.size()),Toast.LENGTH_LONG).show();
+            });
+
         }
         binding.shimmerViewContainer.stopShimmerAnimation();
         binding.shimmerViewContainer.setVisibility(View.GONE);

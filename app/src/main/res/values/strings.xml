@@ -102,7 +102,8 @@
     <string name="pref_theme_false_value">1</string>
 
 
-    <string name="about_description">Pixxo an awesome app.\n\n Where you can keep up on your latest and favorite world news from any cable source around the world, Build with Android Architecture Components(MVVM), also implemented Dagger2. This app let you sortby your favorite news source and mark news as bookmark to read later. \n\n Made with love by Kola Emiola and Api by NewsApi.org </string>
+
+    <string name="about_description">Pixxo: Explore, Edit and Share Photos.\n\n Pixxo let you explore pictures, edit, write over them and share. Capture a moment and make it beautiful or explore pictures online and make them beautiful with Pixxo and Share with friends and family on your favorite social networks! \n\n Made with love by Kola Emiola and Api by https://pixabay.com </string>
 
 
     <string name="contacts">Contact</string>

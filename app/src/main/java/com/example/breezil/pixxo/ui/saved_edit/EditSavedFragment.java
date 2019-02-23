@@ -84,9 +84,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
         }else {
             editEmptyText.setVisibility(View.VISIBLE);
             clickEditBtn.setVisibility(View.VISIBLE);
-            clickEditBtn.setOnClickListener(v -> {
-                chooseImageBottomDialogFragment.show(getFragmentManager(),getString(R.string.choose_image));
-                }
+            clickEditBtn.setOnClickListener(v -> chooseImageBottomDialogFragment.show(getFragmentManager(),getString(R.string.choose_image))
             );
         }
 

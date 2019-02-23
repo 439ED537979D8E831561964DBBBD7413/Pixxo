@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
+def propertiesFile = rootProject.file("keystore.properties")
+def storeProperties = new Properties()
+storeProperties.load(new FileInputStream(propertiesFile))
+
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -14,9 +19,21 @@ android {
         buildConfigField("String", "API_KEY", API_KEY)
         buildConfigField("String", "BASE_URL", BASE_URL)
     }
+
+    signingConfigs {
+        release {
+            keyAlias storeProperties['alias']
+            keyPassword storeProperties['pixxoPassword']
+            storePassword storeProperties['pixxoStorePassword']
+            storeFile file(storeProperties['pixxoStoreFile'])
+        }
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -28,6 +45,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
+
+
+
 }
 
 dependencies {
