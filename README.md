@@ -26,8 +26,9 @@ Download Pixxo [Here](https://play.google.com/store/apps/details?id=com.pixxo.br
 - [Timber](https://github.com/JakeWharton/timber)
 - [Retrofit](https://square.github.io/retrofit/)
 - [Glide](https://github.com/bumptech/glide)
-- [About Page](https://github.com/medyo/android-about-page)
 - [Image-cropper](https://github.com/ArthurHub/Android-Image-Cropper)
+- [Firebase Analytics](https://firebase.google.com/docs/analytics/android/start)
+- [About Page](https://github.com/medyo/android-about-page)
 - [About Libraries](https://github.com/mikepenz/AboutLibraries)
 
 #### Requirements
