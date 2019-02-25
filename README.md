@@ -1,4 +1,4 @@
-# [Pixxo](https://play.google.com/store/apps/details?id=com.pixxo.breezil.pixxo) : Explore, Edit and Share Photos ![play-store-logo-2](https://user-images.githubusercontent.com/20865566/53359768-d9014380-3901-11e9-9523-5af74ccc9f10.png)
+# [Pixxo](https://play.google.com/store/apps/details?id=com.pixxo.breezil.pixxo) : Explore, Edit and Share Photos [![play-store-logo-2](https://user-images.githubusercontent.com/20865566/53359768-d9014380-3901-11e9-9523-5af74ccc9f10.png)](https://play.google.com/store/apps/details?id=com.pixxo.breezil.pixxo)
 
 ![pixxo_logo - copy](https://user-images.githubusercontent.com/20865566/53350109-781b4080-38ec-11e9-8c9f-fb486e77c08f.png)
 
