@@ -1,4 +1,4 @@
-package com.example.photoeditor;
+package com.pixxo.photoeditor;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;

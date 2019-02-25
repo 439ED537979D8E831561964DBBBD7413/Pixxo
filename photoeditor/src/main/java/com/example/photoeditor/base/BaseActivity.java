@@ -1,4 +1,4 @@
-package com.example.photoeditor.base;
+package com.pixxo.photoeditor.base;
 
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;

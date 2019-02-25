@@ -1,4 +1,4 @@
-package com.example.photoeditor.filters;
+package com.pixxo.photoeditor.filters;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.photoeditor.R;
+import com.pixxo.photoeditor.R;
 
 import java.io.IOException;
 import java.io.InputStream;

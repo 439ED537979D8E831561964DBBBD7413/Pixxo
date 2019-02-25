@@ -1,4 +1,4 @@
-package com.example.photoeditor.tools;
+package com.pixxo.photoeditor.tools;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.photoeditor.R;
+import com.pixxo.photoeditor.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,15 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
-//def propertiesFile = rootProject.file("keystore.properties")
-//def storeProperties = new Properties()
-//storeProperties.load(new FileInputStream(propertiesFile))
-
 
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.breezil.pixxo"
+        applicationId "com.pixxo.breezil.pixxo"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -20,14 +16,7 @@ android {
         buildConfigField("String", "BASE_URL", BASE_URL)
     }
 
-//    signingConfigs {
-//        release {
-//            keyAlias storeProperties['alias']
-//            keyPassword storeProperties['pixxoPassword']
-//            storePassword storeProperties['pixxoStorePassword']
-//            storeFile file(storeProperties['pixxoStoreFile'])
-//        }
-//    }
+
 
 
     buildTypes {

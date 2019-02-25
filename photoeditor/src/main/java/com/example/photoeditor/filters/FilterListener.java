@@ -1,4 +1,4 @@
-package com.example.photoeditor.filters;
+package com.pixxo.photoeditor.filters;
 
 import ja.burhanrashid52.photoeditor.PhotoFilter;
 

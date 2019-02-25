@@ -1,4 +1,4 @@
-package com.example.photoeditor;
+package com.pixxo.photoeditor;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -45,11 +45,11 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.example.photoeditor.base.BaseActivity;
-import com.example.photoeditor.filters.FilterListener;
-import com.example.photoeditor.filters.FilterViewAdapter;
-import com.example.photoeditor.tools.EditingToolsAdapter;
-import com.example.photoeditor.tools.ToolType;
+import com.pixxo.photoeditor.base.BaseActivity;
+import com.pixxo.photoeditor.filters.FilterListener;
+import com.pixxo.photoeditor.filters.FilterViewAdapter;
+import com.pixxo.photoeditor.tools.EditingToolsAdapter;
+import com.pixxo.photoeditor.tools.ToolType;
 
 import java.io.File;
 import java.io.FileOutputStream;

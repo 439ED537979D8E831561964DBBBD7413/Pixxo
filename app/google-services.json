@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:985546717453:android:d9e8df31e92eec5a",
         "android_client_info": {
-          "package_name": "com.example.breezil.pixxo"
+          "package_name": "com.pixxo.breezil.pixxo"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "985546717453-mjs09dvtcjred2td7puh5jqoai645tts.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.breezil.pixxo",
+            "package_name": "com.pixxo.breezil.pixxo",
             "certificate_hash": "5b73f7539216aa5959db3f5f3aa7414aa78cf84e"
           }
         },

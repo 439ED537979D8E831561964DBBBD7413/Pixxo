@@ -1,4 +1,4 @@
-package com.example.photoeditor.tools;
+package com.pixxo.photoeditor.tools;
 
 /**
  * @author <a href="https://github.com/burhanrashid52">Burhanuddin Rashid</a>
