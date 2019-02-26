@@ -28,6 +28,7 @@
 
     <ImageView
         android:id="@+id/imgUndo"
+        android:contentDescription="@string/undo"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:background="#99000000"
@@ -39,6 +40,7 @@
     <ImageView
         android:id="@+id/imgRedo"
         android:layout_width="50dp"
+        android:contentDescription="@string/redo"
         android:layout_height="wrap_content"
         android:background="#99000000"
         android:padding="8dp"
@@ -53,12 +55,14 @@
         android:background="#99000000"
         android:padding="8dp"
         android:src="@drawable/ic_gallery"
+        android:contentDescription="@string/gallery"
         app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imgCamera"
         android:layout_width="50dp"
+        android:contentDescription="@string/camera"
         android:layout_height="wrap_content"
         android:background="#99000000"
         android:padding="8dp"
@@ -72,6 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:contentDescription="@string/close"
         android:layout_margin="8dp"
         android:src="@drawable/ic_close"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -122,6 +127,7 @@
         android:id="@+id/imgSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/save"
         android:layout_margin="8dp"
         android:src="@drawable/ic_save"
         app:layout_constraintBottom_toBottomOf="parent"
