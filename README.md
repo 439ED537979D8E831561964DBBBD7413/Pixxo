@@ -4,7 +4,7 @@
 
 Pixxo is an application that let you explore pictures, edit, write over them and share. 
 Capture a moment and make it beautiful or Explore Pictures online and Make them beautiful with Pixxo and Share with friends and Family on Instagram, Facebook, Twitter, or your other favorite social networks!
-Build with Android Architecture Components(MVVM) + Dagger2 + RxJava. And [Pixabay API](https://pixabay.com) 
+Built with Android Architecture Components(MVVM) + Dagger2 + RxJava. And [Pixabay API](https://pixabay.com) 
 
 Features:
 *	Explore Pictures online 
