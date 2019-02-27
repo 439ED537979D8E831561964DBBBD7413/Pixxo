@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.pixxo.breezil.pixxo.databinding.FragmentPhotoDetailBinding;
 import com.pixxo.breezil.pixxo.R;
 import com.pixxo.breezil.pixxo.model.ImagesModel;
@@ -79,8 +82,10 @@ public class PhotoDetailFragment extends Fragment {
         viewModel.setImage(imagesModel());
         viewModel.getImage().observe(getActivity(), this::updateUI);
 
-
-
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        binding.adView.loadAd(adRequest);
     }
 
 

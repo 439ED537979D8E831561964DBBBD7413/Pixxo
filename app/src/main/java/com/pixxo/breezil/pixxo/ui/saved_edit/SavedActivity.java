@@ -45,7 +45,7 @@ public class SavedActivity extends DaggerAppCompatActivity implements HasSupport
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        themeMode = sharedPreferences.getBoolean(getString(R.string.pref_theme_key),true);
+        themeMode = sharedPreferences.getBoolean(getString(R.string.pref_theme_key),false);
 
         if(themeMode){
             setTheme(R.style.DarkNoActionTheme);

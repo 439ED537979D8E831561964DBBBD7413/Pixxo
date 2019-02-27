@@ -17,6 +17,11 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.pixxo.photoeditor.Constant.FIVE;
+import static com.pixxo.photoeditor.Constant.TEN;
+import static com.pixxo.photoeditor.Constant.TWENTY;
+import static com.pixxo.photoeditor.Constant.ZERO;
+
 public class ColorPickerAdapter extends RecyclerView.Adapter<ColorPickerAdapter.ViewHolder> {
 
     private Context context;
@@ -56,17 +61,17 @@ public class ColorPickerAdapter extends RecyclerView.Adapter<ColorPickerAdapter.
         view.setVisibility(View.VISIBLE);
 
         ShapeDrawable biggerCircle = new ShapeDrawable(new OvalShape());
-        biggerCircle.setIntrinsicHeight(20);
-        biggerCircle.setIntrinsicWidth(20);
-        biggerCircle.setBounds(new Rect(0, 0, 20, 20));
+        biggerCircle.setIntrinsicHeight(TWENTY);
+        biggerCircle.setIntrinsicWidth(TWENTY);
+        biggerCircle.setBounds(new Rect(ZERO, ZERO, TWENTY, TWENTY));
         biggerCircle.getPaint().setColor(colorCode);
 
         ShapeDrawable smallerCircle = new ShapeDrawable(new OvalShape());
-        smallerCircle.setIntrinsicHeight(5);
-        smallerCircle.setIntrinsicWidth(5);
-        smallerCircle.setBounds(new Rect(0, 0, 5, 5));
+        smallerCircle.setIntrinsicHeight(FIVE);
+        smallerCircle.setIntrinsicWidth(FIVE);
+        smallerCircle.setBounds(new Rect(ZERO, ZERO, FIVE, FIVE));
         smallerCircle.getPaint().setColor(Color.WHITE);
-        smallerCircle.setPadding(10, 10, 10, 10);
+        smallerCircle.setPadding(TEN, TEN, TEN, TEN);
         Drawable[] drawables = {smallerCircle, biggerCircle};
 
         LayerDrawable layerDrawable = new LayerDrawable(drawables);

@@ -4,10 +4,12 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.pixxo.breezil.pixxo.BaseActivity;
 import com.pixxo.breezil.pixxo.R;
 import com.pixxo.breezil.pixxo.model.ImagesModel;
@@ -37,6 +39,8 @@ public class DetailActivity extends BaseActivity implements HasSupportFragmentIn
 
     ActivityDetailBinding binding;
 
+//    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -49,8 +53,6 @@ public class DetailActivity extends BaseActivity implements HasSupportFragmentIn
                 String type = getIntent().getStringExtra(TYPE);
                 if(type.equals(getString(R.string.two))){
                     tabletSearchDetail();
-
-
                 }else if(type.equals(getString(R.string.one))) {
                     tabletDetail();
                 }
@@ -61,6 +63,18 @@ public class DetailActivity extends BaseActivity implements HasSupportFragmentIn
         }
         updateToolbar();
         loadFragment();
+
+//        MobileAds.initialize(this,
+//                "ca-app-pub-3940256099942544~3347511713");
+//
+//
+//        mInterstitialAd = new InterstitialAd(this);
+//        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+//        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+//
+//        if (mInterstitialAd.isLoaded()) {
+//            mInterstitialAd.show();
+//        }
     }
 
     private void tabletDetail() {

@@ -29,6 +29,7 @@
     <dimen name="sixteenDP">16dp</dimen>
     <dimen name="twentyDP">20dp</dimen>
     <dimen name="twentyfiveDP">25dp</dimen>
+    <dimen name="thirtyDP">30dp</dimen>
 
     <dimen name="fiftyDP">50dp</dimen>
     <dimen name="fiftySixDP">56dp</dimen>

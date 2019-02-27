@@ -179,6 +179,9 @@
     <string name="cant_save_until_image_displayed">Can\'t save, until image is displayed</string>
     <string name="cant_download_until_images_is_loaded">Can\'t Download, Until Image is loaded</string>
     <string name="cant_share_until_image_is_loaded">Can\'t Share, Until Image is Loaded</string>
+    <string name="logo">logo</string>
+    <string name="ads">ads</string>
+    <string name="add_key">ca-app-pub-3940256099942544/6300978111</string>
 
 
 </resources>

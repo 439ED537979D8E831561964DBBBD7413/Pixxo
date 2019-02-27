@@ -10,6 +10,7 @@
 
     <ImageView
         android:id="@+id/imgToolIcon"
+        android:contentDescription="@string/brush"
         android:layout_width="@dimen/editor_size"
         android:layout_height="@dimen/editor_size"
         android:layout_margin="4dp"

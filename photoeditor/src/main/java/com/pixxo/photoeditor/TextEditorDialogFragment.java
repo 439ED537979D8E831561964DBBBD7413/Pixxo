@@ -20,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import static com.pixxo.photoeditor.Constant.ZERO;
+
 public class TextEditorDialogFragment extends DialogFragment {
 
     public static final String TAG = TextEditorDialogFragment.class.getSimpleName();
@@ -99,13 +101,13 @@ public class TextEditorDialogFragment extends DialogFragment {
         mAddTextEditText.setText(getArguments().getString(EXTRA_INPUT_TEXT));
         mColorCode = getArguments().getInt(EXTRA_COLOR_CODE);
         mAddTextEditText.setTextColor(mColorCode);
-        mInputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        mInputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, ZERO);
 
         //Make a callback on activity when user is done with text editing
         mAddTextDoneTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mInputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                mInputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), ZERO);
                 dismiss();
                 String inputText = mAddTextEditText.getText().toString();
                 if (!TextUtils.isEmpty(inputText) && mTextEditor != null) {

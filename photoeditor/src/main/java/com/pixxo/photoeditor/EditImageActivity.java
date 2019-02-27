@@ -52,9 +52,7 @@ import com.pixxo.photoeditor.tools.EditingToolsAdapter;
 import com.pixxo.photoeditor.tools.ToolType;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -66,13 +64,14 @@ import ja.burhanrashid52.photoeditor.PhotoFilter;
 import ja.burhanrashid52.photoeditor.SaveSettings;
 import ja.burhanrashid52.photoeditor.ViewType;
 
-import static android.os.Build.TYPE;
 
 public class EditImageActivity extends BaseActivity implements OnPhotoEditorListener,
         View.OnClickListener,
-        com.pixxo.photoeditor.PropertiesBSFragment.Properties,
-        com.pixxo.photoeditor.EmojiBSFragment.EmojiListener,
-        com.pixxo.photoeditor.StickerBSFragment.StickerListener, EditingToolsAdapter.OnItemSelected, FilterListener {
+        PropertiesBSFragment.Properties,
+        EmojiBSFragment.EmojiListener,
+        StickerBSFragment.StickerListener,
+        EditingToolsAdapter.OnItemSelected,
+        FilterListener {
 
     private static final String TAG = EditImageActivity.class.getSimpleName();
     public static final String EXTRA_IMAGE_PATHS = "extra_image_paths";
@@ -117,7 +116,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 
 
 
-        mWonderFont = Typeface.createFromAsset(getAssets(), "beyond_wonderland.ttf");
+        mWonderFont = Typeface.createFromAsset(getAssets(), getString(R.string.beyond_wonderland_dot_ttf));
 
         mPropertiesBSFragment = new PropertiesBSFragment();
         mEmojiBSFragment = new EmojiBSFragment();
@@ -134,7 +133,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         mRvFilters.setLayoutManager(llmFilters);
         mRvFilters.setAdapter(mFilterViewAdapter);
 
-        getSupportActionBar().setTitle("Edit Image");
+        getSupportActionBar().setTitle(R.string.edit_image);
 
 
 
@@ -270,9 +269,9 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 
         } else if (i == R.id.imgGallery) {
             Intent intent = new Intent();
-            intent.setType("image/*");
+            intent.setType(getString(R.string.image_));
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_REQUEST);
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), PICK_REQUEST);
 
         }
     }
@@ -280,15 +279,15 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     @SuppressLint("MissingPermission")
     private String saveImage(final Context context) {
         if (requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            showLoading("Saving...");
+            showLoading(getString(R.string.saving_));
 
             // Create the new file in the external storage
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+            String timeStamp = new SimpleDateFormat(getString(R.string.date_format),
                     Locale.getDefault()).format(new Date());
-            String imageFileName = "Pixxo" + timeStamp + ".png";
+            String imageFileName = getString(R.string.pixxo) + timeStamp + getString(R.string.dot_png);
             File storageDir = new File(
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                            + "/Pixxo_Edited");
+                            + getString(R.string.slash_pixxo_edited));
             boolean success = true;
             if (!storageDir.exists()) {
                 success = storageDir.mkdirs();
@@ -308,7 +307,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                         @Override
                         public void onSuccess(@NonNull String imagePath) {
                             hideLoading();
-                            showSnackbar("Image Saved Successfully");
+                            showSnackbar(getString(R.string.save_successfully));
                             galleryAddPic(context, savedImagePath);
                             mPhotoEditorView.getSource().setImageURI(Uri.fromFile(new File(imagePath)));
                         }
@@ -316,7 +315,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             hideLoading();
-                            showSnackbar("Failed to save Image");
+                            showSnackbar(getString(R.string.failed_to_save));
                         }
                     });
                 } catch (Exception e) {
@@ -349,7 +348,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
             switch (requestCode) {
                 case CAMERA_REQUEST:
                     mPhotoEditor.clearAllViews();
-                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    Bitmap photo = (Bitmap) data.getExtras().get(getString(R.string.data));
                     mPhotoEditorView.getSource().setImageBitmap(photo);
                     break;
                 case PICK_REQUEST:
@@ -406,21 +405,21 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 
     private void showSaveDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you want to exit without saving image ?");
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.are_you_want_to_exit_without_saving_image);
+        builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 saveImage(getApplicationContext());
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
 
-        builder.setNeutralButton("Discard", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(R.string.discard, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
