@@ -2,7 +2,6 @@ package com.pixxo.breezil.pixxo.widget;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-
 import com.pixxo.breezil.pixxo.R;
 
 public final class WidgetPref {
@@ -11,7 +10,6 @@ public final class WidgetPref {
 
     public WidgetPref() {
     }
-
 
 
     public static void setTitle(Context context, String title){

@@ -10,11 +10,12 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import static com.pixxo.breezil.pixxo.utils.Constant.FIVE;
+
 /**
  * More from here Architecture Guide "https://developer.android.com/arch"
  * Helper code from googlesamples/android-architecture-components:.
  * "https://github.com/breel93/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/pixxo/github/AppExecutors.kt"
- *
  */
 
 @Singleton
@@ -26,7 +27,7 @@ public class AppExecutors {
 
     @Inject
     public AppExecutors() {
-        this(Executors.newSingleThreadExecutor(), Executors.newFixedThreadPool(5));
+        this(Executors.newSingleThreadExecutor(), Executors.newFixedThreadPool(FIVE));
     }
 
     public AppExecutors(Executor diskIO, Executor networkIO) {

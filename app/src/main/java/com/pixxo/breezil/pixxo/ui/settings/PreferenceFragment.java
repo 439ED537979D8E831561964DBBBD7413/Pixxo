@@ -26,6 +26,8 @@ import java.util.Set;
 
 import timber.log.Timber;
 
+import static com.pixxo.breezil.pixxo.utils.Constant.ZERO;
+
 public class PreferenceFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener  {
     private MultiSelectListPreference mCategoryPref;
 
@@ -35,9 +37,9 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
 
         PreferenceManager.setDefaultValues(Objects.requireNonNull(getActivity()), R.xml.preference, false);
 
-        PreferenceGroup preferenceGroup = (PreferenceGroup) getPreferenceScreen().getPreference(0);
+        PreferenceGroup preferenceGroup = (PreferenceGroup) getPreferenceScreen().getPreference(ZERO);
 
-        mCategoryPref = (MultiSelectListPreference) preferenceGroup.getPreference(0);
+        mCategoryPref = (MultiSelectListPreference) preferenceGroup.getPreference(ZERO);
 
         initSummary(getPreferenceScreen());
     }

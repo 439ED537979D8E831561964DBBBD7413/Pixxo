@@ -9,14 +9,17 @@ import java.lang.reflect.Field;
 
 import timber.log.Timber;
 
+import static com.pixxo.breezil.pixxo.utils.Constant.ZERO;
+
 public class BottomNavigationHelper {
-    public static String UNABLE_TO_GET_SHIFT = "Unable to get shift mode field";
-    public static String UNABLE_TO_CHANGE_VALUE = "Unable to change value of shift mode";
+    private static String UNABLE_TO_GET_SHIFT = "Unable to get shift mode field";
+    private static String UNABLE_TO_CHANGE_VALUE = "Unable to change value of shift mode";
+    private static String SHIFTING_MODE = "mShiftingMode";
 
     public static void disableShiftMode(BottomNavigationView view) {
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(ZERO);
         try {
-            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            Field shiftingMode = menuView.getClass().getDeclaredField(SHIFTING_MODE);
             shiftingMode.setAccessible(true);
             shiftingMode.setBoolean(menuView, false);
             shiftingMode.setAccessible(false);

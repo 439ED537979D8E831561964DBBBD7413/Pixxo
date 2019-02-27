@@ -182,6 +182,8 @@
     <string name="logo">logo</string>
     <string name="ads">ads</string>
     <string name="add_key">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="detail">detail</string>
+    <string name="settings">Settings</string>
 
 
 </resources>

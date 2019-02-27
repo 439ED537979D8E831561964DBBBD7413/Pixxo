@@ -30,6 +30,7 @@ import dagger.android.support.AndroidSupportInjection;
 
 import static com.pixxo.breezil.pixxo.utils.Constant.PIXXO_EDITED;
 import static com.pixxo.breezil.pixxo.utils.Constant.STORAGE_PERMISSION_CODE;
+import static com.pixxo.breezil.pixxo.utils.Constant.ZERO;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,7 +80,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
 
 
 
-        if(gridItems.size() > 0){
+        if(gridItems.size() > ZERO){
             gridView.setAdapter(adapter);
         }else {
             editEmptyText.setVisibility(View.VISIBLE);
@@ -129,12 +130,8 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     private boolean isImageFile(String filePath) {
-        if (filePath.endsWith(getString(R.string.jpg)) || filePath.endsWith(getString(R.string.png)))
         // Add other formats as desired
-        {
-            return true;
-        }
-        return false;
+        return filePath.endsWith(getString(R.string.jpg)) || filePath.endsWith(getString(R.string.png));
     }
 
     @Override
@@ -143,9 +140,7 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
         if (gridItems.get(position).isDirectory()) {
             setGridAdapter(gridItems.get(position).getPath());
         }
-        else {
-            // Display the image
-        }
+
     }
 
 

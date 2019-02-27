@@ -68,6 +68,7 @@
             android:id="@+id/detailFloatBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/detail"
             android:layout_marginEnd="@dimen/eightDP"
             android:layout_marginBottom="@dimen/eightDP"
             app:backgroundTint="@color/colorPrimary"

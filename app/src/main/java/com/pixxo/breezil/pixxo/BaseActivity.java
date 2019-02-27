@@ -20,10 +20,8 @@ public class BaseActivity extends AppCompatActivity {
 
         if(themeMode){
             setTheme(R.style.DarkTheme);
-
         }else {
             setTheme(R.style.AppTheme);
-
         }
     }
 

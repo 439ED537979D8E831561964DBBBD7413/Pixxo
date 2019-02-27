@@ -25,6 +25,8 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.DaggerAppCompatActivity;
 import dagger.android.support.HasSupportFragmentInjector;
 
+import static com.pixxo.breezil.pixxo.utils.Constant.FOUR;
+
 public class SettingsActivity extends BaseActivity implements HasSupportFragmentInjector {
 
 
@@ -43,12 +45,12 @@ public class SettingsActivity extends BaseActivity implements HasSupportFragment
         setupBottomNavigation();
 
         binding.addButton.setOnClickListener(v ->
-                chooseImageBottomDialogFragment.show(getSupportFragmentManager(),"Choose Image"));
+                chooseImageBottomDialogFragment.show(getSupportFragmentManager(),getString(R.string.choose_image)));
 
         binding.aboutText.setOnClickListener(v ->
                 startActivity(new Intent(this, AboutActivity.class)));
 
-        getSupportActionBar().setTitle("Settings");
+        getSupportActionBar().setTitle(R.string.settings);
     }
 
     private void setupBottomNavigation() {
@@ -57,7 +59,7 @@ public class SettingsActivity extends BaseActivity implements HasSupportFragment
 
 
         Menu menu = binding.bottomNavViewBar.getMenu();
-        MenuItem menuItem= menu.getItem(4);
+        MenuItem menuItem= menu.getItem(FOUR);
         menuItem.setChecked(true);
 
 
@@ -83,7 +85,6 @@ public class SettingsActivity extends BaseActivity implements HasSupportFragment
                     finish();
                     break;
                 case R.id.preference:
-
                     break;
             }
 

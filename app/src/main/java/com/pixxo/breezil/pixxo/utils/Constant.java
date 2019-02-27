@@ -14,8 +14,10 @@ public class Constant {
     public static int FIVE_HUNDRED = 500;
     public static int ONE_THOUSAND = 2000;
     public static int TWO_THOUSAND = 1000;
+    public static int FOUR = 4;
     public static int FIVE = 5;
     public static int TEN = 10;
+    public static int ONE_HUNDRED = 100;
 
 
     public static String SEARCH_STRING = "search";
