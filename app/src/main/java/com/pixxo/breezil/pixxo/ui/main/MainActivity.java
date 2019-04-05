@@ -14,10 +14,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.pixxo.breezil.pixxo.BaseActivity;
+import com.pixxo.breezil.pixxo.ui.BaseActivity;
 import com.pixxo.breezil.pixxo.R;
 import com.pixxo.breezil.pixxo.callbacks.ImageClickListener;
 import com.pixxo.breezil.pixxo.callbacks.ImageLongClickListener;
@@ -33,9 +31,6 @@ import com.pixxo.breezil.pixxo.utils.BottomNavigationHelper;
 import com.pixxo.breezil.pixxo.view_model.ViewModelFactory;
 import com.pixxo.breezil.pixxo.widget.PixxoAppWidget;
 import com.pixxo.breezil.pixxo.widget.WidgetPref;
-import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 
 import java.util.ArrayList;
@@ -50,9 +45,7 @@ import dagger.android.AndroidInjection;
 import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
-import static com.pixxo.breezil.pixxo.utils.Constant.FIVE_HUNDRED;
 import static com.pixxo.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
-import static com.pixxo.breezil.pixxo.utils.Constant.TWO_THOUSAND;
 import static com.pixxo.breezil.pixxo.utils.Constant.TYPE;
 
 public class MainActivity extends BaseActivity {
@@ -71,9 +64,8 @@ public class MainActivity extends BaseActivity {
     MainViewModel viewModel;
     boolean isTablet;
 
-    String deviceToken;
 
-    FirebaseAnalytics firebaseAnalytics;
+
 
 
     @Override
@@ -81,27 +73,20 @@ public class MainActivity extends BaseActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        deviceToken = FirebaseInstanceId.getInstance().getToken();
+
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
         binding.imageList.setHasFixedSize(true);
         setupBottomNavigation();
 
-
-
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
         orderBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
-
-        // Obtain the Firebase Analytics instance.
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
         setUpAdapter();
         setUpViewModel();
-        firebaseAnalytics();
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor(message ->
                 Timber.tag(getString(R.string.okhttp)).d(message));
-
         logging.redactHeader(getString(R.string.authorization));
         logging.redactHeader(getString(R.string.cookie));
         binding.addButton.setOnClickListener(v ->
@@ -269,15 +254,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    private void firebaseAnalytics(){
-        Bundle bundle = new Bundle();
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, (int) System.currentTimeMillis());
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, deviceToken);
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-        firebaseAnalytics.setAnalyticsCollectionEnabled(true);
-        firebaseAnalytics.setMinimumSessionDuration(TWO_THOUSAND);
-        firebaseAnalytics.setSessionTimeoutDuration(FIVE_HUNDRED);
-    }
     private void setupBottomNavigation(){
         BottomNavigationHelper.disableShiftMode(binding.bottomNavViewBar);
         Menu menu = binding.bottomNavViewBar.getMenu();

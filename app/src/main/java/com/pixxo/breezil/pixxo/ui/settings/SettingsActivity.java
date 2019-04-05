@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.pixxo.breezil.pixxo.BaseActivity;
+import com.pixxo.breezil.pixxo.ui.BaseActivity;
 import com.pixxo.breezil.pixxo.R;
 import com.pixxo.breezil.pixxo.databinding.ActivityPreferenceBinding;
 import com.pixxo.breezil.pixxo.ui.saved_edit.SavedActivity;
@@ -22,7 +21,6 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.DaggerAppCompatActivity;
 import dagger.android.support.HasSupportFragmentInjector;
 
 import static com.pixxo.breezil.pixxo.utils.Constant.FOUR;

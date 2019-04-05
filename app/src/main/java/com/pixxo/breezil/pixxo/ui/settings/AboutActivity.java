@@ -1,12 +1,11 @@
 package com.pixxo.breezil.pixxo.ui.settings;
 
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 
-import com.pixxo.breezil.pixxo.BaseActivity;
+import com.pixxo.breezil.pixxo.ui.BaseActivity;
 import com.pixxo.breezil.pixxo.R;
 import com.pixxo.breezil.pixxo.databinding.ActivityAboutBinding;
 import com.mikepenz.aboutlibraries.Libs;
@@ -14,7 +13,6 @@ import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.Calendar;
 
-import dagger.android.AndroidInjection;
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
 
@@ -38,6 +36,7 @@ public class AboutActivity extends BaseActivity {
                 .isRTL(false)
                 .setDescription(getString(R.string.about_description))
                 .setImage(R.mipmap.ic_launcher_round)
+                .addItem(new Element().setTitle("Privacy").setValue(getString(R.string.web)))
                 .addItem(new Element().setTitle(String.valueOf(String.format(getString(R.string.version)))))
                 .addGroup(getString(R.string.contacts))
                 .addEmail(getString(R.string.email), getString(R.string.email_title))
@@ -70,8 +69,10 @@ public class AboutActivity extends BaseActivity {
                 .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                 .withActivityTitle(getString(R.string.library_text))
                 .withAutoDetect(true)
-                .start(getApplicationContext()));
+                .start(AboutActivity.this));
 
         return libElement;
     }
+
+
 }

@@ -95,29 +95,37 @@ public class EditSavedFragment extends Fragment implements AdapterView.OnItemCli
     private List<EditedModel> createGridItems(String directoryPath) {
         List<EditedModel> items = new ArrayList<>();
 
-        // List all the items within the folder..
-        File[] files = new File(directoryPath).listFiles(new ImageFileFilter());
+
 
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-            if(files.length > 0 ){
-                for (File file : files) {
+            // List all the items within the folder..
+            File[] files = new File(directoryPath).listFiles(new ImageFileFilter());
 
-                    // Add the directories containing images or sub-directories
-                    if (file.isDirectory()
-                            && file.listFiles(new ImageFileFilter()).length > 0) {
+            File filePath = new File(PIXXO_EDITED);
 
-                        items.add(new EditedModel(file.getAbsolutePath(), true, null));
+            if(filePath.exists()){
+                if(files.length > 0 ){
+                    for (File file : files) {
+
+                        // Add the directories containing images or sub-directories
+                        if (file.isDirectory()
+                                && file.listFiles(new ImageFileFilter()).length > 0) {
+
+                            items.add(new EditedModel(file.getAbsolutePath(), true, null));
+                        }
+                        // Add the images
+                        else {
+                            Bitmap image = BitmapHelper.decodeBitmapFromFile(file.getAbsolutePath());
+                            items.add(new EditedModel(file.getAbsolutePath(), false, image));
+                        }
+
                     }
-                    // Add the images
-                    else {
-                        Bitmap image = BitmapHelper.decodeBitmapFromFile(file.getAbsolutePath());
-                        items.add(new EditedModel(file.getAbsolutePath(), false, image));
-                    }
-
                 }
             }
+
+
 
 
 

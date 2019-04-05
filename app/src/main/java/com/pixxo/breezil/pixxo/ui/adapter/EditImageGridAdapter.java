@@ -1,11 +1,16 @@
 package com.pixxo.breezil.pixxo.ui.adapter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -24,6 +29,7 @@ import java.util.List;
 
 import static com.pixxo.breezil.pixxo.utils.Constant.EDITED_TYPE;
 import static com.pixxo.breezil.pixxo.utils.Constant.EDIT_IMAGE_URI_STRING;
+import static com.pixxo.breezil.pixxo.utils.Constant.STORAGE_PERMISSION_CODE;
 
 public class EditImageGridAdapter extends BaseAdapter {
 
@@ -58,29 +64,38 @@ public class EditImageGridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.grid_image_item, null);
-        }
+        if (ContextCompat.checkSelfPermission(context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            // List all the items within the folder..
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.grid_image_item, null);
+            }
 
-        ImageView imageView = convertView.findViewById(R.id.image);
-        Bitmap image = editedModels.get(position).getImage();
-        if(image != null){
-            imageView.setImageBitmap(image);
+            ImageView imageView = convertView.findViewById(R.id.image);
+            Bitmap image = editedModels.get(position).getImage();
+            if(image != null){
+                imageView.setImageBitmap(image);
+            }else{
+                imageView.setImageResource(R.drawable.placeholder);
+            }
+
+            convertView.setOnClickListener(v -> {
+                String stringUri = String.valueOf(getImageUri(context, image));
+                SavedImageDialogFragment savedImageAlertFragment =
+                        SavedImageDialogFragment.getImageString(stringUri,EDITED_TYPE);
+                savedImageAlertFragment.show(fragmentManager,context.getString(R.string.some));
+            });
+
+            convertView.setOnLongClickListener(v -> {
+                doSomething(image);
+                return true;
+            });
         }else{
-            imageView.setImageResource(R.drawable.placeholder);
+            ActivityCompat.requestPermissions((Activity) context,
+                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
         }
 
-        convertView.setOnClickListener(v -> {
-            String stringUri = String.valueOf(getImageUri(context, image));
-            SavedImageDialogFragment savedImageAlertFragment =
-                    SavedImageDialogFragment.getImageString(stringUri,EDITED_TYPE);
-            savedImageAlertFragment.show(fragmentManager,context.getString(R.string.some));
-        });
 
-        convertView.setOnLongClickListener(v -> {
-            doSomething(image);
-            return true;
-        });
 
         return convertView;
 

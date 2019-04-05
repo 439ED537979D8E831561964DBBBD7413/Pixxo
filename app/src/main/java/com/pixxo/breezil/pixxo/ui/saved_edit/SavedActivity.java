@@ -6,11 +6,9 @@ import android.databinding.DataBindingUtil;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.pixxo.breezil.pixxo.BaseActivity;
 import com.pixxo.breezil.pixxo.R;
 import com.pixxo.breezil.pixxo.databinding.ActivitySavedBinding;
 import com.pixxo.breezil.pixxo.ui.adapter.SavedPagerAdapter;

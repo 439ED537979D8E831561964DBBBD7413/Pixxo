@@ -10,7 +10,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class OkHttp {
 
-
     public OkHttpClient getClient(){
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC);

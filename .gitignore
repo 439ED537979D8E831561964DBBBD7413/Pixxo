@@ -9,3 +9,7 @@
 /build
 /captures
 .externalNativeBuild
+.jks
+pixxo_keystore
+pixxo_keystore.jks
+pixxo_keystores.jks

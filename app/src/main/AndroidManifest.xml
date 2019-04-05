@@ -34,7 +34,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".BaseActivity" />
+        <activity android:name=".ui.BaseActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

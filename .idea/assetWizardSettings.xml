@@ -74,8 +74,8 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="f9f9f9" />
-                                      <entry key="backgroundImage" value="C:\Users\breezil\Downloads\photo-camera-with-px-sign (2).png" />
-                                      <entry key="foregroundImage" value="C:\Users\breezil\Downloads\pixxo_logo_.png" />
+                                      <entry key="backgroundImage" value="$PROJECT_DIR$/../Giffs/C:\Users\breezil\Downloads\photo-camera-with-px-sign (2).png" />
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/../Giffs/C:\Users\breezil\Downloads\pixxo_logo_.png" />
                                       <entry key="legacyIconShape" value="NONE" />
                                       <entry key="webIconShape" value="NONE" />
                                     </map>
@@ -116,7 +116,8 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\breezil\Downloads\pixxo_logo\pixxo_logoo.png" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/../pixxo_logo/pixxo_logo.png" />
+                                      <entry key="outputName" value="ic_launcher_round" />
                                     </map>
                                   </option>
                                 </PersistentState>

@@ -4,7 +4,6 @@ import com.pixxo.breezil.pixxo.model.ImagesResult;
 
 import javax.inject.Inject;
 
-import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

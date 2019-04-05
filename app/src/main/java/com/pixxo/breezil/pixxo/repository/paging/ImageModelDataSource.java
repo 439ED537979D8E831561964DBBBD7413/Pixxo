@@ -4,7 +4,6 @@ import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.pixxo.breezil.pixxo.api.EndpointRepository;
 import com.pixxo.breezil.pixxo.db.AppDatabase;
@@ -13,7 +12,6 @@ import com.pixxo.breezil.pixxo.model.ImagesModel;
 import com.pixxo.breezil.pixxo.model.ImagesResult;
 import com.pixxo.breezil.pixxo.repository.MainDbRepository;
 import com.pixxo.breezil.pixxo.repository.NetworkState;
-import com.pixxo.breezil.pixxo.repository.PaginationListener;
 
 
 import java.util.ArrayList;
@@ -24,8 +22,6 @@ import javax.inject.Singleton;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static com.pixxo.breezil.pixxo.utils.Constant.ONE;
@@ -122,7 +118,9 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ImagesModel> callback) {
         List<ImagesModel> modelList = new ArrayList<>();
         Disposable result = endpointRepository.getImages(getSearch(),getLang(), getCategory(),getOrder(), params.key,TEN)
-                .subscribe(response -> onPaginationSuccess(response, callback, params, modelList), this::onPaginationError);
+                .subscribe((ImagesResult response) -> {
+                    onPaginationSuccess(response, callback, params, modelList);
+                }, throwable -> onPaginationError(throwable));
 
         compositeDisposable.add(result);
     }
@@ -140,7 +138,7 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
                                  List<ImagesModel> imagesModels) {
         if (imagesResult.getHits() != null && imagesResult.getHits().size() > ZERO) {
             imagesModels.addAll(imagesResult.getHits());
-            callback.onResult(imagesModels, null, TWO);
+            callback.onResult(imagesModels, null,TWO);
 
 
 

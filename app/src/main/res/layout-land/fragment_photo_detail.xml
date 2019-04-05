@@ -21,6 +21,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:contentDescription="@string/do_something"
                 android:id="@+id/detailImage"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/threeHundredFiftyDP"
@@ -45,23 +46,7 @@
             app:layout_constraintHorizontal_bias="0.012"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView4"
-            tools:text="something" />
-
-        <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="@dimen/eightDP"
-            android:layout_marginEnd="@dimen/eightDP"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/add_key"
-            ads:layout_constraintBottom_toTopOf="@+id/detailFloatBtn"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintHorizontal_bias="0.5"
-            ads:layout_constraintStart_toStartOf="parent" />
+            tools:text="@string/do_something" />
 
 
         <android.support.design.widget.FloatingActionButton
