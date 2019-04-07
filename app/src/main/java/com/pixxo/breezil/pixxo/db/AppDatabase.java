@@ -11,7 +11,7 @@ import com.pixxo.breezil.pixxo.model.ImagesModel;
 import com.pixxo.breezil.pixxo.model.ImagesResult;
 import com.pixxo.breezil.pixxo.model.SavedImageModel;
 
-@Database(entities = {SavedImageModel.class, ImagesModel.class}, version = 1)
+@Database(entities = {SavedImageModel.class, ImagesModel.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase  extends RoomDatabase {
     private static AppDatabase appDatabase;
     public abstract SavedDao savedDao();

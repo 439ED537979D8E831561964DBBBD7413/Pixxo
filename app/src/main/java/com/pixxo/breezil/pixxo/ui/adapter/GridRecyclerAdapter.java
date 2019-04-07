@@ -97,4 +97,7 @@ public class GridRecyclerAdapter extends PagedListAdapter<ImagesModel, GridRecyc
                     .into(binding.image);
         }
     }
+
+
+
 }

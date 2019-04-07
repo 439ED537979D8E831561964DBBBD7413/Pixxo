@@ -9,17 +9,20 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.pixxo.breezil.pixxo.ui.BaseActivity;
 import com.pixxo.breezil.pixxo.R;
 import com.pixxo.breezil.pixxo.callbacks.ImageClickListener;
 import com.pixxo.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.pixxo.breezil.pixxo.databinding.ActivityMainBinding;
+import com.pixxo.breezil.pixxo.ui.adapter.GridRecyclerAdapter;
 import com.pixxo.breezil.pixxo.ui.detail.DetailActivity;
 import com.pixxo.breezil.pixxo.ui.explore.ExploreActivity;
 import com.pixxo.breezil.pixxo.ui.saved_edit.SavedActivity;
@@ -27,6 +30,7 @@ import com.pixxo.breezil.pixxo.ui.settings.SettingsActivity;
 import com.pixxo.breezil.pixxo.ui.adapter.ImagesRecyclerViewAdapter;
 import com.pixxo.breezil.pixxo.ui.bottom_sheet.ActionBottomSheetFragment;
 import com.pixxo.breezil.pixxo.ui.bottom_sheet.ChooseImageBottomDialogFragment;
+import com.pixxo.breezil.pixxo.ui.splash.SplashScreenActivity;
 import com.pixxo.breezil.pixxo.utils.BottomNavigationHelper;
 import com.pixxo.breezil.pixxo.view_model.ViewModelFactory;
 import com.pixxo.breezil.pixxo.widget.PixxoAppWidget;
@@ -45,6 +49,7 @@ import dagger.android.AndroidInjection;
 import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
+import static com.pixxo.breezil.pixxo.utils.Constant.DELAY;
 import static com.pixxo.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.pixxo.breezil.pixxo.utils.Constant.TYPE;
 
@@ -54,7 +59,7 @@ public class MainActivity extends BaseActivity {
     ViewModelFactory viewModelFactory;
     ActivityMainBinding binding;
 
-    private ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
+    private GridRecyclerAdapter gridRecyclerAdapter;
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
 
     private SharedPreferences sharedPreferences;
@@ -63,6 +68,7 @@ public class MainActivity extends BaseActivity {
 
     MainViewModel viewModel;
     boolean isTablet;
+    private ShimmerFrameLayout mShimmerLayout;
 
 
 
@@ -82,8 +88,8 @@ public class MainActivity extends BaseActivity {
         orderBy = sharedPreferences.getString(getString(R.string.pref_orderby_key),null);
 
 
-        setUpAdapter();
-        setUpViewModel();
+       setUpAdapter();
+       setUpViewModel();
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor(message ->
                 Timber.tag(getString(R.string.okhttp)).d(message));
@@ -97,9 +103,15 @@ public class MainActivity extends BaseActivity {
         }
 
         getSupportActionBar().setTitle(getString(R.string.trending));
+
+
     }
 
     private void setUpAdapter(){
+
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
+
         ImageClickListener imageClickListener = imagesModel -> {
             isTablet = getResources().getBoolean(R.bool.is_tablet);
             Intent detailIntent = new Intent(this, DetailActivity.class);
@@ -115,12 +127,12 @@ public class MainActivity extends BaseActivity {
 
 
         };
-        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
 
-        imagesRecyclerViewAdapter
-                = new ImagesRecyclerViewAdapter(this,imageClickListener,imageLongClickListener);
-        binding.imageList.setAdapter(imagesRecyclerViewAdapter);
-        binding.shimmerViewContainer.startShimmerAnimation();
+
+        gridRecyclerAdapter
+                = new GridRecyclerAdapter(this,imageClickListener,imageLongClickListener);
+        binding.imageList.setAdapter(gridRecyclerAdapter);
+
     }
 
     private void setUpViewModel() {
@@ -132,23 +144,37 @@ public class MainActivity extends BaseActivity {
 
             viewModel.deleteAllInDb();
 
-            viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
-            viewModel.getImageList().observe(this,
-                    imagesModels -> imagesRecyclerViewAdapter.submitList(imagesModels));
 
-            viewModel.getNetworkState().observe(this,networkState ->
-                    imagesRecyclerViewAdapter.setNetworkState(networkState));
+
+//            viewModel.getNetworkState().observe(this,networkState ->
+//                    gridRecyclerAdapter.setNetworkState(networkState));
+
+
+                viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
+                viewModel.getImageList().observe(this,
+                        imagesModels -> {
+                            gridRecyclerAdapter.submitList(imagesModels);
+                            if(imagesModels != null){
+                                binding.shimmerViewContainer.stopShimmerAnimation();
+                                binding.shimmerViewContainer.setVisibility(View.GONE);
+                            }
+                        });
+
+
+
+
+
+
 
         }else {
             viewModel.getFromDbList().observe(this, imagesModels ->
             {
                 binding.swipeRefresh.setVisibility(View.VISIBLE);
-                imagesRecyclerViewAdapter.submitList(imagesModels);
+                gridRecyclerAdapter.submitList(imagesModels);
             });
 
         }
-        binding.shimmerViewContainer.stopShimmerAnimation();
-        binding.shimmerViewContainer.setVisibility(View.GONE);
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(getString(R.string.category),category);
@@ -168,7 +194,7 @@ public class MainActivity extends BaseActivity {
         viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
 
         viewModel.refreshImages().observe(this,
-                imagesModels -> imagesRecyclerViewAdapter.submitList(imagesModels));
+                imagesModels -> gridRecyclerAdapter.submitList(imagesModels));
         if(binding.swipeRefresh != null){
             binding.swipeRefresh.setRefreshing(false);
         }

@@ -52,7 +52,8 @@
                 android:id="@+id/imageList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="2"
                 android:layout_marginBottom="@dimen/zeroDP"
                 tools:listitem="@layout/image_item" />
         </android.support.v4.widget.SwipeRefreshLayout>

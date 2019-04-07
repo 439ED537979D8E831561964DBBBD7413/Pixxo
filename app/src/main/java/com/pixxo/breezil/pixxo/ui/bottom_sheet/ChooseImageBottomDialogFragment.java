@@ -144,7 +144,6 @@ public class ChooseImageBottomDialogFragment extends BottomSheetDialogFragment {
             try {
                 Uri photoUri = data.getData();
                 CropImage.activity(photoUri)
-                        .setAspectRatio(1,1)
                         .start(getContext(), this);
 
             } catch (Exception e) {
@@ -154,7 +153,6 @@ public class ChooseImageBottomDialogFragment extends BottomSheetDialogFragment {
             if (mCameraURI != null) {
                 Uri cameraUri = mCameraURI;
                 CropImage.activity(cameraUri)
-                        .setAspectRatio(1,1)
                         .start(getContext(), this);
             }
         }

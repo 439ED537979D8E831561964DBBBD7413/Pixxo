@@ -18,6 +18,7 @@ public class Constant {
     public static int FIVE = 5;
     public static int TEN = 10;
     public static int ONE_HUNDRED = 100;
+    public static int DELAY = 800;
 
 
     public static String SEARCH_STRING = "search";
