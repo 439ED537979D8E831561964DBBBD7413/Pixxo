@@ -6,7 +6,7 @@
         android:id="@+id/searchLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/eightDP"
+        app:cardCornerRadius="@dimen/fourDP"
         android:layout_margin="@dimen/twoDP"
         android:elevation="@dimen/threeDP"
         android:padding="@dimen/twoDP">

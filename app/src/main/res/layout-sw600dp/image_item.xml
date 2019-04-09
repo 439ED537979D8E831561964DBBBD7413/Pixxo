@@ -4,7 +4,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/fiveDP"
+        app:cardCornerRadius="@dimen/twoDP"
         android:layout_margin="@dimen/zeroDP"
         app:cardElevation="@dimen/threeDP"
         app:cardUseCompatPadding="true">

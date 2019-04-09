@@ -15,8 +15,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.pixxo.breezil.pixxo.callbacks.RetryListener;
 import com.pixxo.breezil.pixxo.ui.BaseActivity;
 import com.pixxo.breezil.pixxo.R;
 import com.pixxo.breezil.pixxo.callbacks.ImageClickListener;
@@ -32,6 +34,7 @@ import com.pixxo.breezil.pixxo.ui.bottom_sheet.ActionBottomSheetFragment;
 import com.pixxo.breezil.pixxo.ui.bottom_sheet.ChooseImageBottomDialogFragment;
 import com.pixxo.breezil.pixxo.ui.splash.SplashScreenActivity;
 import com.pixxo.breezil.pixxo.utils.BottomNavigationHelper;
+import com.pixxo.breezil.pixxo.utils.ConnectionUtils;
 import com.pixxo.breezil.pixxo.view_model.ViewModelFactory;
 import com.pixxo.breezil.pixxo.widget.PixxoAppWidget;
 import com.pixxo.breezil.pixxo.widget.WidgetPref;
@@ -53,13 +56,13 @@ import static com.pixxo.breezil.pixxo.utils.Constant.DELAY;
 import static com.pixxo.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.pixxo.breezil.pixxo.utils.Constant.TYPE;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements RetryListener {
 
     @Inject
     ViewModelFactory viewModelFactory;
     ActivityMainBinding binding;
 
-    private GridRecyclerAdapter gridRecyclerAdapter;
+    private ImagesRecyclerViewAdapter imagesRecyclerViewAdapter;
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment = new ChooseImageBottomDialogFragment();
 
     private SharedPreferences sharedPreferences;
@@ -69,6 +72,9 @@ public class MainActivity extends BaseActivity {
     MainViewModel viewModel;
     boolean isTablet;
     private ShimmerFrameLayout mShimmerLayout;
+
+    @Inject
+    ConnectionUtils connectionUtils;
 
 
 
@@ -129,9 +135,9 @@ public class MainActivity extends BaseActivity {
         };
 
 
-        gridRecyclerAdapter
-                = new GridRecyclerAdapter(this,imageClickListener,imageLongClickListener);
-        binding.imageList.setAdapter(gridRecyclerAdapter);
+        imagesRecyclerViewAdapter
+                = new ImagesRecyclerViewAdapter(this,imageClickListener,imageLongClickListener);
+        binding.imageList.setAdapter(imagesRecyclerViewAdapter);
 
     }
 
@@ -153,7 +159,7 @@ public class MainActivity extends BaseActivity {
                 viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
                 viewModel.getImageList().observe(this,
                         imagesModels -> {
-                            gridRecyclerAdapter.submitList(imagesModels);
+                            imagesRecyclerViewAdapter.submitList(imagesModels);
                             if(imagesModels != null){
                                 binding.shimmerViewContainer.stopShimmerAnimation();
                                 binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -161,7 +167,11 @@ public class MainActivity extends BaseActivity {
                         });
 
 
-
+            viewModel.getNetworkState().observe(this, networkState -> {
+                if(networkState != null){
+                    imagesRecyclerViewAdapter.setNetworkState(networkState);
+                }
+            });
 
 
 
@@ -170,7 +180,7 @@ public class MainActivity extends BaseActivity {
             viewModel.getFromDbList().observe(this, imagesModels ->
             {
                 binding.swipeRefresh.setVisibility(View.VISIBLE);
-                gridRecyclerAdapter.submitList(imagesModels);
+                imagesRecyclerViewAdapter.submitList(imagesModels);
             });
 
         }
@@ -194,12 +204,18 @@ public class MainActivity extends BaseActivity {
         viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
 
         viewModel.refreshImages().observe(this,
-                imagesModels -> gridRecyclerAdapter.submitList(imagesModels));
+                imagesModels -> imagesRecyclerViewAdapter.submitList(imagesModels));
         if(binding.swipeRefresh != null){
             binding.swipeRefresh.setRefreshing(false);
         }
         binding.shimmerViewContainer.stopShimmerAnimation();
         binding.shimmerViewContainer.setVisibility(View.GONE);
+        viewModel.getNetworkState().observe(this, networkState -> {
+            if(networkState != null){
+                imagesRecyclerViewAdapter.setNetworkState(networkState);
+            }
+        });
+
     }
 
 
@@ -316,6 +332,14 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onRefresh() {
+        if(connectionUtils.sniff()){
+            refresh();
+        }else {
+            Toast.makeText(this, getString(R.string.no_active_internet), Toast.LENGTH_LONG).show();
+        }
+    }
 }
 
 
