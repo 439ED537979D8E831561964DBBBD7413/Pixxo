@@ -31,9 +31,11 @@ import static com.pixxo.breezil.pixxo.utils.Constant.ZERO;
 public class PreferenceFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener  {
     private MultiSelectListPreference mCategoryPref;
 
+
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        addPreferencesFromResource(R.xml.preference);
+        setPreferencesFromResource(R.xml.preference, rootKey);
 
         PreferenceManager.setDefaultValues(Objects.requireNonNull(getActivity()), R.xml.preference, false);
 

@@ -40,6 +40,8 @@ public class SettingsActivity extends BaseActivity implements HasSupportFragment
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_preference);
+
+
         setupBottomNavigation();
 
         binding.addButton.setOnClickListener(v ->

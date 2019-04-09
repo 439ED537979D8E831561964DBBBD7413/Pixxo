@@ -10,8 +10,10 @@
     <string name="edited">Edited</string>
 
     <string name="pref_category_label">Category</string>
-    <string name="pref_category_all_value"></string>
+    <string name="pref_category_all_value">Nature</string>
     <string name="pref_category_key" translatable="false">category-key</string>
+
+    <string name="pref_category_by_all_value" translatable="false"></string>
 
     <!--  by-->
     <string name="pref_orderby_key" translatable="false">orderby</string>

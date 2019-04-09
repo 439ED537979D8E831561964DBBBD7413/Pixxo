@@ -2,6 +2,10 @@
 <resources>
 
 
+    <array name="empty_array">
+
+    </array>
+
 
     <array name="search_list">
         <item>@string/animals</item>

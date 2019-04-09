@@ -12,12 +12,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.pixxo.breezil.pixxo.R;
 import com.pixxo.breezil.pixxo.callbacks.ImageClickListener;
 import com.pixxo.breezil.pixxo.callbacks.ImageLongClickListener;
 import com.pixxo.breezil.pixxo.callbacks.QuickSearchListener;
+import com.pixxo.breezil.pixxo.callbacks.RetryListener;
 import com.pixxo.breezil.pixxo.databinding.ActivityExploreBinding;
+import com.pixxo.breezil.pixxo.ui.adapter.ImagesRecyclerViewAdapter;
 import com.pixxo.breezil.pixxo.ui.saved_edit.SavedActivity;
 import com.pixxo.breezil.pixxo.ui.settings.SettingsActivity;
 import com.pixxo.breezil.pixxo.ui.adapter.GridRecyclerAdapter;
@@ -27,6 +30,7 @@ import com.pixxo.breezil.pixxo.ui.bottom_sheet.ChooseImageBottomDialogFragment;
 import com.pixxo.breezil.pixxo.ui.detail.DetailActivity;
 import com.pixxo.breezil.pixxo.ui.main.MainActivity;
 import com.pixxo.breezil.pixxo.utils.BottomNavigationHelper;
+import com.pixxo.breezil.pixxo.utils.ConnectionUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,7 +44,7 @@ import static com.pixxo.breezil.pixxo.utils.Constant.SEARCH_STRING;
 import static com.pixxo.breezil.pixxo.utils.Constant.SINGLE_PHOTO;
 import static com.pixxo.breezil.pixxo.utils.Constant.TYPE;
 
-public class ExploreActivity extends AppCompatActivity {
+public class ExploreActivity extends AppCompatActivity{
 
     ActivityExploreBinding binding;
     ChooseImageBottomDialogFragment chooseImageBottomDialogFragment
@@ -51,13 +55,14 @@ public class ExploreActivity extends AppCompatActivity {
     ViewModelProvider.Factory viewModelFactory;
 
     SearchViewModel viewModel;
-    GridRecyclerAdapter adapter;
+    ImagesRecyclerViewAdapter adapter;
     QuickSearchRecyclerListAdapter quickSearchRecyclerListAdapter;
     List<String> quickSearchList;
     boolean isTablet;
     private SharedPreferences sharedPreferences;
     boolean themeMode;
     String searchText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +140,7 @@ public class ExploreActivity extends AppCompatActivity {
             refresh(string);
         };
 
-        adapter = new GridRecyclerAdapter(this, imageClickListener, imageLongClickListener);
+        adapter = new ImagesRecyclerViewAdapter(this, imageClickListener, imageLongClickListener);
         binding.searchDefaultList.setAdapter(adapter);
         String[] textArray = getResources().getStringArray(R.array.search_list);
 
@@ -153,6 +158,11 @@ public class ExploreActivity extends AppCompatActivity {
         viewModel.setParameter(getString(R.string.blank),getString(R.string.blank),
                 getString(R.string.en),getString(R.string.random));
         viewModel.getSearchList().observe(this,imagesModels -> adapter.submitList(imagesModels));
+        viewModel.getNetworkState().observe(this, networkState -> {
+            if(networkState != null){
+                adapter.setNetworkState(networkState);
+            }
+        });
     }
 
 
@@ -202,6 +212,12 @@ public class ExploreActivity extends AppCompatActivity {
         viewModel.setParameter(search,getString(R.string.blank),getString(R.string.en),getString(R.string.random));
 
         viewModel.refreshImages().observe(this,imagesModels -> adapter.submitList(imagesModels));
+        viewModel.getNetworkState().observe(this, networkState -> {
+            if(networkState != null){
+                adapter.setNetworkState(networkState);
+            }
+        });
     }
+
 
 }
