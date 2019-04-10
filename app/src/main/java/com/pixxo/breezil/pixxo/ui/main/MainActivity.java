@@ -151,11 +151,6 @@ public class MainActivity extends BaseActivity implements RetryListener {
             viewModel.deleteAllInDb();
 
 
-
-//            viewModel.getNetworkState().observe(this,networkState ->
-//                    gridRecyclerAdapter.setNetworkState(networkState));
-
-
                 viewModel.setParameter("",getCategoryList(),getString(R.string.en),orderBy);
                 viewModel.getImageList().observe(this,
                         imagesModels -> {
@@ -179,9 +174,12 @@ public class MainActivity extends BaseActivity implements RetryListener {
         }else {
             viewModel.getFromDbList().observe(this, imagesModels ->
             {
-                binding.swipeRefresh.setVisibility(View.VISIBLE);
+                binding.swipeRefresh.setVisibility(View.GONE);
                 imagesRecyclerViewAdapter.submitList(imagesModels);
             });
+
+            binding.shimmerViewContainer.stopShimmerAnimation();
+            binding.shimmerViewContainer.setVisibility(View.GONE);
 
         }
 
