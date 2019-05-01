@@ -43,8 +43,23 @@ git clone https://github.com/breel93/Pixxo.git
 or download [zip](https://github.com/breel93/Pixxo/archive/master.zip) and extract, open with android studio
 
 #### Screenshots
+![27596eff-191e-4779-a7e7-c434dab60e36](https://user-images.githubusercontent.com/20865566/57014679-28ecd700-6bdf-11e9-94b9-754effbd2b98.png)
+![24bcf11c-42bf-41f9-8878-64e6f50ffdc7](https://user-images.githubusercontent.com/20865566/57014677-28544080-6bdf-11e9-8cae-0b65f183e1f3.png)
+![8e2a7c4d-2150-4211-a74a-8c72ce2d519d](https://user-images.githubusercontent.com/20865566/57014691-2d18f480-6bdf-11e9-959e-44fba2514fd7.png)
+![fcbf8983-009f-4f84-8373-8d3c830e6fe0](https://user-images.githubusercontent.com/20865566/57014685-2b4f3100-6bdf-11e9-92cf-2d0316a13618.png)
+![170bafa5-bb95-457f-bb7d-71e4ea145493](https://user-images.githubusercontent.com/20865566/57014678-28544080-6bdf-11e9-83fb-c8b05802a11e.png)
+![cfce0335-04df-43f2-90be-4e8c3984f063](https://user-images.githubusercontent.com/20865566/57014684-2ab69a80-6bdf-11e9-8ad8-66ddac116fb9.png)
+![cc944f29-f3cf-45bf-8992-874ae57e40a5](https://user-images.githubusercontent.com/20865566/57014681-29856d80-6bdf-11e9-9f72-105b89590521.png)
+![ce56bca4-c58f-43f4-a654-a666c64f77d8](https://user-images.githubusercontent.com/20865566/57014683-2a1e0400-6bdf-11e9-8a06-dc2c837f0d78.png)
 
+Tablet
 
+![298a6440-7778-43b9-bf76-3bfeae3c0d9b](https://user-images.githubusercontent.com/20865566/57014947-4ff7d880-6be0-11e9-9dbc-46a7442986b5.png)
+![863d331c-c1de-44fb-ad75-78faba2d386f](https://user-images.githubusercontent.com/20865566/57014934-453d4380-6be0-11e9-8c03-741a465b23c9.png)
+![2a0ce011-53b4-40a1-8d06-602324808e3c](https://user-images.githubusercontent.com/20865566/57014936-466e7080-6be0-11e9-94e2-d694cf2ef34a.png)
+![7b028ba3-16b3-4998-b1ac-15e8e5616a7f](https://user-images.githubusercontent.com/20865566/57014940-48d0ca80-6be0-11e9-82d8-fe7442f3bef5.png)
+![2e3bacda-6e95-4f18-8e19-1e0098ebbe2c](https://user-images.githubusercontent.com/20865566/57014937-47070700-6be0-11e9-8121-801bb9b3e855.png)
+![0024f9fe-6300-4c29-aa94-d261f5daa1f8](https://user-images.githubusercontent.com/20865566/57014942-4a01f780-6be0-11e9-85f6-6472d5e689cd.png)
 
 ### Acknowledgement
 - Google
