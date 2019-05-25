@@ -76,10 +76,6 @@ public class MainActivity extends BaseActivity implements RetryListener {
     @Inject
     ConnectionUtils connectionUtils;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -160,7 +156,6 @@ public class MainActivity extends BaseActivity implements RetryListener {
                                 binding.shimmerViewContainer.setVisibility(View.GONE);
                             }
                         });
-
 
             viewModel.getNetworkState().observe(this, networkState -> {
                 if(networkState != null){

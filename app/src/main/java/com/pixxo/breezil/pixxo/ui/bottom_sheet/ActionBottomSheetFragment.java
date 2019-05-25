@@ -13,12 +13,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -202,6 +204,9 @@ public class ActionBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void startSharing(Uri localBitmapUri) {
+//        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+//        StrictMode.setVmPolicy(builder.build());
+
         Activity activity = getActivity();
         if(activity != null && isAdded()){
             final Intent shareIntent = new Intent(Intent.ACTION_SEND);

@@ -2,6 +2,7 @@ package com.pixxo.breezil.pixxo.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ public class SavedImageRecyclerAdapter extends ListAdapter<SavedImageModel, Save
     private SavedImageLongClickListener imageLongClickListener;
     private SavedImageClickListener imageClickListener;
     Context context;
+    CircularProgressDrawable circularProgressDrawable;
 
     public SavedImageRecyclerAdapter(Context context, SavedImageLongClickListener imageLongClickListener,
                                      SavedImageClickListener imageClickListener){
@@ -82,7 +84,12 @@ public class SavedImageRecyclerAdapter extends ListAdapter<SavedImageModel, Save
                 imageLongClickListener.doSomethingWithImage(imagesModel);
                 return true;
             });
-
+            circularProgressDrawable = new CircularProgressDrawable(context);
+            circularProgressDrawable.setStrokeWidth(10f);
+            circularProgressDrawable.setCenterRadius(40f);
+            circularProgressDrawable.setColorSchemeColors(R.color.colorAccent,R.color.colorPrimary,
+                    R.color.colorblue,R.color.hotPink);
+            circularProgressDrawable.start();
             Glide.with(context)
                     .load(imagesModel.getWebformatURL())
                     .apply(new RequestOptions()

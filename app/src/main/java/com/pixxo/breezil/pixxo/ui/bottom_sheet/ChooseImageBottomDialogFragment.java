@@ -105,7 +105,7 @@ public class ChooseImageBottomDialogFragment extends BottomSheetDialogFragment {
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             // Create the File where the photo should go
-            File photoFile = null;
+            File photoFile;
             try {
                 photoFile = createImageFile();                } catch (IOException ex) {
                 // Error occurred while creating the File

@@ -63,8 +63,7 @@ public class SearchViewModel  extends ViewModel {
     }
 
 
-    public void setNetworkState() {
-    }
+
     public LiveData<PagedList<ImagesModel>> refreshImages(){
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(true)

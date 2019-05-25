@@ -32,7 +32,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
             startActivity(intent);
-            //fileList();
             finish();
         },SPLASH_TIME_OUT);
     }

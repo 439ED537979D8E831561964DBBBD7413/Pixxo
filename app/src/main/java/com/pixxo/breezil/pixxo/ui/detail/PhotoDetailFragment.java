@@ -8,6 +8,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class PhotoDetailFragment extends Fragment {
 
 
     FragmentPhotoDetailBinding binding;
+    CircularProgressDrawable circularProgressDrawable;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -83,10 +85,16 @@ public class PhotoDetailFragment extends Fragment {
 
 
     private void updateUI(ImagesModel imagesModel){
+        circularProgressDrawable = new CircularProgressDrawable(getContext());
+        circularProgressDrawable.setStrokeWidth(15f);
+        circularProgressDrawable.setCenterRadius(60f);
+        circularProgressDrawable.setColorSchemeColors(R.color.colorAccent,R.color.colorPrimary,
+                R.color.colorblue,R.color.hotPink);
+        circularProgressDrawable.start();
         Glide.with(this)
                 .load(imagesModel.getWebformatURL())
                 .apply(new RequestOptions()
-                    .placeholder(R.drawable.placeholder)
+                    .placeholder(circularProgressDrawable)
                     .error(R.drawable.placeholder))
                 .into(binding.detailImage);
 

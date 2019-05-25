@@ -151,6 +151,7 @@ public class ExploreActivity extends AppCompatActivity{
         binding.quickChooseList.setLayoutManager(layoutManager);
         binding.quickChooseList.setAdapter(quickSearchRecyclerListAdapter);
         Collections.shuffle(quickSearchList);
+
         quickSearchRecyclerListAdapter.setList(quickSearchList);
     }
 

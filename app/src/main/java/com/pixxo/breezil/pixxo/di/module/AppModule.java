@@ -29,7 +29,6 @@ public class AppModule {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-//                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttp.getClient())
                 .build()

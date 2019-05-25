@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 
 import com.pixxo.breezil.pixxo.R;
 
@@ -77,7 +78,12 @@ public class ImageSaveUtils {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.flush();
             out.close();
-            bmpUri = Uri.fromFile(file);
+
+//            bmpUri = Uri.fromFile(file);
+
+            bmpUri = FileProvider.getUriForFile(context,
+                    context.getPackageName() + context.getString(R.string._provider),
+                    file);
         } catch (IOException e) {
             e.printStackTrace();
         }

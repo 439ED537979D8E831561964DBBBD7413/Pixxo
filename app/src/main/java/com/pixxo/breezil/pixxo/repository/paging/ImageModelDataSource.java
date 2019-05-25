@@ -105,7 +105,7 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
                         for(ImagesModel img : imagesResult.getHits()){
                             mainDbRepository.insert(img);
                         }
-                    }, throwable -> onInitialError(throwable));
+                    }, this::onInitialError);
         compositeDisposable.add(imagesModel);
     }
 
@@ -118,9 +118,7 @@ public class ImageModelDataSource extends PageKeyedDataSource<Integer, ImagesMod
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ImagesModel> callback) {
         List<ImagesModel> modelList = new ArrayList<>();
         Disposable result = endpointRepository.getImages(getSearch(),getLang(), getCategory(),getOrder(), params.key,TEN)
-                .subscribe((ImagesResult response) -> {
-                    onPaginationSuccess(response, callback, params, modelList);
-                }, throwable -> onPaginationError(throwable));
+                .subscribe((ImagesResult response) -> onPaginationSuccess(response, callback, params, modelList), this::onPaginationError);
 
         compositeDisposable.add(result);
     }
